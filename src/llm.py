@@ -410,16 +410,26 @@ async def arun(stage: str, model: str, specs: list[dict], name: str | None = Non
 
 def run(stage: str, model: str, specs: list[dict], name: str | None = None) -> list[dict]:
     """Run independent requests; records come back in the order of `specs`."""
-    if CFG["models"][model]["backend"] == "vllm":
-        return _run_vllm(stage, model, specs, name)
+    return run_many(stage, {model: specs}, {model: name or model})[model]
 
-    async def go():
-        try:
-            return await arun(stage, model, specs, name)
-        finally:
-            await close_pool()
 
-    return asyncio.run(go())
+def run_many(stage: str, jobs: dict[str, list[dict]], names: dict[str, str] | None = None) -> dict[str, list[dict]]:
+    """Several models at once: NIM models share one event loop (each hits its own endpoint, all
+    share the key pool); vLLM models run one after another on the local GPUs."""
+    names = names or {}
+    out = {m: _run_vllm(stage, m, s, names.get(m)) for m, s in jobs.items()
+           if CFG["models"][m]["backend"] == "vllm"}
+    nim = {m: s for m, s in jobs.items() if m not in out}
+    if nim:
+        async def go():
+            try:
+                res = await asyncio.gather(*(arun(stage, m, s, names.get(m)) for m, s in nim.items()))
+                return dict(zip(nim, res))
+            finally:
+                await close_pool()
+
+        out.update(asyncio.run(go()))
+    return out
 
 
 # ------------------------------------------------------------------ vLLM backend (Kaggle GPU)

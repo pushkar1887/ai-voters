@@ -41,8 +41,13 @@ def kaggle_main(job: dict) -> None:
     runs = work / "runs"
     if (code / "runs").exists():                                    # resume from shipped caches
         shutil.copytree(code / "runs", runs, dirs_exist_ok=True)
+    probe = (f"{sys.executable} -c \"import torch; print('torch', torch.__version__, 'cuda', torch.version.cuda, "
+             f"'gpus', torch.cuda.device_count(), torch.cuda.is_available())\"")
+    subprocess.run("nvidia-smi", shell=True)                                    # driver and CUDA version
+    subprocess.run(probe, shell=True)                                           # preinstalled torch
     subprocess.run(f"pip install -q {job['vllm']}", shell=True, check=True)
-    subprocess.run("nvidia-smi --query-gpu=name,memory.total --format=csv", shell=True)
+    subprocess.run("pip uninstall -y -q torchaudio", shell=True)   # built for the old torch; nothing here needs audio
+    subprocess.run(probe + " && python -c \"import vllm; print('vllm', vllm.__version__)\"", shell=True)
     env = {**os.environ, "AIV_RUNS": str(runs), "AIV_COMMIT": commit, "PYTHONUNBUFFERED": "1"}
     for cmd in job["cmds"]:
         t0 = time.time()
@@ -149,6 +154,8 @@ if __name__ == "__main__":
     if JOB is not None:
         kaggle_main(JOB)
         sys.exit()
+    if os.name == "nt" and not sys.flags.utf8_mode:      # the kaggle client writes kernel logs in the locale codec
+        sys.exit(subprocess.call([sys.executable, "-X", "utf8", *sys.argv]))
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("action", choices=["push", "status", "pull"])
     ap.add_argument("--name", required=True, help="kernel name suffix, e.g. s1-l1")
