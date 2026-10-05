@@ -70,7 +70,7 @@ We never infer the private signal from the social run. It comes from a separate,
 INPUTS (S0: built once, then frozen)
   LIAR2 ──────► data.py ──► claims_eval · claims_lora · claims_reserve
   ConvoKit ───► data.py ──► comments.jsonl
-  seed 13 ────► data.py ──► personas.json            + prompts/v1/*.j2
+  seed 13 ────► data.py ──► personas.json            + prompts/v1.yaml
                     │
                     ▼
 STAGE SCRIPTS       s1 … s5 build each request = template × item × cell × persona × seed
@@ -125,20 +125,22 @@ A Reddit comment takes the short path S0 → S5 → S6. An urn round takes S0 �
 
 ### Models
 
+**Roster as frozen at G1 on Oct 6.** All six runbook model strings now return 410 Gone on NIM, so the roster was rebuilt from what NIM actually serves (details in §13). M5 is retired.
+
 | Code | Model string | Where | Why it is in | Runs in |
 |---|---|---|---|---|
-| M1 | `meta/llama-3.1-8b-instruct` | NIM | small baseline; same base as L1 | all |
-| M2 | `meta/llama-3.3-70b-instruct` | NIM | scale within one family | all |
-| M3 | `qwen/qwen3-next-80b-a3b-instruct` | NIM | second family | all |
-| M4 | `qwen/qwen3-next-80b-a3b-thinking` | NIM | reasoning twin of M3 | subsets (≤ 300 claims) |
-| M5 | `deepseek-ai/deepseek-v4-flash` | NIM | third family | all |
-| M6 | `openai/gpt-oss-120b` | NIM | reasoning effort low; high on an S3 subset | all |
-| L1 | `hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4` | Kaggle vLLM | token log-probs. INT4 twin of M1: close, not exact, so report M1–L1 agreement | S1, S3 |
-| L2 | `Qwen/Qwen3-8B-AWQ` | Kaggle vLLM | thinking on/off; LoRA base | S1, S3, X1 |
+| M1 | `meta/llama-3.2-11b-vision-instruct` | NIM | small Meta baseline, no reasoning | all |
+| M2 | `nvidia/nemotron-3-super-120b-a12b`, thinking off | NIM | large NVIDIA MoE | all |
+| M3 | `nvidia/nemotron-3.5-lightning-30b-a3b`, thinking off | NIM | small NVIDIA MoE: scale within one family with M2 | all |
+| M4 | M2's model with thinking on | NIM | reasoning twin of M2 (same weights) | subsets (≤ 300 claims) |
+| M6 | `openai/gpt-oss-20b`, `reasoning_effort` low | NIM | third family | all |
+| M6H | `openai/gpt-oss-20b`, `reasoning_effort` medium | NIM | more reasoning, same weights as M6 | subsets (≤ 300 claims) |
+| L1 | `hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4` | Kaggle vLLM | open weights, token log-probs | S1, S3 |
+| L2 | `Qwen/Qwen3-8B-AWQ` (L2T: thinking on) | Kaggle vLLM | fourth family; thinking on/off; LoRA base | S1, S3, X1 |
 
-Check every string against the NIM catalog at G1, then freeze it in `config.yaml` with the date. The catalog changes.
+The six base models for H1's "≥ 4 of 6" test are M1, M2, M3, M6, L1 and L2. The exact strings and switches live in `config.yaml`. Re-check them before every long run, because the catalog changes.
 
-**Decoding.** T = 0 (top_p 1.0) for S1 persona and recognition calls, and for all of S3, including its fix cells. T = 0.7 (top_p 0.95) for S1 solo samples, S2, S4 and S5. `max_tokens` is 160, or 2,048 for M4 and for M6 at high effort. Parse only the text after `</think>`, and log reasoning tokens separately.
+**Decoding.** T = 0 (top_p 1.0) for S1 persona and recognition calls, and for all of S3, including its fix cells. T = 0.7 (top_p 0.95) for S1 solo samples, S2, S4 and S5. `max_tokens` is 160; 1,024 for M6, 2,048 for M6H and L2T, and 4,096 for M4. Reasoning is switched by request parameters, never by prompt text: `chat_template_kwargs.enable_thinking` for Nemotron and Qwen, and `reasoning_effort` for gpt-oss. Parse only the text after `</think>`, and log reasoning length separately.
 
 ### Compute
 
@@ -155,44 +157,37 @@ Check every string against the NIM catalog at G1, then freeze it in `config.yaml
 
 ---
 
-## 5. Repo layout: 9 Python files, 2 notebooks
+## 5. Repo layout: 10 Python files, no notebooks
+
+The repo root is `D:\web` (private GitHub `pushkar1887/ai-voters`). Its `.gitignore` is an allowlist: everything is ignored unless listed, so `nvidia_keys.txt`, the PDFs and the run caches can never be committed.
 
 ```
-ai-voters/
-├── config.yaml           models (exact strings + dates), decoding, seeds, sizes, key slices
-├── requirements.txt      pinned dependencies
-├── .env                  NIM_KEYS=nvapi-…,nvapi-…  NIM_RPM=35   (gitignored)
-├── prompts/v1/           system · solo · social · urn · reddit · recog · bayes_rule (.j2)
+D:\web  (git root)
+├── config.yaml           models (exact strings + switches), decoding, seeds, sizes, subreddit map
+├── requirements.txt      laptop dependencies (vLLM is installed on Kaggle only)
+├── nvidia_keys.txt       NIM keys, matched by pattern, never printed      (not in git)
+├── prompts/v1.yaml       every template and paraphrase in one file; v2.yaml after any post-freeze edit
 ├── data/
-│   ├── raw/              downloads, never edited
-│   ├── processed/        claims_{eval,lora,reserve}.jsonl · comments.jsonl · personas.json
+│   ├── raw/              downloads, never edited                          (not in git)
+│   ├── processed/        claims_{eval,lora,reserve}.jsonl · comments.jsonl · personas.json · build_report.json
 │   └── pools/            <model>.json, written by S1
 ├── src/
-│   ├── llm.py            key pool, pacer, cache, parser, prompt rendering; --smoke, --probe
-│   ├── data.py           S0: claims, comments, personas
+│   ├── llm.py            key pool, pacer, cache, parser, vLLM backend; --check-keys, --models, --smoke, --probe
+│   ├── data.py           S0 builders, loaders, and every claim prompt (solo, social, private-first)
 │   ├── oracle.py         BHW informative lead, Bayes vote and posterior, urn reference agents
 │   ├── s1_signals.py     S1
-│   ├── s2_urn.py         S2
+│   ├── s2_urn.py         S2, including its table
 │   ├── s3_histories.py   S3, including fix cells
 │   ├── s4_crowds.py      S4, including seeding and the private-first crowd
 │   ├── s5_reddit.py      S5 (X2 behind --b2)
 │   └── analyze.py        S6: every estimator, figure and table
-├── kaggle/
-│   ├── run.ipynb         one notebook, two modes: NIM sweep (CPU) or vLLM batch (GPU)
-│   └── lora.ipynb        X1 only
-├── runs/                 <stage>/<model>.jsonl + manifest.json  (gitignored; synced to HF)
-├── results/              generated tables
+├── kaggle/job.py         bundle -> private Kaggle dataset -> T4 x2 kernel -> pull caches (also the kernel)
+├── runs/                 <stage>/<name>.jsonl + <name>.manifest.json      (not in git)
+├── results/              generated tables                                 (not in git)
 └── paper/figures/        generated, never hand-edited
 ```
 
-Every stage script takes the same flags:
-
-- `--models M1,M2` or `all`
-- `--limit N` for pilots
-- `--dry` to print five rendered prompts without calling anything
-- `--backend nim` or `vllm`
-
-One file per stage means one owner per file.
+Stage scripts share their flags: `--models M1 M2 …` and `--limit N` for pilots. The backend follows the model code (`nim` or `vllm` in `config.yaml`), so the same command runs on the laptop or on Kaggle. One file per stage means one owner per file.
 
 ---
 
@@ -221,7 +216,7 @@ Optional:  S1 (L2 on claims_lora) ──► X1 Belief-trace LoRA ──(kept onl
 
 | Stage | Reads | Writes | Read by |
 |---|---|---|---|
-| S0 | LIAR2, ConvoKit, seed 13 | `data/processed/*`, `prompts/v1/`, `config.yaml` | all |
+| S0 | LIAR2, ConvoKit, seed 13 | `data/processed/*`, `prompts/v1.yaml`, `config.yaml` | all |
 | S1 | `claims_eval` (+ `claims_reserve`), personas | `runs/S1/*`, `data/pools/<model>.json`, `results/S1_summary.csv` | S3, S4, X1, S6 |
 | S2 | urn template, `oracle.py` | `runs/S2/*` | S6 |
 | S3 | pools, S1 persona replies (via the cache) | `runs/S3/*` | S6, X1 |
@@ -265,7 +260,7 @@ Each card gives the stage's goal, inputs (**In**), outputs (**Out**), links to o
 - **Goal:** build everything the later stages need, once, then freeze it.
 - **Owner:** Teammate 2 (data, runner); Pushkar (oracle, novelty search).
 - **In:** LIAR2, the ConvoKit corpus, NIM keys, Kaggle accounts.
-- **Out:** `data/processed/*`, `prompts/v1/`, `config.yaml`, a smoke-test report.
+- **Out:** `data/processed/*`, `prompts/v1.yaml`, `config.yaml`, a smoke-test report.
 - **Feeds:** every other stage.
 
 1. **Repo and environment.** Create the private GitHub repo. Use Python 3.11 or newer locally (Kaggle ships 3.12). Put `.env` and `runs/` in `.gitignore`.
@@ -280,7 +275,7 @@ Each card gives the stage's goal, inputs (**In**), outputs (**Out**), links to o
    - Pushkar and Teammate 3 each map the 100 subreddits to Muchnik's 7 topic groups, then reconcile.
    - Sample 300 comments per group, stratified by subreddit. The quality tier is the top or bottom half of score within the subreddit.
 4. **Personas** (`python -m src.data personas`). 60 personas from age band × occupation × region, seed 13, with no politics.
-5. **Prompts.** Copy the runbook templates into `prompts/v1/` with paraphrases a, b and c. Paraphrases change only the instruction wording; the JSON keys stay the same. Add the Bayes-rule prompt that serves as the H6 baseline.
+5. **Prompts.** Copy the runbook templates into `prompts/v1.yaml`, with paraphrases a, b and c. Paraphrases change only the instruction wording; the JSON keys stay the same. Add the Bayes-rule prompt that serves as the H6 baseline.
 6. **Oracle.** Pushkar writes `oracle.py` from the runbook. Teammate 3 checks it against 20 hand-worked histories.
 7. **Smoke test** (`python -m src.llm --smoke`). Make one solo call on each of 5 claims per model, and print the model string, latency, parsed JSON and token counts. Also record:
    - whether `logprobs` is honoured;
@@ -505,16 +500,16 @@ Every analysis is repeated within the high and low quality tiers, so herding can
 
 **Setup, once:**
 
-1. Each teammate signs in at build.nvidia.com and creates API keys (`nvapi-…`). The endpoint is `https://integrate.api.nvidia.com/v1` (OpenAI-compatible). Note which account each key belongs to; the S0 probe needs this.
-2. On a laptop, `.env` holds `NIM_KEYS` (that machine's slice only, comma-separated) and `NIM_RPM=35`.
-3. On Kaggle, *Add-ons → Secrets* holds `NIM_KEYS` (that job's slice). Attach the secret to the notebook.
+1. Keys live in `nvidia_keys.txt` at the repo root, which git never sees. The endpoint is `https://integrate.api.nvidia.com/v1` (OpenAI-compatible).
+2. `llm.load_keys()` matches every `nvapi-…` string by pattern, so the file's layout does not matter and no key is ever printed. The `NIM_KEYS` environment variable overrides the file, and `NIM_KEY_SLICE=a:b` gives one process its own slice.
+3. `python -m src.llm --check-keys` reports each key by a 6-character fingerprint and its HTTP status, never the key itself.
 4. Keys are personal. Use only team members' own keys, keep them out of git and logs, and check that the free tier's terms cover research evaluation at this volume.
 
 **How the pool behaves.**
 
-- There is one async client per key.
-- A pacer per key spaces calls 60/RPM seconds apart.
-- A failed call (429, 5xx, timeout) backs off with jitter and retries on another key, up to 8 times.
+- Each call takes the live key that is free soonest. A pacer per key spaces its calls 60/RPM seconds apart.
+- On 401/403 the key is dropped for the rest of the run. On 429 that key cools down for 20 s and the call moves to another key. On 5xx or a timeout, the call backs off with jitter and retries, up to 8 times.
+- On 400, 404, 410 or 422 the call is not retried, because the request or the model itself is wrong. These errors are not cached, so a later run tries again.
 - At most 256 calls are in flight at once.
 
 **Key slices.** Each key is used by exactly one running process. If two processes share a key, both pacers fire on it and 429s follow. Slices are reassigned at gates, never mid-run. With 20 keys:
@@ -530,35 +525,24 @@ With fewer keys, run the jobs one after another in priority order. Even 6 keys, 
 
 **Watch the 429 rate** that each manifest reports. If it goes above 2%, lower `NIM_RPM` to 25, test each key alone, and drop dead keys.
 
-### 8.2 Kaggle
+### 8.2 Kaggle (GPU jobs)
 
-**Setup, once per account:**
+Kaggle runs the local models (L1, L2, L2T, and X1) on the **T4 × 2** machine. Everything is driven from the laptop by `kaggle/job.py`, using the credentials in `~/.kaggle/kaggle.json` (the university account `pushkarsiuuarora`).
 
-1. Phone-verify the account. This unlocks internet and GPU.
-2. Add three secrets:
-   - `NIM_KEYS` (CPU jobs only);
-   - `HF_TOKEN`;
-   - `GH_TOKEN`, a read-only fine-grained token for the private repo.
-3. Import `kaggle/run.ipynb`.
+1. **`push`** copies the code, config, prompts, processed data, pools, and any caches to resume into the private dataset `<user>/ai-voters-code`. It waits until that version is ready, then pushes `job.py` itself as a private GPU kernel named `aiv-<name>`.
+   - The Kaggle CLI (1.7.4.5) cannot choose the machine type, so `job.py` calls `kagglesdk` directly with `machine_shape="NvidiaTeslaT4"`, which is the T4 × 2 machine.
+2. **On Kaggle**, the kernel checks the bundle's commit against the job, and stops if the dataset version is stale. It then installs vLLM and runs each `--cmd` as its own process, so only one model is on the GPUs at a time. It leaves `runs/` in `/kaggle/working`.
+3. **`pull`** downloads the output and merges the caches into `./runs` by request hash. **`status`** shows the kernel state.
 
-**One notebook, two modes:**
+The kernel does not `git clone`, because the GitHub repo is private and a kernel pushed through the API has no token. The dataset bundle needs no secrets, and the commit check keeps it honest.
 
-| | NIM sweep | Local model batch |
-|---|---|---|
-| Accelerator | None (CPU; no GPU quota used) | GPU T4 × 2 |
-| Internet | on | on (for pip and Hugging Face weights) |
-| Secrets | `NIM_KEYS`, `HF_TOKEN`, `GH_TOKEN` | `HF_TOKEN`, `GH_TOKEN` |
-| Main cell | `python -m src.s3_histories --models M2,M3` | `python -m src.s1_signals --backend vllm --models L2` |
-| Accounts | any | #1 → L1, #2 → L2, #3 → X1, #4 spare |
+```bash
+python kaggle/job.py push --name s1-l1 --cmd "src.s1_signals --models L1" --caches S1/L1
+python kaggle/job.py status --name s1-l1
+python kaggle/job.py pull --name s1-l1
+```
 
-**Every run, in both modes:**
-
-1. Clone the repo, which brings in the code, prompts, config and pools, and `pip install -r requirements.txt`.
-2. Pull from the HF dataset only the `runs/` files this job writes, so the cache resumes where it stopped.
-3. Run one stage for a set of models. Keep each job under 10 h; the session limit is 12 h.
-4. Push `runs/` back every hour and at the end.
-
-Start each job with *Save Version → Save & Run All*, so it keeps running after you close the browser.
+Keep each job under 10 h; the session limit is 12 h. A killed job loses nothing that was pulled, because `--caches` ships the existing cache and the run resumes from it.
 
 **vLLM on the T4 pair.** The T4 has no bf16 and no FlashAttention 2, so serve fp16 AWQ builds with these settings:
 

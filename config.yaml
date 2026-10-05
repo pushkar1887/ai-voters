@@ -24,7 +24,7 @@ models:
   M3:  {id: nvidia/nemotron-3.5-lightning-30b-a3b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: false}}}
   M4:  {id: nvidia/nemotron-3-super-120b-a12b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: true}}, max_tokens: 4096}
   M6:  {id: openai/gpt-oss-20b, backend: nim, extra: {reasoning_effort: low}, max_tokens: 1024}
-  M6H: {id: openai/gpt-oss-20b, backend: nim, extra: {reasoning_effort: high}, max_tokens: 8192}
+  M6H: {id: openai/gpt-oss-20b, backend: nim, extra: {reasoning_effort: medium}, max_tokens: 2048}  # high: 8k+ tokens, half truncated
   L1:  {id: hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4, backend: vllm}
   L2:  {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: false}}}
   L2T: {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: true}}, max_tokens: 2048}
@@ -79,5 +79,5 @@ s1:
   samples: 5
   band: [0.55, 0.90]
   pool_target: 1000
-  screen: {M4: 600}       # thinking model screens fewer claims
-  pool_cap: {M4: 300}
+  screen: {M4: 600, M6H: 600}     # reasoning variants screen fewer claims
+  pool_cap: {M4: 300, M6H: 300}
