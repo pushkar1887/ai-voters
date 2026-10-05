@@ -12,9 +12,11 @@ system_claims_nopersona:
   b: "On a fact-checking website you rate short political claims, relying only on what you already know. Answer with JSON only."
   c: "Your job on a fact-checking website is to assess short political claims using your own knowledge. Respond with JSON only."
 
+# Pilot fix (Oct 6): without the second sentence, M2/M4 judged whether the speaker said it ("no record of
+# this quote") instead of whether it is true, which produced most of their FALSE bias.
 claim: |-
   Claim: "$statement"
-  Said by $speaker ($context, $date).
+  Said by $speaker ($context, $date). The speaker really said this; judge whether what it says is true.
 
 question:
   a: "Is this claim $A or $B?"
@@ -59,12 +61,14 @@ recog: |-
   Have you seen this exact claim together with a published fact-check rating before?
   Reply with JSON only: {"seen": "YES" or "NO", "rating": "<the rating if YES, else NONE>"}
 
+# Sanity fix (Oct 6): models misread the compositions ("dark is more likely under A") and wrote a guess that
+# contradicted their own p_a, so the draw's meaning is stated (as subjects were trained in the lab) and p_a comes first.
 urn: |-
-  There are two urns. Urn A holds 2 light balls and 1 dark ball. Urn B holds 1 light ball and 2 dark balls. One urn was picked by a fair coin flip and is the same for everyone in this round. Each participant privately draws one ball from it, looks at it, puts it back, and announces a guess about which urn was picked. Earlier guesses are public; earlier draws are not.
+  There are two urns. Urn A holds 2 light balls and 1 dark ball, so a light draw points to A. Urn B holds 1 light ball and 2 dark balls, so a dark draw points to B. One urn was picked by a fair coin flip and is the same for everyone in this round. Each participant privately draws one ball from it, looks at it, puts it back, and announces a guess about which urn was picked. Earlier guesses are public; earlier draws are not.
   Your draw: a $color ball.
   Earlier guesses, in order: $guesses.
   Which urn was picked? Reply with JSON only:
-  {"urn": "A" or "B", "p_a": <integer 0-100, your probability that it is urn A>, "reason": "<at most 30 words>"}
+  {"p_a": <integer 0-100, your probability that it is urn A>, "urn": "A" or "B", "reason": "<at most 30 words>"}
 
 system_reddit: "You are $persona. You browse Reddit and vote on comments the way you normally would. Reply with JSON only."
 

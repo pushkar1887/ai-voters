@@ -658,3 +658,93 @@ There is a daily 15-minute standup at 10:00 IST covering yesterday's runs, today
 3. **S4 owner.** The proposal is Teammate 3, so that Teammate 2 holds only the critical path S0 → S1 → S3.
 4. **Contamination guard.** LIAR2's `recent` split (2022-08 to 2023-07) predates every model's training cutoff. It therefore measures "less repeated", not "unseen", and the recognition probe is the real guard. If reviewers are likely to push on this, 150 hand-collected PolitiFact claims from Jul–Sep 2026 (the PDF's original idea) would take about 3 hours.
 5. **Throughput.** The S0 probe will tell us whether NIM limits apply per key or per account. Plan the key slices on that answer.
+
+---
+
+## 13. Logs
+
+This log is append-only, with the newest entry last. Each entry says what ran, what it showed, what changed and why, and what comes next. Numbers here are working numbers; paper numbers come only from `src/analyze.py`.
+
+### 2026-10-06 · S0 build and G1
+
+**Built**
+- The repo is `D:\web`, pushed to the private GitHub repo `pushkar1887/ai-voters`. The `.gitignore` is an allowlist, and a key-pattern scan runs before every commit (0 hits so far).
+- Code: `src/llm.py`, `src/data.py`, `src/oracle.py`, `src/s1_signals.py`, `src/s2_urn.py` and `kaggle/job.py`. Prompts are in `prompts/v1.yaml`, settings in one `config.yaml`. There are no notebooks and no test files: the oracle carries its hand-worked checks in `__main__`.
+- The laptop environment is `.venv` (Python 3.10) built from `requirements.txt`.
+
+**S0 data** (full counts in `data/processed/build_report.json`)
+- **LIAR2.** Label codes are confirmed against the published counts (0 = pants-fire … 5 = true). The 22,962 rows leave 11,947 binary claims after cleaning, 2,542 of them TRUE. Balanced splits: eval 1,500, LoRA 1,500, reserve 2,084.
+- **`recent` split** (dated on or after 2022-08-01): only 24, 18 and 32 claims in eval, LoRA and reserve. That is too few for a contamination split, so the recognition probe is the real guard (supports §12, item 4).
+- **Reddit.** The ConvoKit server is slow (about 1 MB per 2 minutes), so the download resumes. Of 297k utterances, 147,568 pass the filters, giving 2,100 comments: 300 in each of 7 groups, split 1,075 low tier and 1,025 high tier. The subreddit-to-group map in `config.yaml` is a DRAFT.
+- **Personas:** 60, with balanced margins.
+
+**NIM and gate G1**
+- **Keys.** 24 keys parse from `nvidia_keys.txt` (never printed). One returns 403 and is dropped at runtime, leaving 23 live.
+- **The catalog has moved.** All six runbook model strings return 410 Gone. These return 404: Mistral, Phi, Gemma-3, Granite, the Llama-3.1-Nemotron line, Nemotron-4, Jamba, Yi and DBRX.
+- **Listed but unusable under load:**
+  - DeepSeek-v4.1-flash: median 178 s and about 4k reasoning characters per call, 8 of 30 parsed; requests with thinking off all fail.
+  - GLM-5.3, GLM-5.3-flash, Kimi-K3 and Gemma-4-31B: no answer within 6 minutes.
+  - Llama-3.2-90B answered 3 of 30.
+  - Muse-Glimmer-30B: median 139–176 s.
+  - Nemotron-3-Ultra and Nano-Omni: most calls fail.
+- **Reasoning switches** (knob test on real claim prompts):
+  - Nemotron-3 obeys `chat_template_kwargs.enable_thinking`: with `false`, it produces 0 reasoning characters and about 50 tokens. The `/no_think` and "detailed thinking off" system lines do nothing.
+  - gpt-oss-20b obeys the `reasoning_effort` parameter: about 90 tokens at low, about 330 at medium. The runbook's "Reasoning: low" system line is ignored. High effort runs past 5k tokens and truncates half the replies at 8,192.
+- **G1 smoke test** (10 claims each): M1, M2, M3, M4 and M6 all parsed 10/10, so **G1 passes for the new roster**.
+- **Throughput.** The S1 pilot ran at about 640 calls/min overall with zero 429s, which is the pacer's own ceiling (23 keys × 35 RPM). There is no sign of per-account throttling, which answers §12, item 5.
+
+**Decisions**
+- **Roster rebuilt** (§4): M1 Llama-3.2-11B; M2 Nemotron-3-Super-120B, thinking off; M3 Nemotron-3.5-Lightning-30B, thinking off; M4 is M2 with thinking on; M6 gpt-oss-20b at low effort; M6H gpt-oss-20b at medium effort. M5 is retired.
+- The base models for H1 are M1, M2, M3, M6, L1 and L2, from four families (Meta, NVIDIA, OpenAI, Alibaba).
+- **Code reaches Kaggle as a private dataset bundle**, not by `git clone`: the repo is private, and API-pushed kernels have no token. T4 × 2 is selected through `kagglesdk` with `machine_shape="NvidiaTeslaT4"`.
+
+**Kaggle**
+- **Boot 1.** T4 × 2 confirmed. The latest vLLM (0.31.0, torch 2.13 with CUDA 13) installed, but import failed because Kaggle's preinstalled torchaudio is built for CUDA 12.8.
+- **Boot 2** (pushed) removes torchaudio and prints the driver and torch versions.
+
+**Open**
+- **Label bias.** In the S1 pilot, M2 answers TRUE on only 17% of samples (a FALSE bias), and M4 on 31%. Check this against G2's 0.50 ± 0.15 on the full S1. The playbook answer is balanced pools and analysis on `p_true`.
+- **Drafts to review.** Pushkar and Teammate 3 review the subreddit map and the Bayes-rule prompt before G2.
+
+**Next:** the S1 pilot summary, then full S1 on NIM, the S2 sanity check, S3 code and its vertical slice, and L1/L2 on Kaggle once vLLM boots.
+
+### 2026-10-06 (later) · Pilots: S1 prompt fix, recognition probe, Kaggle vLLM
+
+**S1 pilot, first pass (100 claims × M1, M2, M3, M4, M6)**
+- **Health:** 100% parsed, zero 429s, about 640 calls/min overall.
+- **Two problems:**
+  - **Prompt validity.** M2 and M4 judged whether the speaker *said* the quote ("no record of Quentin Miller saying this… likely fabricated") instead of whether it is *true*. This drove most of their FALSE answers.
+  - **Recognition probe.** M1 says "seen it" to 93 of 100 claims, mostly answering "false" whatever the truth; M6 says YES to 76 and M4 to 62. For these models the probe measures a habit, and filtering on it removed about half the claims, skewed toward FALSE ones.
+- **Fixes, all before the G2 freeze:**
+  - The claim block now adds "The speaker really said this; judge whether what it says is true."
+  - The leading "Says (that)" is stripped from statements, and inner double quotes become single quotes.
+  - The recognition filter applies only where the probe discriminates. A model that says YES to more than 20% of claims must name the right side at least 10 points more often than a constant guess.
+  - The pre-fix caches moved to `runs/_archive/2026-10-06-pilot0-attribution-prompt/`.
+- **Two code bugs fixed:**
+  - `config.yaml` turned the YAML labels `false`/`true` into booleans in `label6`; they are now quoted. The binary labels were never affected.
+  - Pools listed all TRUE claims first, so any "first N" slice was mostly TRUE. Pools now interleave TRUE and FALSE.
+
+**S1 pilot, second pass** (`results/S1_summary.csv`)
+
+| Model | TRUE share | Solo accuracy | Probe says YES | Probe valid | In band | Pool | p̂ |
+|---|---|---|---|---|---|---|---|
+| M1 | 0.46 | 0.66 | 0.79 | no | 51 | 34 | 0.88 |
+| M2 | 0.11 | 0.59 | 0.02 | yes | 22 | 14 | 0.86 |
+| M3 | 0.35 | 0.62 | 0.05 | yes | 32 | 28 | 0.82 |
+| M4 | 0.26 | 0.70 | 0.67 | yes (51% recognized) | 16 | 12 | 0.92 |
+| M6 | 0.24 | 0.57 | 0.84 | no | 32 | 20 | 0.75 |
+
+- **Reading.** The FALSE lean of the Nemotron models and gpt-oss survives the prompt fix, so it is the models' own skeptical prior, a reportable property. Balanced pools neutralize it, because inside each pool the signal is informative for both labels.
+- **G2 TRUE-share check.** M2, M4 and M6 will fail 0.50 ± 0.15. Proposal for the lead: report this check as a property of each model rather than a gate, since its purpose (catching fake herding from label bias) is served by the balanced pools and the analysis on `p_true`.
+- **Pool yield** is 12–34% of screened claims. The full S1 therefore screens eval plus all of reserve (3,578 claims) for M1, M2, M3 and M6, and 2,500 claims for M4 and M6H. That is about 116k calls (about 3 h), against the 54k planned.
+- **Expected pools:** M1 and M3 reach about 1,000; M6 about 700; M2 about 500 (below the 600 fallback, so it gets 12 cells per claim in S3); M4 and M6H about 300.
+
+**Kaggle T4 × 2: vLLM works** (kernel `aiv-boot`)
+- **Stack:** driver 580.178 (CUDA 13.0); the preinstalled torch was 2.11+cu128. vLLM 0.31.0 brings torch 2.13+cu130. Kaggle's stale torchaudio must be removed, and `job.py` now does this. vLLM is pinned at `vllm==0.31.0`.
+- **Smoke test, 40 claims each, run on the old prompt, so it validates the pipeline only:**
+  - L1 Llama-3.1-8B AWQ: 40/40 parsed, about 2 min including model load.
+  - L2 Qwen3-8B, thinking off: 40/40.
+  - L2T, thinking on: 40/40, about 550 tokens per reply.
+- **Token probabilities** (`lp_p_true`) are extracted for every reply, and their argmax matches the stated verdict 40/40 for both L1 and L2.
+
+**Next:** the S3 vertical slice (10 claims per model, main and fix cells), the S2 sanity check (20 rounds), then the full S1 on NIM and S1 for L1, L2 and L2T on Kaggle.

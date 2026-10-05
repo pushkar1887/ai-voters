@@ -1,0 +1,210 @@
+{
+ "model": "M6",
+ "model_id": "openai/gpt-oss-20b",
+ "created": "2026-10-05T19:32:10+00:00",
+ "screened": 100,
+ "p_hat": 0.75,
+ "n": 20,
+ "claims": [
+  {
+   "claim_id": "liar2-7904",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P39",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2349",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6823",
+   "truth": 1,
+   "p_bar": 0.774,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2983",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8690",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2364",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17348",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4607",
+   "truth": -1,
+   "p_bar": 0.87,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6944",
+   "truth": 1,
+   "p_bar": 0.59,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12522",
+   "truth": -1,
+   "p_bar": 0.77,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 5,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5287",
+   "truth": 1,
+   "p_bar": 0.74,
+   "persona_id": "P00",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8641",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-142",
+   "truth": 1,
+   "p_bar": 0.62,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22262",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 5,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-9925",
+   "truth": 1,
+   "p_bar": 0.61,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7350",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1655",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1734",
+   "truth": -1,
+   "p_bar": 0.75,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 5,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2442",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7030",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  }
+ ]
+}

@@ -40,7 +40,7 @@ vllm:   # Kaggle T4 x2: no bf16, no FlashAttention 2
 
 data:
   liar2_repo: chengxuphd/liar2
-  liar2_labels: {0: pants-fire, 1: false, 2: barely-true, 3: half-true, 4: mostly-true, 5: true}
+  liar2_labels: {0: pants-fire, 1: "false", 2: barely-true, 3: half-true, 4: mostly-true, 5: "true"}
   liar2_counts: {0: 3031, 1: 6605, 2: 3603, 3: 3709, 4: 3429, 5: 2585}
   reddit_url: https://zissou.infosci.cornell.edu/convokit/datasets/subreddit-corpus/reddit-corpus-small.corpus.zip
   claims: {n_eval: 1500, n_lora: 1500, min_words: 6, max_words: 60, recent_from: "2022-08-01"}
@@ -79,5 +79,5 @@ s1:
   samples: 5
   band: [0.55, 0.90]
   pool_target: 1000
-  screen: {M4: 600, M6H: 600}     # reasoning variants screen fewer claims
-  pool_cap: {M4: 300, M6H: 300}
+  screen: {M4: 2500, M6H: 2500, L2T: 2500}   # reasoning variants: smaller pools, but ~12% pilot yield
+  pool_cap: {M4: 300, M6H: 300, L2T: 300}

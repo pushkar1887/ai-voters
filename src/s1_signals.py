@@ -48,17 +48,29 @@ def persona_spec(c: dict, personas: list[dict]) -> dict:
                 meta={"item_id": c["id"], "part": "persona", "persona_id": p["id"], "order": order})
 
 
-def recognized(rec: dict, truth: int) -> bool:
+def said_side(rec: dict) -> int:
+    """+1 / -1 if the probe says YES and names a rating on the TRUE / FALSE side, else 0."""
     p = rec.get("parsed") or {}
     if p.get("seen") != "YES":
-        return False
-    rating = re.sub(r"[^a-z ]", " ", str(p.get("rating", "")).lower()).strip()
-    rating = " ".join(rating.split())
-    return rating in (TRUE_SIDE if truth > 0 else FALSE_SIDE)
+        return 0
+    rating = " ".join(re.sub(r"[^a-z ]", " ", str(p.get("rating", "")).lower()).split())
+    return 1 if rating in TRUE_SIDE else -1 if rating in FALSE_SIDE else 0
 
 
-def screen_table(claims: list[dict], recs: list[dict]) -> pd.DataFrame:
-    """One row per claim: p_bar over parsed samples, recognition flag, verdict stats."""
+def probe_is_valid(sides: list[int], truths: list[int]) -> bool:
+    """The probe counts only where it discriminates. A model that says YES to more than 20% of claims
+    must name the right side at least 10 points more often than a constant guess would."""
+    yes = [(s, t) for s, t in zip(sides, truths) if s]
+    if len(yes) <= 0.2 * len(sides):
+        return True
+    acc = sum(s == t for s, t in yes) / len(yes)
+    base = max(sum(t > 0 for _, t in yes), sum(t < 0 for _, t in yes)) / len(yes)
+    return acc - base >= 0.10
+
+
+def screen_table(claims: list[dict], recs: list[dict]) -> tuple[pd.DataFrame, bool]:
+    """One row per claim (p_bar over parsed samples, probe answer, verdict stats), and whether the
+    model's recognition probe is valid enough to filter on."""
     by_claim: dict[str, list[dict]] = {}
     for r in recs:
         by_claim.setdefault(r["meta"]["item_id"], []).append(r)
@@ -69,12 +81,14 @@ def screen_table(claims: list[dict], recs: list[dict]) -> pd.DataFrame:
         rec = next((r for r in rs if r["meta"].get("part") == "recog"), {})
         pc = [(r["parsed"]["p_true"] / 100 if c["truth"] > 0 else 1 - r["parsed"]["p_true"] / 100) for r in samples]
         rows.append({"claim_id": c["id"], "truth": c["truth"], "recent": c["recent"], "n_parsed": len(samples),
-                     "p_bar": sum(pc) / len(pc) if len(pc) >= 3 else None,
-                     "recognized": recognized(rec, c["truth"]),
+                     "p_bar": sum(pc) / len(pc) if len(pc) >= 3 else None, "said_side": said_side(rec),
                      "n_true_verdicts": sum(r["parsed"]["verdict"] == "TRUE" for r in samples),
                      "n_disagree": sum((r["parsed"]["verdict"] == "TRUE") != (r["parsed"]["p_true"] >= 50)
                                        for r in samples)})
-    return pd.DataFrame(rows)
+    t = pd.DataFrame(rows)
+    valid = probe_is_valid(list(t.said_side), list(t.truth))
+    t["recognized"] = (t.said_side == t.truth) if valid else False
+    return t, valid
 
 
 def select_pool(tab: pd.DataFrame, model: str) -> list[str]:
@@ -85,7 +99,7 @@ def select_pool(tab: pd.DataFrame, model: str) -> list[str]:
     t = sorted(ok[ok.truth > 0].claim_id, key=order.get)
     f = sorted(ok[ok.truth < 0].claim_id, key=order.get)
     n = min(len(t), len(f), target // 2)
-    return t[:n] + f[:n]
+    return [cid for pair in zip(t[:n], f[:n]) for cid in pair]       # interleaved: every prefix is balanced
 
 
 def ece(samples: list[tuple[float, int]], bins: int = 10) -> float:
@@ -106,9 +120,9 @@ def main(models: list[str], limit: int | None, refill: int) -> None:
     screened = {m: claims[:S["screen"].get(m, len(claims))] for m in models}
     recs = run_many("S1", {m: [s for c in cs for s in screen_specs(c)] for m, cs in screened.items()})
 
-    tabs, pools = {}, {}
+    tabs, pools, valid = {}, {}, {}
     for m in models:
-        tabs[m] = screen_table(screened[m], recs[m])
+        tabs[m], valid[m] = screen_table(screened[m], recs[m])
         pools[m] = select_pool(tabs[m], m)
     by_id = {c["id"]: c for c in claims}
     prec = run_many("S1", {m: [persona_spec(by_id[i], personas) for i in ids] for m, ids in pools.items()})
@@ -143,6 +157,7 @@ def main(models: list[str], limit: int | None, refill: int) -> None:
             "verdict_ptrue_disagree": round(t.n_disagree.sum() / max(1, t.n_parsed.sum()), 4),
             "solo_acc": round(sum((r["parsed"]["verdict"] == "TRUE") == (by_id[r["meta"]["item_id"]]["truth"] > 0)
                                   for r in parsed) / max(1, len(parsed)), 3),
+            "probe_yes": round((t.said_side != 0).mean(), 3), "probe_valid": valid[m],
             "recognized": round(t.recognized.mean(), 3), "ece": round(ece(cal), 3),
             "in_band": int((t.p_bar.between(*S["band"]) & ~t.recognized).sum()),
             "pool_n": len(rows), "p_hat": round(p_hat, 3),
