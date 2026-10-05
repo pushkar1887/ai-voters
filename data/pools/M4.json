@@ -1,0 +1,130 @@
+{
+ "model": "M4",
+ "model_id": "nvidia/nemotron-3-super-120b-a12b",
+ "created": "2026-10-05T19:32:10+00:00",
+ "screened": 100,
+ "p_hat": 0.9167,
+ "n": 12,
+ "claims": [
+  {
+   "claim_id": "liar2-3024",
+   "truth": 1,
+   "p_bar": 0.716,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2983",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17348",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13869",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10187",
+   "truth": 1,
+   "p_bar": 0.716,
+   "persona_id": "P47",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 30,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7350",
+   "truth": -1,
+   "p_bar": 0.876,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22165",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-5995",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P14",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2442",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-892",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4774",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6296",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 15,
+   "recent": false
+  }
+ ]
+}

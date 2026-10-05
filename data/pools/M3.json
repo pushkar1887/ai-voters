@@ -1,0 +1,290 @@
+{
+ "model": "M3",
+ "model_id": "nvidia/nemotron-3.5-lightning-30b-a3b",
+ "created": "2026-10-05T19:32:10+00:00",
+ "screened": 100,
+ "p_hat": 0.8214,
+ "n": 28,
+ "claims": [
+  {
+   "claim_id": "liar2-7904",
+   "truth": 1,
+   "p_bar": 0.894,
+   "persona_id": "P39",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2983",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 15,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6823",
+   "truth": 1,
+   "p_bar": 0.6,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4607",
+   "truth": -1,
+   "p_bar": 0.77,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4163",
+   "truth": 1,
+   "p_bar": 0.76,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13869",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7268",
+   "truth": 1,
+   "p_bar": 0.74,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10694",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3024",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9541",
+   "truth": -1,
+   "p_bar": 0.576,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4548",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9558",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-196",
+   "truth": 1,
+   "p_bar": 0.77,
+   "persona_id": "P25",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6036",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17348",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-892",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 15,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6944",
+   "truth": 1,
+   "p_bar": 0.74,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10307",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4612",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P09",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6296",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 15,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10444",
+   "truth": 1,
+   "p_bar": 0.596,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 15,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5888",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 15,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-142",
+   "truth": 1,
+   "p_bar": 0.6,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12728",
+   "truth": -1,
+   "p_bar": 0.75,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22165",
+   "truth": 1,
+   "p_bar": 0.75,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-21863",
+   "truth": -1,
+   "p_bar": 0.79,
+   "persona_id": "P19",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 5,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-1655",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13596",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 10,
+   "recent": false
+  }
+ ]
+}

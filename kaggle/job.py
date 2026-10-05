@@ -161,7 +161,7 @@ if __name__ == "__main__":
     ap.add_argument("--name", required=True, help="kernel name suffix, e.g. s1-l1")
     ap.add_argument("--cmd", action="append", default=[], help="python -m command; repeat for several")
     ap.add_argument("--caches", nargs="*", default=[], help="caches to ship for resume, e.g. S1/L1")
-    ap.add_argument("--vllm", default="vllm", help="pip spec for vLLM")
+    ap.add_argument("--vllm", default="vllm==0.31.0", help="pip spec for vLLM (0.31.0 boots on T4 x2, Oct 6)")
     a = ap.parse_args()
     if a.action == "push":
         push(a.name, a.cmd, a.vllm, a.caches)

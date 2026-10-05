@@ -1,22 +1,22 @@
 {
  "claims": {
   "liar2_rows": 22962,
-  "binary_after_cleaning": 11947,
-  "true": 2542,
+  "binary_after_cleaning": 11927,
+  "true": 2539,
   "eval": {
    "n": 1500,
    "true": 750,
-   "recent": 24
+   "recent": 30
   },
   "lora": {
    "n": 1500,
    "true": 750,
-   "recent": 18
+   "recent": 20
   },
   "reserve": {
-   "n": 2084,
-   "true": 1042,
-   "recent": 32
+   "n": 2078,
+   "true": 1039,
+   "recent": 40
   },
   "seed": 13
  },

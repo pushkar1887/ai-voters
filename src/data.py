@@ -47,6 +47,10 @@ def build_claims() -> None:
     df = df.dropna(subset=["statement", "speaker", "date", "context"])
     for col in ("statement", "speaker", "context"):
         df[col] = df[col].map(clean)
+    # PolitiFact's "Says ..." prefix reads as an attribution question; inner double quotes break the
+    # Claim: "..." wrapper. Both only change presentation.
+    df["statement"] = (df["statement"].str.replace(r"^Says,?\s+(that\s+)?", "", regex=True)
+                       .map(lambda s: s[:1].upper() + s[1:]).str.replace('"', "'"))
     df["speaker"] = df["speaker"].map(lambda s: " ".join(w[:1].upper() + w[1:] for w in s.split()))
     df["dt"] = pd.to_datetime(df["date"], format="%B %d, %Y", errors="coerce")
     df = df.dropna(subset=["dt"])
