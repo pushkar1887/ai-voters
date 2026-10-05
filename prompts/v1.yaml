@@ -1,0 +1,83 @@
+# Prompt templates, version v1. Freezes at G2 (Oct 8); later edits go to v2.yaml.
+# Slots use $name (string.Template), so literal JSON braces need no escaping.
+# Paraphrases a/b/c reword instructions only; JSON keys and vote-block texts never change.
+
+system_claims:
+  a: "You are $persona. You review short political claims on a fact-checking website and judge them from your own knowledge. Reply with JSON only."
+  b: "You are $persona. On a fact-checking website you rate short political claims, relying only on what you already know. Answer with JSON only."
+  c: "You are $persona. Your job on a fact-checking website is to assess short political claims using your own knowledge. Respond with JSON only."
+
+system_claims_nopersona:
+  a: "You review short political claims on a fact-checking website and judge them from your own knowledge. Reply with JSON only."
+  b: "On a fact-checking website you rate short political claims, relying only on what you already know. Answer with JSON only."
+  c: "Your job on a fact-checking website is to assess short political claims using your own knowledge. Respond with JSON only."
+
+claim: |-
+  Claim: "$statement"
+  Said by $speaker ($context, $date).
+
+question:
+  a: "Is this claim $A or $B?"
+  b: "Do you rate this claim $A or $B?"
+  c: "Which rating fits this claim better, $A or $B?"
+
+social_close:
+  a: "Now give your own rating. Is this claim $A or $B?"
+  b: "Now give your own rating. Do you rate this claim $A or $B?"
+  c: "Now give your own rating. Which rating fits this claim better, $A or $B?"
+
+private_close: "You may keep or change your rating."
+
+json_claim: |-
+  Reply with JSON only:
+  {"verdict": "TRUE" or "FALSE", "p_true": <integer 0-100, your probability that the claim is true>, "reason": "<at most 40 words>"}
+
+# The treatments: fixed wording, never paraphrased.
+vote_block:
+  independent: "Before you, $n other reviewers rated this claim. Each reviewer judged it alone, without seeing anyone else's rating.$q"
+  sequential: "Before you, $n other reviewers rated this claim one after another. Each reviewer saw all earlier ratings before giving their own.$q"
+  random: "Below are $n labels produced by a random number generator. They carry no information about the claim."
+  cue: "Before you, $n other reviewers rated this claim one after another. Each reviewer saw all earlier ratings before giving their own.$q Because each reviewer saw the earlier ratings, later ratings may simply repeat earlier ones."
+
+q_stated: " Reviewers like these are right about $q% of the time."
+
+display:
+  list: "$noun, in order:\n$lines"
+  tally: "$noun: $n_true TRUE, $n_false FALSE."
+
+# BR baseline for H6, appended to the system prompt. DRAFT: lead to review before G2.
+bayes_rule: >-
+  Combine the evidence with Bayes' rule. Your own reading is one piece of evidence, as reliable as you
+  believe it is. Each earlier rating made independently is another piece of evidence, as reliable as the
+  raters are. Ratings given after the raters could already see a lead of two or more only repeat earlier
+  ratings and add nothing, and random labels add nothing. In log-odds, evidence that is right 60% of the
+  time is worth 0.41, 70% is worth 0.85, 80% is worth 1.39 and 90% is worth 2.20. Add the evidence for
+  TRUE, subtract the evidence for FALSE, and vote TRUE if the total is above zero.
+
+recog: |-
+  Claim: "$statement" Said by $speaker ($context, $date).
+  Have you seen this exact claim together with a published fact-check rating before?
+  Reply with JSON only: {"seen": "YES" or "NO", "rating": "<the rating if YES, else NONE>"}
+
+urn: |-
+  There are two urns. Urn A holds 2 light balls and 1 dark ball. Urn B holds 1 light ball and 2 dark balls. One urn was picked by a fair coin flip and is the same for everyone in this round. Each participant privately draws one ball from it, looks at it, puts it back, and announces a guess about which urn was picked. Earlier guesses are public; earlier draws are not.
+  Your draw: a $color ball.
+  Earlier guesses, in order: $guesses.
+  Which urn was picked? Reply with JSON only:
+  {"urn": "A" or "B", "p_a": <integer 0-100, your probability that it is urn A>, "reason": "<at most 30 words>"}
+
+system_reddit: "You are $persona. You browse Reddit and vote on comments the way you normally would. Reply with JSON only."
+
+reddit: |-
+  Subreddit: r/$subreddit
+  Post title: "$title"
+  Comment: "$comment"
+  Current comment score: $score point(s).
+
+  Do you upvote this comment, downvote it, or leave it alone?
+  Reply with JSON only: {"vote": "UP" or "DOWN" or "NONE", "reason": "<at most 30 words>"}
+
+judge: |-
+  A reviewer rated a claim after seeing other reviewers' ratings, and gave this reason:
+  "$reason"
+  Does this reason mention or rely on the other reviewers' ratings? Reply with YES or NO only.
