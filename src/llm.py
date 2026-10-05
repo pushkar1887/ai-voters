@@ -304,11 +304,33 @@ def _unpack(r: dict):
     return msg.get("content"), reasoning, ch.get("finish_reason"), r.get("usage")
 
 
+_INFLIGHT: dict[str, asyncio.Future] = {}
+
+
 async def _nim_one(pool: Pool, cache: Cache, stage: str, model: str, s: dict) -> tuple[dict, bool]:
+    """Cache hit, or join an identical request already in flight (so concurrent duplicates, e.g. the
+    shared solo calls of S4's k-chains, get one sample), or make the call."""
     p = payload_for(model, s)
     h = req_hash(p, s["seed_tag"])
     if (hit := cache.get(h)) is not None:
         return hit, True
+    if h in _INFLIGHT:
+        return await asyncio.shield(_INFLIGHT[h]), True
+    fut = asyncio.get_running_loop().create_future()
+    _INFLIGHT[h] = fut
+    try:
+        rec = await _nim_call(pool, cache, stage, model, s, p, h)
+        fut.set_result(rec)
+        return rec, False
+    except BaseException as e:
+        fut.set_exception(e)
+        fut.exception()                                  # mark retrieved: no "never retrieved" warning
+        raise
+    finally:
+        del _INFLIGHT[h]
+
+
+async def _nim_call(pool: Pool, cache: Cache, stage: str, model: str, s: dict, p: dict, h: str) -> dict:
     t0 = time.monotonic()
     try:
         text, reasoning, finish, usage = _unpack(await pool.post(p))
@@ -321,11 +343,11 @@ async def _nim_one(pool: Pool, cache: Cache, stage: str, model: str, s: dict) ->
             status = "retry_ok" if parsed else "fail"
     except (BadRequest, RuntimeError) as e:          # not cached, so a later run tries again
         return {"hash": h, "stage": stage, "model": model, "meta": s["meta"], "parsed": None,
-                "parse_status": "error", "error": str(e)[:300]}, False
+                "parse_status": "error", "error": str(e)[:300]}
     rec = make_record(h, stage, model, "nim", p, s, text, reasoning, finish, usage, parsed, status,
                       retry_text, time.monotonic() - t0)
     cache.put(rec)
-    return rec, False
+    return rec
 
 
 class Monitor:
