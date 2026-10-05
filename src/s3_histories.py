@@ -23,7 +23,7 @@ from src.data import load_claims, load_personas, private_first_messages, social_
 from src.llm import CFG, ROOT, RUNS, read_jsonl, rng, run_many, spec
 from src.oracle import bhw_sequences, informative_lead, oracle
 
-CELLS, FIX_CLAIMS, Q = 8, 300, 70
+CELLS, CELLS_SMALL_POOL, FIX_CLAIMS, Q = 8, 12, 300, 70     # plan fallback: pool < 600 -> 12 cells
 FRAMINGS, WEIGHTS = ["independent", "sequential", "random"], [0.4, 0.4, 0.2]
 SEQS = {n: bhw_sequences(n) for n in range(1, 7)}
 
@@ -70,10 +70,11 @@ def specs_for(model: str, part: str, limit: int | None) -> list[dict]:
         rows = rows[:FIX_CLAIMS]
         solo_text = {r["meta"]["item_id"]: r["text"] for r in read_jsonl(RUNS / "S1" / f"{model}.jsonl")
                      if r["meta"].get("part") == "persona" and r.get("parsed")}
+    small = pool["n"] < 600 and model not in CFG["s1"]["pool_cap"]   # capped reasoning variants keep 8
     out = []
     for row in rows:
         c, persona = claims[row["claim_id"]], personas[row["persona_id"]]
-        cells = [make_cell(c["id"], k, row["s"]) for k in range(CELLS)]
+        cells = [make_cell(c["id"], k, row["s"]) for k in range(CELLS_SMALL_POOL if small else CELLS)]
         if part == "main":
             todo = [(x, None) for x in cells]
         else:

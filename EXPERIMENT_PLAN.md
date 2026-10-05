@@ -748,3 +748,40 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - **Token probabilities** (`lp_p_true`) are extracted for every reply, and their argmax matches the stated verdict 40/40 for both L1 and L2.
 
 **Next:** the S3 vertical slice (10 claims per model, main and fix cells), the S2 sanity check (20 rounds), then the full S1 on NIM and S1 for L1, L2 and L2T on Kaggle.
+
+### 2026-10-06 (evening) · Sanity checks, vertical slice, full runs launched
+
+**S2 sanity check** (20 rounds; at lead 0, agents must follow their own draw more than 90% of the time)
+- **First pass failed for three models.** M1, M3 and M6 followed their draw only 70%, 79% and 89% of the time.
+  - Their reasons show composition errors: M1 wrote "a dark ball is more likely under A", M3 "equally likely under either urn".
+  - M6 showed an output slip: it computed P(A) = 33%, then wrote `"urn": "A"`.
+- **Fix** (v1, before the freeze): the prompt now states what each draw points to, as the lab trained its subjects, and asks for `p_a` before the guess. The old caches moved to `runs/_archive/2026-10-06-s2-sanity0-urn-prompt/`.
+- **Second pass:**
+
+| Model | Own draw at lead 0 | Inconsistent decisions | Cascade rate (humans 0.71) |
+|---|---|---|---|
+| M1 | 0.80 | 0.13 | 0.78 |
+| M2 | 1.00 | 0.02 | 0.24 |
+| M3 | 0.81 | 0.08 | 0.30 |
+| M6 | 0.96 | 0.08 | 0.74 |
+
+- **Decision:** M1 and M3 keep about 20% residual errors. That reads as a capability limit of the small models rather than a misread prompt. They stay in the study, and the lead-0 rate is reported per model as a task-comprehension measure. M4 and M6H are added to S2, because reasoning on and off belongs in the human-anchor comparison too.
+
+**S3 vertical slice** (10 pool claims per model; main and fix cells; 100% parsed)
+- **The whole path S1 → S3 → S6 runs end to end:** ρ, q\* and γ with claim-bootstrap intervals, follow curves against Bayes, and paired fix effects.
+- **First patterns,** too small to claim anything:
+  - The Nemotron models over-follow sequential majorities, at 0.69 and 0.92 against Bayes's 0.31 and 0.69. That is the correlation-neglect shape.
+  - M1 and M6 under-follow independent majorities.
+  - Every model follows random labels 17–33% of the time, where Bayes says 0.
+  - Private-first lifts M2's accuracy from 0.54 to 0.89 on paired cells.
+- **Design refinement** (logged in the code docstring): every framing draws its history from the same Bayes-consistent generator, with cascades oversampled. Framings therefore differ only in the vote-block text, and the redundant post-cascade votes range from 0 to 4, so γ is identifiable.
+- **Fallback built in:** a base model whose pool is under 600 claims gets 12 cells per claim (the plan's fallback). Cells are seeded by claim and index, so the first 8 are unchanged.
+
+**S5 pilot** (100 comments × M1, M2, M3, M6; 100% parsed)
+- Voting styles differ sharply. M1 never abstains (79% UP). M2 abstains 67% of the time, close to real readers. M6 downvotes 72% of comments.
+- Up-lift ranges from −1% (M1) to +92% (M2). The prompt is neutral, so these base rates are findings, and the lifts are measured within each model.
+
+**Launched (Oct 6, evening)**
+- Full S1 on NIM: M1, M2, M3, M4, M6 and M6H over eval plus all reserve (3,578 claims; 2,500 for M4 and M6H), on keys 0–17. About 116k calls.
+- Full S2 (200 rounds × 6 models), then full S5 (2,100 comments × 4 models), on keys 18–23.
+- Kaggle T4 × 2: kernel `aiv-s1-l1` (L1) and kernel `aiv-s1-l2` (L2 and L2T) run in parallel, so the university account takes at least two GPU sessions at once.
