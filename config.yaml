@@ -1,0 +1,83 @@
+# ai-voters configuration. One file drives every stage; see EXPERIMENT_PLAN.md.
+project: ai-voters
+seed: 13
+prompt_version: v1
+
+nim:
+  base_url: https://integrate.api.nvidia.com/v1
+  keys_file: nvidia_keys.txt   # outside git; keys are matched by pattern and never printed. NIM_KEYS env overrides.
+  rpm_per_key: 35              # NIM_RPM env overrides
+  timeout_s: 180
+  concurrency: 256
+
+decoding:
+  greedy: {temperature: 0.0, top_p: 1.0}
+  sample: {temperature: 0.7, top_p: 0.95}
+  max_tokens: 160
+
+# Model codes used everywhere (cache files, tables). Roster frozen at G1 (2026-10-06) from what NIM
+# actually serves: all six runbook strings return 410 Gone (EXPERIMENT_PLAN.md, Logs). M5 is retired.
+# `extra` is sent with every request and is part of the cache key.
+models:
+  M1:  {id: meta/llama-3.2-11b-vision-instruct, backend: nim}
+  M2:  {id: nvidia/nemotron-3-super-120b-a12b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: false}}}
+  M3:  {id: nvidia/nemotron-3.5-lightning-30b-a3b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: false}}}
+  M4:  {id: nvidia/nemotron-3-super-120b-a12b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: true}}, max_tokens: 4096}
+  M6:  {id: openai/gpt-oss-20b, backend: nim, extra: {reasoning_effort: low}, max_tokens: 1024}
+  M6H: {id: openai/gpt-oss-20b, backend: nim, extra: {reasoning_effort: high}, max_tokens: 8192}
+  L1:  {id: hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4, backend: vllm}
+  L2:  {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: false}}}
+  L2T: {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: true}}, max_tokens: 2048}
+
+vllm:   # Kaggle T4 x2: no bf16, no FlashAttention 2
+  tensor_parallel_size: 2
+  dtype: float16
+  enforce_eager: true
+  disable_custom_all_reduce: true
+  max_model_len: 4096
+  gpu_memory_utilization: 0.85
+  logprobs: 20
+
+data:
+  liar2_repo: chengxuphd/liar2
+  liar2_labels: {0: pants-fire, 1: false, 2: barely-true, 3: half-true, 4: mostly-true, 5: true}
+  liar2_counts: {0: 3031, 1: 6605, 2: 3603, 3: 3709, 4: 3429, 5: 2585}
+  reddit_url: https://zissou.infosci.cornell.edu/convokit/datasets/subreddit-corpus/reddit-corpus-small.corpus.zip
+  claims: {n_eval: 1500, n_lora: 1500, min_words: 6, max_words: 60, recent_from: "2022-08-01"}
+  comments:
+    per_group: 300
+    min_words: 15
+    max_words: 120
+    title_words: 30
+    # Subreddit -> Muchnik et al. (2013) topic group. DRAFT by Claude (2026-10-06): Pushkar and
+    # Teammate 3 map independently and reconcile before G2. Group "other" is dropped.
+    groups:
+      politics: [politics, POLITIC, Libertarian, conspiracy]
+      general news: [worldnews, news, offbeat, canada, unitedkingdom, australia, singapore]
+      economics: [Economics, Bitcoin, Frugal]
+      business: [business]
+      IT: [technology, programming, Android, apple, buildapc, techsupport]
+      culture and society: [DebateReligion, Christianity, atheism, MensRights, TwoXChromosomes, AskMen, AskWomen,
+                            relationship_advice, relationships, AmItheAsshole, books, Music, hiphopheads, movies,
+                            MovieDetails, photography]
+      fun: [funny, pics, gifs, videos, AdviceAnimals, aww, WTF, tifu, cringe, cringepics, todayilearned, gaming, Games,
+            leagueoflegends, DotA2, wow, Diablo, starcraft, Guildwars2, Minecraft, pokemon, skyrim, tf2, dayz, magicTCG,
+            soccer, nba, nfl, hockey, baseball, CFB, fantasyfootball, MMA, SquaredCircle, Marvel, asoiaf, anime,
+            Naruto, ShingekiNoKyojin, rupaulsdragrace]
+      other: [AskReddit, IAmA, explainlikeimfive, askscience, science, LifeProTips, Fitness, travel, cars, guns,
+              malefashionadvice, MakeupAddiction, motorcycles, electronic_cigarette, OkCupid, teenagers, NoFap,
+              Drugs, trees, sex, gonewild, pokemontrades, Random_Acts_Of_Amazon]
+  personas:
+    n: 60
+    age_bands: [[18, 24], [25, 34], [35, 49], [50, 64], [65, 80]]
+    occupations: [nurse, high-school teacher, software developer, retail store manager, electrician,
+                  accountant, truck driver, pharmacist, graduate student, restaurant cook,
+                  insurance agent, librarian]
+    regions: [the Northeast, the Midwest, the South, the Southwest, the West Coast]
+
+s1:
+  samples: 5
+  band: [0.55, 0.90]
+  pool_target: 1000
+  screen: {M4: 600}       # thinking model screens fewer claims
+  pool_cap: {M4: 300}

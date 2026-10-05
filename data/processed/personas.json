@@ -1,0 +1,422 @@
+[
+ {
+  "id": "P00",
+  "age": 60,
+  "occupation": "electrician",
+  "region": "the South",
+  "text": "a 60-year-old electrician from the South who reads the news most days"
+ },
+ {
+  "id": "P01",
+  "age": 24,
+  "occupation": "high-school teacher",
+  "region": "the Southwest",
+  "text": "a 24-year-old high-school teacher from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P02",
+  "age": 49,
+  "occupation": "electrician",
+  "region": "the South",
+  "text": "a 49-year-old electrician from the South who reads the news most days"
+ },
+ {
+  "id": "P03",
+  "age": 28,
+  "occupation": "graduate student",
+  "region": "the Northeast",
+  "text": "a 28-year-old graduate student from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P04",
+  "age": 61,
+  "occupation": "pharmacist",
+  "region": "the Southwest",
+  "text": "a 61-year-old pharmacist from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P05",
+  "age": 20,
+  "occupation": "graduate student",
+  "region": "the South",
+  "text": "a 20-year-old graduate student from the South who reads the news most days"
+ },
+ {
+  "id": "P06",
+  "age": 66,
+  "occupation": "pharmacist",
+  "region": "the Midwest",
+  "text": "a 66-year-old pharmacist from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P07",
+  "age": 43,
+  "occupation": "accountant",
+  "region": "the Southwest",
+  "text": "a 43-year-old accountant from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P08",
+  "age": 21,
+  "occupation": "restaurant cook",
+  "region": "the South",
+  "text": "a 21-year-old restaurant cook from the South who reads the news most days"
+ },
+ {
+  "id": "P09",
+  "age": 47,
+  "occupation": "high-school teacher",
+  "region": "the Southwest",
+  "text": "a 47-year-old high-school teacher from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P10",
+  "age": 38,
+  "occupation": "insurance agent",
+  "region": "the Midwest",
+  "text": "a 38-year-old insurance agent from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P11",
+  "age": 74,
+  "occupation": "restaurant cook",
+  "region": "the South",
+  "text": "a 74-year-old restaurant cook from the South who reads the news most days"
+ },
+ {
+  "id": "P12",
+  "age": 48,
+  "occupation": "electrician",
+  "region": "the Northeast",
+  "text": "a 48-year-old electrician from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P13",
+  "age": 28,
+  "occupation": "truck driver",
+  "region": "the West Coast",
+  "text": "a 28-year-old truck driver from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P14",
+  "age": 23,
+  "occupation": "retail store manager",
+  "region": "the West Coast",
+  "text": "a 23-year-old retail store manager from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P15",
+  "age": 55,
+  "occupation": "pharmacist",
+  "region": "the Northeast",
+  "text": "a 55-year-old pharmacist from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P16",
+  "age": 46,
+  "occupation": "nurse",
+  "region": "the Northeast",
+  "text": "a 46-year-old nurse from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P17",
+  "age": 34,
+  "occupation": "insurance agent",
+  "region": "the South",
+  "text": "a 34-year-old insurance agent from the South who reads the news most days"
+ },
+ {
+  "id": "P18",
+  "age": 69,
+  "occupation": "accountant",
+  "region": "the West Coast",
+  "text": "a 69-year-old accountant from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P19",
+  "age": 22,
+  "occupation": "accountant",
+  "region": "the West Coast",
+  "text": "a 22-year-old accountant from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P20",
+  "age": 38,
+  "occupation": "electrician",
+  "region": "the Southwest",
+  "text": "a 38-year-old electrician from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P21",
+  "age": 19,
+  "occupation": "high-school teacher",
+  "region": "the Northeast",
+  "text": "a 19-year-old high-school teacher from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P22",
+  "age": 19,
+  "occupation": "truck driver",
+  "region": "the Midwest",
+  "text": "a 19-year-old truck driver from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P23",
+  "age": 78,
+  "occupation": "software developer",
+  "region": "the West Coast",
+  "text": "a 78-year-old software developer from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P24",
+  "age": 67,
+  "occupation": "software developer",
+  "region": "the Northeast",
+  "text": "a 67-year-old software developer from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P25",
+  "age": 44,
+  "occupation": "truck driver",
+  "region": "the Southwest",
+  "text": "a 44-year-old truck driver from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P26",
+  "age": 30,
+  "occupation": "librarian",
+  "region": "the West Coast",
+  "text": "a 30-year-old librarian from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P27",
+  "age": 52,
+  "occupation": "nurse",
+  "region": "the South",
+  "text": "a 52-year-old nurse from the South who reads the news most days"
+ },
+ {
+  "id": "P28",
+  "age": 64,
+  "occupation": "electrician",
+  "region": "the Northeast",
+  "text": "a 64-year-old electrician from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P29",
+  "age": 77,
+  "occupation": "retail store manager",
+  "region": "the Southwest",
+  "text": "a 77-year-old retail store manager from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P30",
+  "age": 31,
+  "occupation": "insurance agent",
+  "region": "the Northeast",
+  "text": "a 31-year-old insurance agent from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P31",
+  "age": 20,
+  "occupation": "high-school teacher",
+  "region": "the Northeast",
+  "text": "a 20-year-old high-school teacher from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P32",
+  "age": 56,
+  "occupation": "high-school teacher",
+  "region": "the Midwest",
+  "text": "a 56-year-old high-school teacher from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P33",
+  "age": 25,
+  "occupation": "accountant",
+  "region": "the South",
+  "text": "a 25-year-old accountant from the South who reads the news most days"
+ },
+ {
+  "id": "P34",
+  "age": 25,
+  "occupation": "restaurant cook",
+  "region": "the South",
+  "text": "a 25-year-old restaurant cook from the South who reads the news most days"
+ },
+ {
+  "id": "P35",
+  "age": 24,
+  "occupation": "nurse",
+  "region": "the West Coast",
+  "text": "a 24-year-old nurse from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P36",
+  "age": 66,
+  "occupation": "graduate student",
+  "region": "the Midwest",
+  "text": "a 66-year-old graduate student from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P37",
+  "age": 54,
+  "occupation": "insurance agent",
+  "region": "the West Coast",
+  "text": "a 54-year-old insurance agent from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P38",
+  "age": 49,
+  "occupation": "restaurant cook",
+  "region": "the Northeast",
+  "text": "a 49-year-old restaurant cook from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P39",
+  "age": 74,
+  "occupation": "librarian",
+  "region": "the South",
+  "text": "a 74-year-old librarian from the South who reads the news most days"
+ },
+ {
+  "id": "P40",
+  "age": 54,
+  "occupation": "librarian",
+  "region": "the Southwest",
+  "text": "a 54-year-old librarian from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P41",
+  "age": 21,
+  "occupation": "truck driver",
+  "region": "the Midwest",
+  "text": "a 21-year-old truck driver from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P42",
+  "age": 67,
+  "occupation": "pharmacist",
+  "region": "the Midwest",
+  "text": "a 67-year-old pharmacist from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P43",
+  "age": 54,
+  "occupation": "nurse",
+  "region": "the Midwest",
+  "text": "a 54-year-old nurse from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P44",
+  "age": 31,
+  "occupation": "software developer",
+  "region": "the West Coast",
+  "text": "a 31-year-old software developer from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P45",
+  "age": 39,
+  "occupation": "truck driver",
+  "region": "the Midwest",
+  "text": "a 39-year-old truck driver from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P46",
+  "age": 69,
+  "occupation": "insurance agent",
+  "region": "the Midwest",
+  "text": "a 69-year-old insurance agent from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P47",
+  "age": 29,
+  "occupation": "restaurant cook",
+  "region": "the Southwest",
+  "text": "a 29-year-old restaurant cook from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P48",
+  "age": 25,
+  "occupation": "accountant",
+  "region": "the Southwest",
+  "text": "a 25-year-old accountant from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P49",
+  "age": 62,
+  "occupation": "software developer",
+  "region": "the Northeast",
+  "text": "a 62-year-old software developer from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P50",
+  "age": 45,
+  "occupation": "retail store manager",
+  "region": "the West Coast",
+  "text": "a 45-year-old retail store manager from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P51",
+  "age": 53,
+  "occupation": "graduate student",
+  "region": "the South",
+  "text": "a 53-year-old graduate student from the South who reads the news most days"
+ },
+ {
+  "id": "P52",
+  "age": 31,
+  "occupation": "librarian",
+  "region": "the Southwest",
+  "text": "a 31-year-old librarian from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P53",
+  "age": 18,
+  "occupation": "pharmacist",
+  "region": "the Midwest",
+  "text": "an 18-year-old pharmacist from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P54",
+  "age": 66,
+  "occupation": "software developer",
+  "region": "the Midwest",
+  "text": "a 66-year-old software developer from the Midwest who reads the news most days"
+ },
+ {
+  "id": "P55",
+  "age": 47,
+  "occupation": "graduate student",
+  "region": "the Northeast",
+  "text": "a 47-year-old graduate student from the Northeast who reads the news most days"
+ },
+ {
+  "id": "P56",
+  "age": 34,
+  "occupation": "retail store manager",
+  "region": "the South",
+  "text": "a 34-year-old retail store manager from the South who reads the news most days"
+ },
+ {
+  "id": "P57",
+  "age": 50,
+  "occupation": "librarian",
+  "region": "the West Coast",
+  "text": "a 50-year-old librarian from the West Coast who reads the news most days"
+ },
+ {
+  "id": "P58",
+  "age": 76,
+  "occupation": "retail store manager",
+  "region": "the Southwest",
+  "text": "a 76-year-old retail store manager from the Southwest who reads the news most days"
+ },
+ {
+  "id": "P59",
+  "age": 20,
+  "occupation": "nurse",
+  "region": "the West Coast",
+  "text": "a 20-year-old nurse from the West Coast who reads the news most days"
+ }
+]

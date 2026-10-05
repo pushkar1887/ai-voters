@@ -1,0 +1,41 @@
+{
+ "claims": {
+  "liar2_rows": 22962,
+  "binary_after_cleaning": 11947,
+  "true": 2542,
+  "eval": {
+   "n": 1500,
+   "true": 750,
+   "recent": 24
+  },
+  "lora": {
+   "n": 1500,
+   "true": 750,
+   "recent": 18
+  },
+  "reserve": {
+   "n": 2084,
+   "true": 1042,
+   "recent": 32
+  },
+  "seed": 13
+ },
+ "comments": {
+  "utterances_kept_after_filters": 147568,
+  "comments": 2100,
+  "per_group": {
+   "IT": 300,
+   "politics": 300,
+   "business": 300,
+   "general news": 300,
+   "fun": 300,
+   "economics": 300,
+   "culture and society": 300
+  },
+  "tiers": {
+   "low": 1075,
+   "high": 1025
+  },
+  "seed": 13
+ }
+}

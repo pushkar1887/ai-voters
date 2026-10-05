@@ -1,0 +1,23 @@
+# Allowlist: ignore everything at the top level, then re-include what belongs in git.
+# Anything new (API keys, PDFs, downloads, run caches) stays out unless listed here.
+/*
+!/.gitignore
+!/README.md
+!/EXPERIMENT_PLAN.md
+!/DOMAIN_GAPS.md
+!/OUR_CONTRIBUTION.md
+!/config.yaml
+!/requirements.txt
+!/prompts/
+!/src/
+!/kaggle/
+!/data/
+
+# Never in git, even inside allowed folders.
+/data/raw/
+/kaggle/build/
+__pycache__/
+*.pyc
+*.txt
+!/requirements.txt
+.env*
