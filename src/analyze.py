@@ -75,25 +75,32 @@ def s3_table() -> pd.DataFrame:
 
 
 def h1_h2(df: pd.DataFrame, B: int) -> pd.DataFrame:
+    """Per model: rho (q unstated / q = 70%), q*, gamma by framing, each as est, lo, hi columns."""
     rows = []
-    main = df[df.part == "main"]
-    for m, d in main.groupby("model"):
+    for m, d in df[df.part == "main"].groupby("model"):
         p_hat = d.p_hat.iloc[0]
-        ind, seq = d[d.framing == "independent"], d[d.framing == "sequential"]
-        r_un = boot(ind[ind.q.isna()], rho, B)
-        r_q = boot(ind[ind.q.notna()], rho, B)
-        qs = boot(ind[ind.q.notna()], lambda x: slope(x), B)
-        g_ind, g_seq = boot(ind, gamma, B), boot(seq, gamma, B)
-        rnd = d[d.framing == "random"]
-        rows.append({
-            "model": m, "cells": len(d), "claims": d.item_id.nunique(), "p_hat": round(p_hat, 3),
-            "rho_unstated": r_un, "rho_bayes_unstated": 1.0,
-            "rho_q70": r_q, "rho_bayes_q70": round(logit(Q) / logit(p_hat), 3),
-            "q_star": tuple(expit(v) for v in qs), "gamma_independent": g_ind, "gamma_sequential": g_seq,
-            "random_slope": round(slope(rnd), 3), "independent_slope": round(slope(ind), 3)})
-    out = pd.DataFrame(rows)
-    fmt = lambda t: f"{t[0]:.2f} [{t[1]:.2f}, {t[2]:.2f}]" if isinstance(t, tuple) else t
-    return out.apply(lambda col: col.map(fmt))
+        ind, seq, rnd = (d[d.framing == f] for f in ("independent", "sequential", "random"))
+        row = {"model": m, "cells": len(d), "claims": d.item_id.nunique(), "p_hat": p_hat,
+               "rho_bayes_unstated": 1.0, "rho_bayes_q70": logit(Q) / logit(p_hat),
+               "random_slope": slope(rnd), "independent_slope": slope(ind)}
+        stats = {"rho_unstated": (ind[ind.q.isna()], rho), "rho_q70": (ind[ind.q.notna()], rho),
+                 "q_star": (ind[ind.q.notna()], lambda x: float(expit(slope(x)))),
+                 "gamma_independent": (ind, gamma), "gamma_sequential": (seq, gamma)}
+        for name, (data, fn) in stats.items():
+            row[name], row[f"{name}_lo"], row[f"{name}_hi"] = boot(data, fn, B)
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def readable(t: pd.DataFrame) -> pd.DataFrame:
+    """est [lo, hi] strings for printing."""
+    out = t[["model", "cells", "claims"]].copy()
+    out["p_hat"] = t.p_hat.round(3)
+    for name in ("rho_unstated", "rho_q70", "q_star", "gamma_independent", "gamma_sequential"):
+        out[name] = [f"{e:.2f} [{lo:.2f}, {hi:.2f}]" for e, lo, hi in zip(t[name], t[f"{name}_lo"], t[f"{name}_hi"])]
+    out["rho_bayes_q70"] = t.rho_bayes_q70.round(2)
+    out["random_slope"], out["independent_slope"] = t.random_slope.round(3), t.independent_slope.round(3)
+    return out
 
 
 def follow_curves(df: pd.DataFrame) -> pd.DataFrame:
@@ -162,14 +169,18 @@ def main(B: int) -> None:
     RES.mkdir(exist_ok=True)
     pd.set_option("display.width", 220)
     pd.set_option("display.max_columns", 30)
+    figs = Figures()
     if (RES / "S3_cells.parquet").exists():
         df = s3_table()
         t = h1_h2(df, B)
         t.to_csv(RES / "S6_h1_h2.csv", index=False)
-        print("H1/H2 by model (point [95% CI], claims resampled):\n", t.to_string(index=False))
+        print("H1/H2 by model (point [95% CI], claims resampled):\n", readable(t).to_string(index=False))
         fc = follow_curves(df)
         fc.to_csv(RES / "S6_follow_curves.csv")
         print("\nfollow curves (independent / sequential / random):\n", fc.to_string())
+        figs.follow(fc)
+        figs.rho(t)
+        figs.gamma(t)
         if (df.part == "fixes").any():
             fx = fixes(df)
             fx.to_csv(RES / "S6_fixes.csv", index=False)
@@ -179,17 +190,141 @@ def main(B: int) -> None:
         s4 = summary(pd.read_parquet(RES / "S4_sequences.parquet"))
         s4.to_csv(RES / "S6_crowds.csv")
         print("\ncrowds:\n", s4.to_string())
+        figs.crowds(s4)
     if (RES / "S5_b1.parquet").exists():
         from src.s5_reddit import lifts
         s5 = lifts(pd.read_parquet(RES / "S5_b1.parquet"))
         s5.to_csv(RES / "S6_muchnik.csv")
         print("\nMuchnik lifts:\n", s5.to_string())
+        figs.muchnik(s5)
     if (RUNS / "S2").exists():
         from src.s2_urn import table
         models = sorted(p.stem for p in (RUNS / "S2").glob("*.jsonl"))
         s2 = table(models, 200)
         s2.to_csv(RES / "S6_urn.csv", index=False)
         print("\nurn (Anderson & Holt: cascade rate 0.71, inconsistent ~0.04):\n", s2.to_string(index=False))
+    print(f"\nfigures: {', '.join(figs.saved) or 'none'} -> paper/figures/")
+
+
+# ------------------------------------------------------------------ figures
+
+class Figures:
+    """Paper figures (PDF for LaTeX, PNG for preview). Reference palette slots in fixed order:
+    slot 1 = the model, slot 2 = a second framing or the human reference; Bayes is ink, dashed."""
+
+    INK, INK2, MUTED, GRID, AXIS = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
+    S1, S2 = "#2a78d6", "#eb6834"
+
+    def __init__(self):
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        self.plt, self.saved = plt, []
+        self.out = ROOT / "paper" / "figures"
+        self.out.mkdir(parents=True, exist_ok=True)
+        plt.rcParams.update({
+            "font.family": "sans-serif", "font.size": 8, "axes.titlesize": 8, "axes.labelsize": 8,
+            "axes.edgecolor": self.AXIS, "axes.labelcolor": self.INK2, "axes.titlecolor": self.INK,
+            "axes.spines.top": False, "axes.spines.right": False, "axes.grid": True, "axes.grid.axis": "y",
+            "grid.color": self.GRID, "grid.linewidth": 0.5, "xtick.color": self.MUTED, "ytick.color": self.MUTED,
+            "xtick.labelcolor": self.INK2, "ytick.labelcolor": self.INK2, "legend.frameon": False,
+            "legend.fontsize": 7, "lines.linewidth": 1.5, "lines.markersize": 4, "savefig.bbox": "tight"})
+
+    def save(self, fig, name: str) -> None:
+        for ext in ("pdf", "png"):
+            fig.savefig(self.out / f"{name}.{ext}", dpi=200)
+        self.plt.close(fig)
+        self.saved.append(name)
+
+    def follow(self, fc: pd.DataFrame) -> None:
+        """Fig. 1: P(follow | majority opposes own verdict) by |lead|, independent framing, against Bayes."""
+        d = fc.xs("independent", level="framing")
+        models = list(d.index.get_level_values("model").unique())
+        fig, axes = self.plt.subplots(1, len(models), figsize=(1.45 * len(models), 1.8), sharey=True, squeeze=False)
+        from matplotlib.ticker import MaxNLocator
+        for ax, m in zip(axes[0], models):
+            x = d.loc[m]
+            ax.fill_between(x.index, x.lo, x.hi, color=self.S1, alpha=0.15, linewidth=0)
+            ax.plot(x.index, x.follow, color=self.S1, marker="o", label="model")
+            ax.plot(x.index, x.bayes, color=self.INK2, linestyle="--", linewidth=1, label="Bayes")
+            ax.set_title(m)
+            ax.set_xlabel("|lead| shown")
+            ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+            ax.set_ylim(-0.03, 1.03)
+        axes[0][0].set_ylabel("P(follow majority)")
+        axes[0][0].legend(loc="upper left")
+        self.save(fig, "fig1_follow_curves")
+
+    def _forest(self, t: pd.DataFrame, cols: list[tuple[str, str, str]], refs: list[tuple[float, str]],
+                xlabel: str, xlim: tuple[float, float], name: str) -> None:
+        """Point + 95% CI per model; intervals are clipped to xlim (an arrow-free cap keeps the scale honest
+        for the well-estimated models; the CSV holds the unclipped numbers)."""
+        fig, ax = self.plt.subplots(figsize=(3.3, 0.35 * len(t) + 0.9))
+        y = np.arange(len(t))
+        for j, (col, color, label) in enumerate(cols):
+            off = (j - (len(cols) - 1) / 2) * 0.22
+            est, lo, hi = (t[c].clip(*xlim) for c in (col, f"{col}_lo", f"{col}_hi"))
+            ax.errorbar(est, y + off, xerr=[est - lo, hi - est], fmt="o", color=color, ecolor=color,
+                        elinewidth=1, capsize=0, label=label)
+        for i, (x, lab) in enumerate(refs):                  # first label sits left of its line, the next right
+            ax.axvline(x, color=self.INK2, linestyle="--", linewidth=1)
+            ax.text(x, 1.01, lab, transform=ax.get_xaxis_transform(), color=self.INK2, fontsize=7,
+                    ha=("right" if i == 0 and len(refs) > 1 else "left"), va="bottom")
+        ax.set_yticks(y, t.model)
+        ax.set_xlim(*xlim)
+        ax.invert_yaxis()
+        ax.grid(axis="y", visible=False)
+        ax.grid(axis="x", visible=True)
+        ax.set_xlabel(xlabel)
+        if len(cols) > 1:
+            ax.legend(loc="lower right")
+        self.save(fig, name)
+
+    def rho(self, t: pd.DataFrame) -> None:
+        """Fig. 2: rho per model (q unstated), against its Bayes value 1."""
+        self._forest(t, [("rho_unstated", self.S1, "q unstated")], [(1.0, "Bayes")],
+                     "ρ: one shown vote in units of the own signal", (-0.5, 3.0), "fig2_rho")
+
+    def gamma(self, t: pd.DataFrame) -> None:
+        """Fig. 3: gamma under independent vs sequential framing, against Bayes 1 and 0."""
+        self._forest(t, [("gamma_independent", self.S1, "independent"), ("gamma_sequential", self.S2, "sequential")],
+                     [(0.0, "Bayes: sequential"), (1.0, "Bayes: independent")],
+                     "γ: redundant votes ÷ informative votes", (-1.0, 2.5), "fig3_gamma")
+
+    def crowds(self, s4: pd.DataFrame) -> None:
+        """Fig. 4: final-majority accuracy by seeded wrong votes k, against the independent crowd."""
+        d = s4.reset_index()
+        d = d[d.variant == "social"]
+        crowds = list(d.crowd.unique())
+        fig, axes = self.plt.subplots(1, len(crowds), figsize=(1.45 * len(crowds), 1.8), sharey=True, squeeze=False)
+        for ax, cr in zip(axes[0], crowds):
+            x = d[d.crowd == cr].sort_values("k")
+            ax.plot(x.k, x.social_acc, color=self.S1, marker="o", label="sequential crowd")
+            ax.axhline(x.indep_acc.iloc[0], color=self.INK2, linestyle="--", linewidth=1, label="independent crowd")
+            ax.set_title(cr)
+            ax.set_xticks([0, 1, 2, 3])
+            ax.set_ylim(-0.03, 1.03)
+        axes[0][0].set_ylabel("final-majority accuracy")
+        fig.supxlabel("seeded wrong votes k", fontsize=8, color=self.INK2, y=-0.08)
+        fig.legend(*axes[0][0].get_legend_handles_labels(), loc="upper center", ncol=2, bbox_to_anchor=(0.5, 1.13))
+        self.save(fig, "fig4_crowds")
+
+    def muchnik(self, s5: pd.DataFrame) -> None:
+        """Fig. 5: first-voter up-lift per model against Muchnik et al.'s +32%."""
+        t = s5.reset_index()
+        fig, ax = self.plt.subplots(figsize=(3.3, 0.35 * len(t) + 0.8))
+        y = np.arange(len(t))
+        ax.plot(t.lift_up, y, "o", color=self.S1)
+        ax.axvline(0.32, color=self.S2, linestyle="--", linewidth=1)
+        ax.text(0.32, 1.01, "humans, +32% (Muchnik et al. 2013)", transform=ax.get_xaxis_transform(),
+                color=self.INK2, fontsize=7, ha="left", va="bottom")
+        ax.axvline(0, color=self.AXIS, linewidth=0.8)
+        ax.set_yticks(y, t.model)
+        ax.invert_yaxis()
+        ax.grid(axis="y", visible=False)
+        ax.grid(axis="x", visible=True)
+        ax.set_xlabel("up-treatment lift in P(upvote)")
+        self.save(fig, "fig5_muchnik")
 
 
 if __name__ == "__main__":
