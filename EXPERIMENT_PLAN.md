@@ -785,3 +785,18 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - Full S1 on NIM: M1, M2, M3, M4, M6 and M6H over eval plus all reserve (3,578 claims; 2,500 for M4 and M6H), on keys 0–17. About 116k calls.
 - Full S2 (200 rounds × 6 models), then full S5 (2,100 comments × 4 models), on keys 18–23.
 - Kaggle T4 × 2: kernel `aiv-s1-l1` (L1) and kernel `aiv-s1-l2` (L2 and L2T) run in parallel, so the university account takes at least two GPU sessions at once.
+
+### 2026-10-06 (night) · S4 pilot bug, figures, throughput ceiling
+
+- **S4 pilot** (2 claims × M2, M6 and the mixed crowd, k = 0–3). The code ran end to end, but it caught a design-critical bug: **agents' solo verdicts differed across k**. All four k-chains fired the same solo request at once, before any reached the cache, so each drew its own sample at T = 0.7. The seeding effect must hold each agent's private signal fixed.
+  - **Fix in `llm.py`:** in-flight deduplication. A request whose hash is already pending now awaits that result.
+  - **Re-run:** solo verdicts are identical across k for 6 of 6 crowd–claim pairs. The bad pilot moved to `runs/_archive/2026-10-06-s4-pilot0-no-inflight-dedup/`.
+  - S1, S2, S3 and S5 never send duplicate requests, so nothing else was affected.
+- **Throughput ceiling.** With S1 on keys 0–17 and S2/S5 on keys 18–23, the system runs at about 800 calls/min, which is the pacer ceiling (24 × 35). The ~145 s "latency" is the wait for a key slot. Remaining NIM work for the core is about 290k calls, about 6 h at the ceiling.
+- **Figures.** `analyze.py` now writes Figs. 1–5 (PDF + PNG) to `paper/figures/`.
+  - They use the dataviz reference palette in fixed slot order: model = slot 1, second framing or humans = slot 2, Bayes = dashed ink. Small multiples keep panels at three or fewer series.
+  - Node is not installed, so the palette validator did not run here. The slots used are the reference palette's first three, which it documents as validated across all pairs in both modes.
+  - All five figures were rendered and inspected; label collisions in Figs. 3–5 were fixed.
+- **Kaggle pools.** Pools for L1, L2 and L2T are rebuilt on the laptop from the pulled caches (`s1_signals` with all cache hits). `llm.py` now imports vLLM only when there is something to generate.
+- **S3 table** keeps only claims in each model's current pool, so pilot-slice claims that left a pool never enter the analysis.
+- **Repo:** `README.md` added with setup and run order.
