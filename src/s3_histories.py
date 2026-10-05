@@ -98,8 +98,11 @@ def table(models: list[str]) -> pd.DataFrame:
     """One row per S3 call: design, oracle and the model's social answer -> results/S3_cells.parquet."""
     rows = []
     for m in models:
+        in_pool = {r["claim_id"] for r in load_pool(m)["claims"]}      # pilot claims may have left the pool
         for r in read_jsonl(RUNS / "S3" / f"{m}.jsonl"):
             meta, p = r["meta"], r.get("parsed") or {}
+            if meta["item_id"] not in in_pool:
+                continue
             v = meta["votes"]
             shown = sum(v)
             vote = (1 if p["verdict"] == "TRUE" else -1) if p else None

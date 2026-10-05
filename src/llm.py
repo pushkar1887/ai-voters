@@ -493,8 +493,8 @@ def verdict_prob(g) -> float | None:
 
 
 def _run_vllm(stage: str, model: str, specs: list[dict], name: str | None = None) -> list[dict]:
-    """Offline batch: drop cache hits, generate the rest in one call, retry bad parses once."""
-    from vllm import SamplingParams
+    """Offline batch: drop cache hits, generate the rest in one call, retry bad parses once.
+    A fully cached run needs no vLLM, so pools and tables are rebuilt on the laptop from pulled caches."""
     cache = cache_for(stage, name or model)
     mon = Monitor(f"{stage}/{name or model}", len(specs), None)
     ps = [payload_for(model, s) for s in specs]
@@ -502,6 +502,7 @@ def _run_vllm(stage: str, model: str, specs: list[dict], name: str | None = None
     seen: set[str] = set()
     todo = [i for i, h in enumerate(hs) if cache.get(h) is None and not (h in seen or seen.add(h))]
     if todo:
+        from vllm import SamplingParams
         llm = _engine(CFG["models"][model]["id"])
         kw = {"chat_template_kwargs": ps[0]["chat_template_kwargs"]} if "chat_template_kwargs" in ps[0] else {}
 
