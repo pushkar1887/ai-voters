@@ -960,3 +960,21 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
      - That is not correlation neglect. It is **saturation and framing insensitivity**: the independent–sequential gap is about 0, where Bayes says 1.
      - The pre-registered refutation (γ_seq ≤ 0.5) is met for M2, M3, M6 and M6H, but for the wrong reason. Report the framing contrast, not γ_seq alone.
   5. **Anchoring.** Every model follows random labels 18–31% of the time. M1, M6 and M6H shift their beliefs nearly as much per random label as per real rating; M2 and M3 tell them apart; L1's beliefs ignore random labels but its verdicts still flip.
+
+### 2026-10-06 · Status at pause (usage limit)
+
+- **Done:**
+  - S0 and S1 for all 9 model codes (L2/L2T pools rebuilt from the Kaggle cache).
+  - S2 for all six NIM models.
+  - S3 main and fix cells for M1, M2, M3, M4, M6, M6H, L1, L2 and L2T. L2T has main cells only; the reasoning variants (M4, M6H, L2T) have no fix cells by design.
+  - S5 complete.
+  - S4 crowd M2 complete.
+- **Still running in the background** (results land in the cache whatever happens):
+  - S4 crowd M3 on keys 18–23.
+  - S4 crowds M1, M4, M6 and mixed on keys 0–17.
+- **Left:**
+  1. Resume any S4 crowd that did not finish (`python -m src.s4_crowds --crowds M1 M3 M4 M6 mixed`; cached calls are free).
+  2. S4 private-first crowd (`--f1`).
+  3. Silent-herding judge (`python -m src.analyze judge`) and the 200-reason κ sheet for Pushkar and Teammate 3.
+  4. `python -m src.analyze all` for the final tables and figures. L2 and L2T now enter the H1/H2 table automatically.
+  5. The lead's decisions: the new roster, the G2 TRUE-share item, and the H1/H2 reporting (see the S3 entry).
