@@ -708,7 +708,7 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 
 **Next:** the S1 pilot summary, then full S1 on NIM, the S2 sanity check, S3 code and its vertical slice, and L1/L2 on Kaggle once vLLM boots.
 
-### 2026-10-06 (later) · Pilots: S1 prompt fix, recognition probe, Kaggle vLLM
+### 2026-10-06 · Pilots: S1 prompt fix, recognition probe, Kaggle vLLM
 
 **S1 pilot, first pass (100 claims × M1, M2, M3, M4, M6)**
 - **Health:** 100% parsed, zero 429s, about 640 calls/min overall.
@@ -749,7 +749,7 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 
 **Next:** the S3 vertical slice (10 claims per model, main and fix cells), the S2 sanity check (20 rounds), then the full S1 on NIM and S1 for L1, L2 and L2T on Kaggle.
 
-### 2026-10-06 (evening) · Sanity checks, vertical slice, full runs launched
+### 2026-10-06 · Sanity checks, vertical slice, full runs launched
 
 **S2 sanity check** (20 rounds; at lead 0, agents must follow their own draw more than 90% of the time)
 - **First pass failed for three models.** M1, M3 and M6 followed their draw only 70%, 79% and 89% of the time.
@@ -781,12 +781,12 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - Voting styles differ sharply. M1 never abstains (79% UP). M2 abstains 67% of the time, close to real readers. M6 downvotes 72% of comments.
 - Up-lift ranges from −1% (M1) to +92% (M2). The prompt is neutral, so these base rates are findings, and the lifts are measured within each model.
 
-**Launched (Oct 6, evening)**
+**Launched**
 - Full S1 on NIM: M1, M2, M3, M4, M6 and M6H over eval plus all reserve (3,578 claims; 2,500 for M4 and M6H), on keys 0–17. About 116k calls.
 - Full S2 (200 rounds × 6 models), then full S5 (2,100 comments × 4 models), on keys 18–23.
 - Kaggle T4 × 2: kernel `aiv-s1-l1` (L1) and kernel `aiv-s1-l2` (L2 and L2T) run in parallel, so the university account takes at least two GPU sessions at once.
 
-### 2026-10-06 (night) · S4 pilot bug, figures, throughput ceiling
+### 2026-10-06 · S4 pilot bug, figures, throughput ceiling
 
 - **S4 pilot** (2 claims × M2, M6 and the mixed crowd, k = 0–3). The code ran end to end, but it caught a design-critical bug: **agents' solo verdicts differed across k**. All four k-chains fired the same solo request at once, before any reached the cache, so each drew its own sample at T = 0.7. The seeding effect must hold each agent's private signal fixed.
   - **Fix in `llm.py`:** in-flight deduplication. A request whose hash is already pending now awaits that result.
@@ -801,7 +801,7 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - **S3 table** keeps only claims in each model's current pool, so pilot-slice claims that left a pool never enter the analysis.
 - **Repo:** `README.md` added with setup and run order.
 
-### 2026-10-07 (early) · Background limits, vLLM checkpoints, cross-platform parity
+### 2026-10-06 · Background limits, vLLM checkpoints, cross-platform parity
 
 - **Background limit.** Long laptop jobs are capped at 2 h each. The first full S1 stopped at 56–90% screening per model, the S2 → S5 chain stopped mid-S5, and the Kaggle watcher stopped too; nothing was lost, because every finished call is in the cache. S2 completed in full. S1 and S5 resumed on the user's "continue", sized to finish inside one window.
 - **S2 full** (200 rounds × 6 models): done. `results/S2_table.csv` holds the numbers; the human-anchor reading comes with the S6 analysis.
