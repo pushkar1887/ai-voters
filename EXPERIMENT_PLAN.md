@@ -800,3 +800,26 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - **Kaggle pools.** Pools for L1, L2 and L2T are rebuilt on the laptop from the pulled caches (`s1_signals` with all cache hits). `llm.py` now imports vLLM only when there is something to generate.
 - **S3 table** keeps only claims in each model's current pool, so pilot-slice claims that left a pool never enter the analysis.
 - **Repo:** `README.md` added with setup and run order.
+
+### 2026-10-07 (early) · Background limits, vLLM checkpoints, cross-platform parity
+
+- **Background limit.** Long laptop jobs are capped at 2 h each. The first full S1 stopped at 56–90% screening per model, the S2 → S5 chain stopped mid-S5, and the Kaggle watcher stopped too; nothing was lost, because every finished call is in the cache. S2 completed in full. S1 and S5 resumed on the user's "continue", sized to finish inside one window.
+- **S2 full** (200 rounds × 6 models): done. `results/S2_table.csv` holds the numbers; the human-anchor reading comes with the S6 analysis.
+- **Kaggle L1 S1:** complete, 22,468 records. Rebuilt on the laptop from cache: pool 1,000, p̂ 0.87, TRUE share 0.60, 99.99% parsed. The probe answers YES 91% of the time and is invalid, so it is reported, not filtered.
+- **Kaggle L2/L2T S1 failed partway.**
+  - L2's screening finished: 21,468 prompts, 100% parsed, TRUE share 0.25.
+  - L2T (thinking on) then ran for 2 h 14 m, and vLLM died at 9,839 of 15,000 prompts (`RPC call to sample_tokens timed out`).
+  - Because `_run_vllm` cached only after the whole batch, **all 9,839 L2T generations were lost**, and L2's persona calls never ran.
+- **Fixes:**
+  - vLLM now generates in chunks of 1,000 (`vllm.chunk`), caching each chunk before the next.
+  - `job.py` retries a failed command up to 3 times (each retry resumes from the cache) and raises `VLLM_RPC_TIMEOUT`.
+  - L2T screens 1,200 claims instead of 2,500, which is enough for its 300-claim pool at a fraction of the thinking cost.
+- **Laptop and Kaggle parity.** One L1 claim sat exactly on the band edge. It had p̄ = 0.9000000000000001 on the laptop (Python 3.10) and 0.9 on Kaggle (Python 3.13), because `sum()` compensates float error from 3.12 on. p̄ is now integer percent with one division. Local and Kaggle pools match 1,000/1,000.
+- **Bundle race.** Two back-to-back pushes created two dataset versions, and the second held only L2's cache, so the L1 kernel may have mounted the wrong one. The fixes:
+  - Every bundle now ships all local-model caches, so each version is a superset.
+  - The kernel checks each expected cache's record count and stops on a stale bundle.
+  - If `aiv-local-l1` regenerated its S1, the S3 table's pool filter keeps the analysis on the laptop's pool, and any missing cells go in a small follow-up job.
+- **Running:**
+  - S1 (keys 0–17) and S5 (keys 18–23) on NIM.
+  - Kaggle `aiv-local-l1`: S1 hits, then S3 main and fix cells.
+  - Kaggle `aiv-local-l2`: L2 persona calls, S3 main and fix cells, then L2T S1 and S3.
