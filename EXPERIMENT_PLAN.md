@@ -889,3 +889,27 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - **Recognition.** Only M4 (thinking on) shows real recognition: 49% of claims, named on the correct side well above chance. Its pool excludes those claims.
 - **Calibration.** ECE is 0.21–0.36, so stated `p_true` is poorly calibrated across the board. This motivates leaning on token probabilities (L1, L2) for the belief analyses.
 - **Launched:** S3 main and fix cells on all six NIM models (keys 0–17, round robin), and the S2 re-run of M4 and M6H with a 16k-token budget (keys 18–23).
+
+### 2026-10-06 · S2 complete (urn anchor, all six models)
+
+- **Re-run of M4 and M6H** with a 16k-token budget: 1,200 decisions each, 100% parsed, zero truncations (longest replies 10,122 and 8,428 tokens; p50 1,981 and 937). Under the old caps, more than 10% of these calls were cut off, which had inflated their cascade rates slightly (0.96 → 0.92 for M4, 0.985 → 0.97 for M6H).
+- **Final table** (`results/S2_table.csv`, 200 rounds × 6 agents per model):
+
+| Model | Own draw at lead 0 | Cascade rate | Inconsistent | Reverse cascades | Accuracy |
+|---|---|---|---|---|---|
+| Humans (Anderson & Holt) | — | 0.71 | ~0.04 | — | — |
+| Bayes | 1.00 | 1.00 | 0 | — | — |
+| M1 Llama-3.2-11B | 0.64 ⚠ | 0.80 | 0.18 | 43 | 0.57 |
+| M2 Nemotron-Super, thinking off | 0.97 | 0.18 | 0.02 | 5 | 0.68 |
+| M4 Nemotron-Super, thinking on | 1.00 | 0.92 | 0.05 | 45 | 0.69 |
+| M3 Nemotron-Lightning | 0.90 | 0.31 | 0.08 | 9 | 0.65 |
+| M6 gpt-oss-20b, low effort | 0.97 | 0.67 | 0.06 | 19 | 0.69 |
+| M6H gpt-oss-20b, medium effort | 0.98 | 0.97 | 0.06 | 54 | 0.68 |
+
+- **Reading:**
+  - **Reasoning switches the same weights from under-herding to near-Bayesian cascading:** 0.18 → 0.92 (Nemotron) and 0.67 → 0.97 (gpt-oss).
+  - gpt-oss at low effort is the closest to people (0.67 vs 0.71).
+  - Cascading more buys no accuracy here. Accuracy stays at 0.68–0.69, because the extra cascades include more reverse ones (5 → 45, 19 → 54), the classic cost of rational herding.
+  - M1 fails the comprehension check (it follows its own draw only 64% of the time at lead 0), so its row carries a caveat.
+- **Round robin, checked in the manifest:** the five live keys in the 18–23 slice got 482–483 requests each.
+- **Fix:** the dead key (`0eff8f`) still received 42 requests that had been assigned before its first 403 came back. `Pool.post` now re-checks after the pacing wait and moves to another key without spending a retry.
