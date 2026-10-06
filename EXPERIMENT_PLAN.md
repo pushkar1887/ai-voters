@@ -933,3 +933,30 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   - **The "worse than Bayes" clause splits.** One bot hurts the LLM crowd more than a Bayesian crowd (0.61 vs 0.75). Two bots wipe out the Bayesian crowd entirely, because rational agents who trust the planted votes cascade on them (textbook BHW), while the LLM crowd half-resists.
   - So Bayes is a poor safety benchmark under manipulation. The paper should say "more manipulable than Bayes by one bot, less by two".
 - **Running:** the M3 crowd on keys 18–23. The remaining crowds (M1, M4, M6, mixed) and the private-first crowd follow on all keys after S3.
+
+### 2026-10-06 · S3 complete: H1/H2 results (7 models)
+
+- **Run:** S3 main and fix cells for M1, M2, M3, M4, M6 and M6H on NIM, plus L1 on Kaggle. 62,186 cells, about 100% parsed (M6H 99.1–99.5%). M2's 418-claim pool got 12 cells per claim.
+- **Two fixes:**
+  - **Stale meta.** The 80 pilot cells per model were cache hits that kept the pilot pool's p̂ in their meta. `s3.table()` now recomputes every oracle answer from the current pool.
+  - **Faster bootstrap.** It now resamples positional indices instead of concatenating frames, about 10× faster.
+- **Results** (`results/S6_h1_h2.csv`; 95% CIs from 2,000 claim resamples):
+
+| Model | ρ, q unstated (Bayes 1.0) | ρ, q = 70% (Bayes) | q\* (Bayes 0.70) | γ independent (Bayes 1) | γ sequential (Bayes 0) |
+|---|---|---|---|---|---|
+| L1 Llama-3.1-8B | 0.10 [0.06, 0.13] | 0.05 [0.01, 0.09] (0.45) | 0.55 [0.54, 0.57] | 0.06 | unstable (β_inf ≈ 0.15) |
+| M1 Llama-3.2-11B | 0.05 [0.02, 0.08] | 0.05 [0.02, 0.08] (0.48) | 0.52 [0.51, 0.54] | 0.26 | unstable (β_inf ≈ 0.07) |
+| M2 Nemotron-Super | 0.43 [0.38, 0.49] | 0.42 [0.36, 0.48] (0.49) | 0.62 [0.61, 0.63] | 0.05 [−0.06, 0.18] | 0.20 [0.08, 0.36] |
+| M3 Nemotron-Lightning | 0.94 [0.82, 1.11] | 0.81 [0.70, 0.97] (0.58) | 0.65 [0.64, 0.66] | 0.09 [0.01, 0.18] | 0.23 [0.12, 0.34] |
+| M4 Nemotron-Super, thinking on | 0.15 [0.08, 0.22] | 0.21 [0.15, 0.27] (0.51) | 0.57 [0.56, 0.59] | 0.24 [−0.01, 0.58] | 0.21 [−0.14, 0.79] |
+| M6 gpt-oss-20b, low | 0.09 [0.04, 0.14] | 0.06 [0.01, 0.11] (0.79) | 0.55 [0.54, 0.56] | −0.19 [−0.38, 0.03] | −0.20 [−0.37, −0.00] |
+| M6H gpt-oss-20b, medium | 0.10 [0.02, 0.17] | 0.06 [−0.03, 0.16] (0.71) | 0.54 [0.53, 0.56] | −0.25 [−0.49, 0.03] | −0.28 [−0.48, −0.03] |
+
+- **Reading:**
+  1. **H1 (over-herding) fails in the opposite direction for 5 of 7 models.** A shown vote carries 5–15% of the weight Bayes gives it, and the intervals exclude Bayes. Only the Nemotron models without thinking come close: M3 matches Bayes when q is unstated and over-weights when q = 70% is stated (0.81 vs 0.58), while M2 sits just under Bayes. The lead must decide how to report this against the pre-registered H1, whose refutation rule (the CI covers ρ_Bayes) assumed the deviation would be upward.
+  2. **On claims, reasoning cuts herding.** Nemotron's ρ falls from 0.43 to 0.15 with thinking on, the opposite of the urn game, where thinking made cascades near-Bayesian. With real content to reason about, thinking makes a model trust its own reading.
+  3. **Every model under-updates its belief.** q\* is 0.52–0.65 against the 0.70 stated; the models treat other raters as only slightly better than chance.
+  4. **H2.** γ is near zero under both framings: models give little weight to votes past a lead of 2, whether those votes are independent (Bayes: count them fully) or sequential (Bayes: ignore them).
+     - That is not correlation neglect. It is **saturation and framing insensitivity**: the independent–sequential gap is about 0, where Bayes says 1.
+     - The pre-registered refutation (γ_seq ≤ 0.5) is met for M2, M3, M6 and M6H, but for the wrong reason. Report the framing contrast, not γ_seq alone.
+  5. **Anchoring.** Every model follows random labels 18–31% of the time. M1, M6 and M6H shift their beliefs nearly as much per random label as per real rating; M2 and M3 tell them apart; L1's beliefs ignore random labels but its verdicts still flip.
