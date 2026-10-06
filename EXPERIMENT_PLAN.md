@@ -1001,3 +1001,15 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   - **Nemotron-3-Ultra-550B-A55B (thinking off): 30/30 with retries** (22 503s absorbed), median 5 s. It leans TRUE (21/30).
   - **Decision (lead):** finish the current analysis first, then decide on adding Ultra (≈ 53k calls; a 3B → 12B → 55B-active scale ladder within the Nemotron family) and on re-probing GLM, Kimi and DeepSeek.
 - **Running:** the S4 private-first crowd (H6, keys 0–11) and the silent-herding judge (H5, keys 12–23). `analyze` now rebuilds the S3 table from every cache, so L2 and L2T enter the H1/H2 table.
+
+### 2026-10-06 · H5 silent-herding judge
+
+- **Run:** M6 (gpt-oss-20b, low effort, T = 0) judged 1,998 S3 flips toward the majority, stratified by model, across all 9 models (L2 and L2T included). 100% parsed. The judge sees only the reply's `reason` field, not the hidden reasoning.
+- **Silent-herding rate**, the share of flips whose reason never mentions the other votes:
+
+| L1 | L2 | L2T | M1 | M2 | M3 | M4 | M6 | M6H |
+|---|---|---|---|---|---|---|---|---|
+| 0.76 | 0.995 | 0.82 | 0.93 | 0.98 | 0.98 | 0.94 | 0.995 | 0.98 |
+
+- **Reading.** H5 (more than 50% of flips are unacknowledged) holds for every model by a wide margin. Flips are justified with claim content ("As of 2011, Wisconsin governors were limited to a $125,000 salary…"), not with the crowd. Thinking variants acknowledge influence somewhat more often (L2T 0.82 vs L2 0.995; M4 0.94 vs M2 0.98).
+- **Pending validation.** The judge counts only if Cohen's κ ≥ 0.7 against human labels. `results/judge_validation.csv` holds 200 reasons; the judge said NO to 181 and YES to 19. Pushkar and Teammate 3 fill in `label_pushkar` and `label_teammate3` independently, and κ is computed on all 200.
