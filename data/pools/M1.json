@@ -1,19 +1,219 @@
 {
  "model": "M1",
  "model_id": "meta/llama-3.2-11b-vision-instruct",
- "created": "2026-10-05T19:32:10+00:00",
- "screened": 100,
- "p_hat": 0.8824,
- "n": 34,
+ "created": "2026-10-06T07:24:41+00:00",
+ "screened": 3578,
+ "p_hat": 0.856,
+ "n": 1000,
  "claims": [
   {
-   "claim_id": "liar2-7904",
+   "claim_id": "liar2-21224",
    "truth": 1,
-   "p_bar": 0.84,
-   "persona_id": "P39",
+   "p_bar": 0.57,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8157",
+   "truth": -1,
+   "p_bar": 0.676,
+   "persona_id": "P05",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10926",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P41",
    "order": "FT",
    "s": 1,
    "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3662",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6551",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3717",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8561",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7040",
+   "truth": -1,
+   "p_bar": 0.55,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14985",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17455",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9879",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11162",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6234",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7416",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22313",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-6089",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12600",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11044",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5009",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-767",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8518",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
    "recent": false
   },
   {
@@ -27,10 +227,70 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-7101",
+   "claim_id": "liar2-8926",
    "truth": 1,
-   "p_bar": 0.89,
-   "persona_id": "P51",
+   "p_bar": 0.86,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3208",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7056",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4968",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7904",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P39",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19831",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P27",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21347",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P38",
    "order": "TF",
    "s": 1,
    "p_true_solo": 80,
@@ -47,11 +307,11 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-6823",
+   "claim_id": "liar2-6545",
    "truth": 1,
-   "p_bar": 0.89,
-   "persona_id": "P58",
-   "order": "TF",
+   "p_bar": 0.64,
+   "persona_id": "P07",
+   "order": "FT",
    "s": 1,
    "p_true_solo": 80,
    "recent": false
@@ -67,6 +327,806 @@
    "recent": false
   },
   {
+   "claim_id": "liar2-12174",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7991",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-58",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8026",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17102",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-266",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-609",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20089",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5119",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3804",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11838",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P10",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21252",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9261",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20003",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22939",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-6684",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P14",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9515",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6534",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2968",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4637",
+   "truth": -1,
+   "p_bar": 0.636,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7620",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-23317",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P43",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-13143",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14330",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P27",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12471",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-212",
+   "truth": -1,
+   "p_bar": 0.71,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3364",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P05",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19663",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14057",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14264",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20769",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14702",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P13",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5335",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9000",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13731",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P43",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8801",
+   "truth": -1,
+   "p_bar": 0.638,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7101",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13641",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15099",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P11",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3323",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3838",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21951",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-440",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3383",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P18",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1343",
+   "truth": 1,
+   "p_bar": 0.63,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9426",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8491",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14439",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12554",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P41",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4929",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8062",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12064",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P01",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16262",
+   "truth": 1,
+   "p_bar": 0.6,
+   "persona_id": "P05",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10887",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6823",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4583",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10664",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15870",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9867",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P26",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1025",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8925",
+   "truth": 1,
+   "p_bar": 0.63,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21865",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 90,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-4596",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4136",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5851",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P14",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8046",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P25",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17874",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4843",
+   "truth": -1,
+   "p_bar": 0.55,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8684",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10981",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3095",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P05",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15505",
+   "truth": -1,
+   "p_bar": 0.556,
+   "persona_id": "P19",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12354",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P41",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14144",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4790",
+   "truth": 1,
+   "p_bar": 0.55,
+   "persona_id": "P24",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17312",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P06",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4802",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1894",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1215",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20410",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
    "claim_id": "liar2-10656",
    "truth": 1,
    "p_bar": 0.83,
@@ -77,10 +1137,90 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-15648",
+   "claim_id": "liar2-17687",
    "truth": -1,
-   "p_bar": 0.68,
-   "persona_id": "P25",
+   "p_bar": 0.602,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12749",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6645",
+   "truth": -1,
+   "p_bar": 0.554,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16000",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-333",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P01",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4543",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16282",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5638",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8068",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P30",
    "order": "TF",
    "s": -1,
    "p_true_solo": 20,
@@ -97,6 +1237,526 @@
    "recent": false
   },
   {
+   "claim_id": "liar2-11696",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3543",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22088",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-20762",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6403",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P41",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9099",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16192",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9761",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7698",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21602",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6366",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12246",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P06",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-864",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-559",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P52",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10902",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P18",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-623",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6520",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P10",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2638",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9148",
+   "truth": -1,
+   "p_bar": 0.876,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11199",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7766",
+   "truth": -1,
+   "p_bar": 0.872,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8002",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P52",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3366",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5826",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4959",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1810",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5855",
+   "truth": -1,
+   "p_bar": 0.796,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5207",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P47",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2466",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P05",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-284",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P01",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15648",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P25",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2782",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17693",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13980",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8320",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10670",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1312",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17881",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8304",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6847",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8444",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11753",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P09",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16024",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6006",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1126",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-735",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2614",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18209",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7756",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-868",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P16",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11796",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12829",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P17",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
    "claim_id": "liar2-7105",
    "truth": -1,
    "p_bar": 0.71,
@@ -107,11 +1767,1791 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-1810",
+   "claim_id": "liar2-9269",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1296",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P23",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4191",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7953",
+   "truth": -1,
+   "p_bar": 0.61,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6157",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20290",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1189",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6044",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P53",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1257",
+   "truth": 1,
+   "p_bar": 0.73,
+   "persona_id": "P02",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12003",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P27",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4363",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7884",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20482",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3859",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12809",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5695",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P50",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7658",
+   "truth": 1,
+   "p_bar": 0.77,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14309",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3166",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3722",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 60,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2675",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P02",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3277",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9983",
+   "truth": 1,
+   "p_bar": 0.58,
+   "persona_id": "P02",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6763",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13879",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21511",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11413",
+   "truth": 1,
+   "p_bar": 0.75,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5800",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7484",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3689",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P55",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6426",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15974",
+   "truth": -1,
+   "p_bar": 0.75,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10350",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11228",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P26",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10783",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9738",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2695",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7598",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18621",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19297",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12910",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P30",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2251",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11024",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10912",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21981",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17860",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18023",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19599",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8404",
+   "truth": 1,
+   "p_bar": 0.6,
+   "persona_id": "P06",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10089",
+   "truth": -1,
+   "p_bar": 0.594,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15478",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20396",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15858",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9601",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3359",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2458",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2573",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14139",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P25",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15493",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P19",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11179",
+   "truth": -1,
+   "p_bar": 0.874,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14256",
+   "truth": 1,
+   "p_bar": 0.76,
+   "persona_id": "P07",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9469",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15102",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18159",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-689",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12642",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7163",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11185",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P09",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11586",
+   "truth": 1,
+   "p_bar": 0.76,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18260",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8602",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5675",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16768",
+   "truth": 1,
+   "p_bar": 0.55,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16347",
+   "truth": -1,
+   "p_bar": 0.85,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3469",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5478",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1691",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13899",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8203",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-584",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8661",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15342",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16468",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19793",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3473",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11693",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15260",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13151",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16990",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2681",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21095",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P13",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1350",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15487",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P27",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21637",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19586",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1950",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13838",
+   "truth": 1,
+   "p_bar": 0.76,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12202",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4177",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4954",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6453",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2381",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-395",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3550",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1911",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11174",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P50",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4231",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P52",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17324",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-189",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18192",
+   "truth": -1,
+   "p_bar": 0.71,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12661",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2780",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4725",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8274",
+   "truth": -1,
+   "p_bar": 0.55,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11591",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4881",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-832",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P07",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12145",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11138",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4178",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15271",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12042",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8102",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13389",
+   "truth": -1,
+   "p_bar": 0.556,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 60,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9398",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P06",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6971",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3558",
+   "truth": 1,
+   "p_bar": 0.74,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1233",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-315",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2601",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P09",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6834",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7576",
+   "truth": -1,
+   "p_bar": 0.658,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11143",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4086",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16920",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5053",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11985",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P07",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5944",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14212",
    "truth": 1,
    "p_bar": 0.88,
    "persona_id": "P59",
    "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-988",
+   "truth": -1,
+   "p_bar": 0.61,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13172",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P47",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3287",
+   "truth": -1,
+   "p_bar": 0.654,
+   "persona_id": "P34",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 60,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2740",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1328",
+   "truth": -1,
+   "p_bar": 0.61,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5529",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13884",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19891",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19787",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13475",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5643",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11839",
+   "truth": 1,
+   "p_bar": 0.59,
+   "persona_id": "P10",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4513",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7427",
+   "truth": 1,
+   "p_bar": 0.75,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3720",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3360",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5306",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P23",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2771",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P41",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7533",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2089",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P41",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4376",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4682",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P52",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14243",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P19",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5346",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2532",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4941",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1840",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P19",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8503",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18770",
+   "truth": -1,
+   "p_bar": 0.87,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8140",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2530",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9627",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-826",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16561",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19039",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6964",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15976",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2735",
+   "truth": 1,
+   "p_bar": 0.59,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5294",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P12",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9568",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P51",
+   "order": "TF",
    "s": 1,
    "p_true_solo": 80,
    "recent": false
@@ -127,11 +3567,991 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-15478",
+   "claim_id": "liar2-12254",
    "truth": 1,
    "p_bar": 0.83,
-   "persona_id": "P35",
+   "persona_id": "P26",
    "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5321",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11495",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P53",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-444",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P34",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12521",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P07",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4564",
+   "truth": -1,
+   "p_bar": 0.67,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8297",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-664",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12609",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13176",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9375",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9897",
+   "truth": -1,
+   "p_bar": 0.864,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8842",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15370",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2682",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P05",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-177",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17867",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6784",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P16",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4216",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7525",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7475",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3532",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-206",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8914",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P26",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2984",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7512",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4553",
+   "truth": 1,
+   "p_bar": 0.74,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-77",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5794",
+   "truth": 1,
+   "p_bar": 0.714,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1375",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1397",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2369",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19480",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P46",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15803",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-274",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P02",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5863",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10496",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3953",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P53",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10621",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5051",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P19",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19521",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13582",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7462",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P02",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3273",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1940",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19604",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15223",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-842",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P34",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5974",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1096",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3411",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2016",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P12",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22915",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-11116",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7565",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11129",
+   "truth": -1,
+   "p_bar": 0.61,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4601",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3671",
+   "truth": -1,
+   "p_bar": 0.704,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15662",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1086",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14504",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9989",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11630",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7465",
+   "truth": -1,
+   "p_bar": 0.676,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1041",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8993",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P26",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6728",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P15",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18212",
+   "truth": -1,
+   "p_bar": 0.878,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14875",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P41",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11021",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-303",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8727",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2171",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4245",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9535",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P02",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1466",
+   "truth": -1,
+   "p_bar": 0.856,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21594",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12404",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P14",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4777",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P14",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8904",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P23",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1315",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P19",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5566",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11122",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P07",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1225",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2693",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P07",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4387",
+   "truth": -1,
+   "p_bar": 0.79,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11054",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14580",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16196",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P11",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12322",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15285",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17375",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P01",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-614",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P27",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3623",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5093",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P27",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5063",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4208",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3014",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-595",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P06",
+   "order": "TF",
    "s": 1,
    "p_true_solo": 80,
    "recent": false
@@ -141,6 +4561,86 @@
    "truth": -1,
    "p_bar": 0.88,
    "persona_id": "P16",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13663",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19363",
+   "truth": -1,
+   "p_bar": 0.718,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12717",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4128",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1878",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1845",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10861",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P23",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16344",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P31",
    "order": "TF",
    "s": -1,
    "p_true_solo": 0,
@@ -157,6 +4657,766 @@
    "recent": false
   },
   {
+   "claim_id": "liar2-5433",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20376",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15225",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P26",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13322",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4779",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7190",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7236",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P15",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9500",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14803",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3992",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1656",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5305",
+   "truth": 1,
+   "p_bar": 0.74,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5890",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P17",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-398",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P25",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18177",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21105",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9126",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P02",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2914",
+   "truth": 1,
+   "p_bar": 0.73,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2789",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3790",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5618",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4078",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2996",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9734",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12951",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2186",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-292",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11665",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3919",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16943",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3148",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P00",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10751",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P50",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21809",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-7466",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18598",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9768",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21600",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P23",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5115",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14159",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1198",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7194",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2640",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11063",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5188",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3616",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10348",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-606",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-36",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P53",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1823",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P50",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10602",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17180",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10536",
+   "truth": 1,
+   "p_bar": 0.73,
+   "persona_id": "P09",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3194",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-411",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6711",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 60,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7728",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13071",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13606",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16228",
+   "truth": -1,
+   "p_bar": 0.75,
+   "persona_id": "P47",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-638",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P55",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6911",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P06",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7413",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7044",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P27",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12308",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16937",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12383",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-456",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1642",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P10",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17651",
+   "truth": -1,
+   "p_bar": 0.67,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4290",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15403",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14332",
+   "truth": 1,
+   "p_bar": 0.58,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6937",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1101",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5953",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P02",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7321",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
    "claim_id": "liar2-15523",
    "truth": -1,
    "p_bar": 0.88,
@@ -167,9 +5427,209 @@
    "recent": false
   },
   {
+   "claim_id": "liar2-484",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15686",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10453",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P12",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9645",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12787",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P39",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5599",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
    "claim_id": "liar2-4032",
    "truth": 1,
    "p_bar": 0.7,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3234",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P20",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6554",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1322",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P12",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11420",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11447",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3179",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P19",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12696",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5087",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P02",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6543",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P47",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2988",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10945",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6928",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P55",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18823",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18742",
+   "truth": 1,
+   "p_bar": 0.69,
    "persona_id": "P34",
    "order": "FT",
    "s": 1,
@@ -187,6 +5647,466 @@
    "recent": false
   },
   {
+   "claim_id": "liar2-10594",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P25",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5440",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3996",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17533",
+   "truth": -1,
+   "p_bar": 0.67,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-355",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-908",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2217",
+   "truth": 1,
+   "p_bar": 0.63,
+   "persona_id": "P05",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10498",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11666",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14111",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2552",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P46",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4743",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13937",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8677",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P11",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13568",
+   "truth": 1,
+   "p_bar": 0.75,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19371",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15559",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20070",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P27",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12462",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8624",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4025",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16766",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P50",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11334",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4597",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P26",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15999",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P52",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1165",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P11",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9793",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-410",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P38",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-483",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21086",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P15",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6263",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3660",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P18",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7614",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12905",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P22",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12532",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1195",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P19",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10987",
+   "truth": -1,
+   "p_bar": 0.796,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11715",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13333",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2707",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1936",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P30",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9836",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5671",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21465",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P27",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3312",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P13",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
    "claim_id": "liar2-19546",
    "truth": 1,
    "p_bar": 0.82,
@@ -197,10 +6117,50 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-6296",
+   "claim_id": "liar2-21855",
    "truth": -1,
-   "p_bar": 0.89,
-   "persona_id": "P14",
+   "p_bar": 0.64,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-15825",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5494",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13821",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14384",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P47",
    "order": "TF",
    "s": -1,
    "p_true_solo": 0,
@@ -217,6 +6177,546 @@
    "recent": false
   },
   {
+   "claim_id": "liar2-11156",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8182",
+   "truth": 1,
+   "p_bar": 0.73,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3861",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14385",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P26",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16520",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12828",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10456",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6584",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4026",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-310",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1043",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6781",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7771",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14754",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1044",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9203",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15539",
+   "truth": -1,
+   "p_bar": 0.778,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10653",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4010",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1855",
+   "truth": 1,
+   "p_bar": 0.77,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7901",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P03",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9300",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6296",
+   "truth": -1,
+   "p_bar": 0.89,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4712",
+   "truth": 1,
+   "p_bar": 0.55,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14489",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4003",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6369",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9234",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P18",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4832",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2577",
+   "truth": 1,
+   "p_bar": 0.75,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4108",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P19",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9201",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13627",
+   "truth": -1,
+   "p_bar": 0.656,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-312",
+   "truth": 1,
+   "p_bar": 0.59,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17909",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22519",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-8789",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21388",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11610",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8530",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4063",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P07",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10301",
+   "truth": 1,
+   "p_bar": 0.77,
+   "persona_id": "P07",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5151",
+   "truth": -1,
+   "p_bar": 0.77,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-668",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6096",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10244",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13648",
+   "truth": -1,
+   "p_bar": 0.874,
+   "persona_id": "P30",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8287",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4890",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1758",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13982",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P25",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 60,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15019",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6896",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19029",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P24",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
    "claim_id": "liar2-8129",
    "truth": -1,
    "p_bar": 0.88,
@@ -227,11 +6727,171 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-6781",
+   "claim_id": "liar2-3009",
    "truth": 1,
    "p_bar": 0.83,
-   "persona_id": "P43",
+   "persona_id": "P16",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5546",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P13",
    "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10316",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6552",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14749",
+   "truth": 1,
+   "p_bar": 0.59,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5224",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P11",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-103",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P12",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22258",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P55",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-6042",
+   "truth": 1,
+   "p_bar": 0.888,
+   "persona_id": "P55",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9380",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5931",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18138",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17803",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8769",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5066",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P43",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6155",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P14",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13671",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P01",
+   "order": "TF",
    "s": 1,
    "p_true_solo": 80,
    "recent": false
@@ -247,6 +6907,146 @@
    "recent": false
   },
   {
+   "claim_id": "liar2-695",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P13",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3146",
+   "truth": -1,
+   "p_bar": 0.67,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7851",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4830",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1590",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3735",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3599",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9019",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13983",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11414",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P16",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12360",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P39",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3678",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11236",
+   "truth": 1,
+   "p_bar": 0.73,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8820",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
    "claim_id": "liar2-16534",
    "truth": 1,
    "p_bar": 0.83,
@@ -257,11 +7057,271 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-3902",
+   "claim_id": "liar2-3192",
    "truth": -1,
-   "p_bar": 0.62,
-   "persona_id": "P13",
+   "p_bar": 0.7,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20421",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P39",
    "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-543",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P34",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8115",
+   "truth": 1,
+   "p_bar": 0.58,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17183",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21340",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1700",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-518",
+   "truth": 1,
+   "p_bar": 0.73,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11770",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7696",
+   "truth": 1,
+   "p_bar": 0.6125,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10881",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11747",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2671",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1993",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P02",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7767",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10894",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12707",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P44",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6045",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P53",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9110",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1643",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P07",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4033",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P14",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14956",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5629",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13635",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12278",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P05",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-971",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6900",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P48",
+   "order": "TF",
    "s": -1,
    "p_true_solo": 0,
    "recent": false
@@ -277,14 +7337,1014 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-16086",
+   "claim_id": "liar2-14103",
    "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19030",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P07",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7230",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2908",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2755",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1949",
+   "truth": 1,
+   "p_bar": 0.86,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5211",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10194",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11081",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-752",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8725",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15794",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P10",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14793",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12428",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P23",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10561",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15911",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9591",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8193",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4500",
+   "truth": -1,
+   "p_bar": 0.716,
+   "persona_id": "P39",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-300",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P47",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3799",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P17",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4718",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2470",
+   "truth": -1,
+   "p_bar": 0.87,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-57",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P05",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9587",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4950",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2409",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P14",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2891",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P49",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20425",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P21",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-219",
+   "truth": 1,
+   "p_bar": 0.76,
+   "persona_id": "P59",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11101",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1436",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16757",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-346",
+   "truth": 1,
+   "p_bar": 0.65,
+   "persona_id": "P25",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11200",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P55",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8609",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20365",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P41",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9825",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21369",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16564",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7685",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P00",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4905",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16525",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 100,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11878",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13217",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1648",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2903",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6491",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11551",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P10",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15824",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17654",
+   "truth": -1,
+   "p_bar": 0.664,
+   "persona_id": "P58",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3061",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4530",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3836",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P12",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18815",
+   "truth": -1,
+   "p_bar": 0.774,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17621",
+   "truth": 1,
    "p_bar": 0.62,
+   "persona_id": "P30",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7790",
+   "truth": -1,
+   "p_bar": 0.67,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16693",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P10",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16006",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3447",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P06",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10418",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-93",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2887",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5817",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3602",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2865",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P39",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16583",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5444",
+   "truth": 1,
+   "p_bar": 0.55,
+   "persona_id": "P51",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2411",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P01",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10013",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P16",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6390",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P08",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5410",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P47",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11526",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10313",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P13",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18909",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19005",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16968",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7642",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11763",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P08",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10355",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10227",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11154",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19895",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12015",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16170",
+   "truth": -1,
+   "p_bar": 0.84,
    "persona_id": "P06",
    "order": "TF",
    "s": -1,
    "p_true_solo": 0,
    "recent": false
+  },
+  {
+   "claim_id": "liar2-11412",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P15",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3871",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13847",
+   "truth": 1,
+   "p_bar": 0.78,
+   "persona_id": "P30",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-20272",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P51",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11632",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P52",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7271",
+   "truth": -1,
+   "p_bar": 0.57,
+   "persona_id": "P16",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13442",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11661",
+   "truth": -1,
+   "p_bar": 0.59,
+   "persona_id": "P44",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10243",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P24",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3902",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10547",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P17",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3034",
+   "truth": -1,
+   "p_bar": 0.56,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12386",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P27",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5943",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P55",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9889",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22914",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": true
   },
   {
    "claim_id": "liar2-8690",
@@ -297,13 +8357,753 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-6070",
+   "claim_id": "liar2-22024",
    "truth": -1,
-   "p_bar": 0.8,
+   "p_bar": 0.64,
+   "persona_id": "P24",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-84",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P07",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1378",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6936",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6174",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-956",
+   "truth": 1,
+   "p_bar": 0.78,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19439",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6677",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22557",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-19443",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14641",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19196",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9222",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9388",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P10",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5159",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P34",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13182",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14083",
+   "truth": -1,
+   "p_bar": 0.61,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10264",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5322",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8874",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13053",
+   "truth": -1,
+   "p_bar": 0.636,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6668",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P06",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16406",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7422",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P16",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4333",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15335",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P59",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-39",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P48",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-819",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12719",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13230",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P55",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11448",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P38",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8303",
+   "truth": 1,
+   "p_bar": 0.65,
    "persona_id": "P28",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13814",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16796",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P50",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-350",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P34",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8373",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6984",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P02",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9258",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5656",
+   "truth": -1,
+   "p_bar": 0.58,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7603",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P47",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2085",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1566",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2877",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P53",
    "order": "FT",
    "s": -1,
    "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16484",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P31",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9524",
+   "truth": -1,
+   "p_bar": 0.79,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2149",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P29",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16524",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P25",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15483",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 95,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2215",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P45",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7441",
+   "truth": 1,
+   "p_bar": 0.68,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15425",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P10",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11005",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-429",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P50",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1161",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P27",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1097",
+   "truth": -1,
+   "p_bar": 0.75,
+   "persona_id": "P25",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12901",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3052",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P09",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2849",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4620",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P56",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5490",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P18",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13163",
+   "truth": -1,
+   "p_bar": 0.81,
+   "persona_id": "P41",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8911",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2406",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P53",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6013",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P03",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5089",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P39",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-496",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P33",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17652",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2002",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4304",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11960",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5136",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P07",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9644",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P00",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9331",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10035",
+   "truth": 1,
+   "p_bar": 0.66,
+   "persona_id": "P32",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2607",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
    "recent": false
   },
   {
@@ -317,33 +9117,893 @@
    "recent": false
   },
   {
-   "claim_id": "liar2-8862",
+   "claim_id": "liar2-7357",
    "truth": -1,
-   "p_bar": 0.78,
-   "persona_id": "P31",
+   "p_bar": 0.6,
+   "persona_id": "P07",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3530",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12392",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P15",
    "order": "FT",
    "s": -1,
    "p_true_solo": 0,
    "recent": false
   },
   {
-   "claim_id": "liar2-12307",
+   "claim_id": "liar2-6348",
    "truth": 1,
-   "p_bar": 0.79,
-   "persona_id": "P47",
+   "p_bar": 0.73,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17849",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P35",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19296",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P16",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12451",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P11",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-385",
+   "truth": 1,
+   "p_bar": 0.73,
+   "persona_id": "P36",
    "order": "FT",
    "s": 1,
    "p_true_solo": 80,
    "recent": false
   },
   {
-   "claim_id": "liar2-3225",
+   "claim_id": "liar2-4756",
    "truth": -1,
-   "p_bar": 0.62,
-   "persona_id": "P00",
+   "p_bar": 0.9,
+   "persona_id": "P19",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5432",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P59",
    "order": "FT",
    "s": 1,
    "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-822",
+   "truth": -1,
+   "p_bar": 0.55,
+   "persona_id": "P30",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16360",
+   "truth": 1,
+   "p_bar": 0.77,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3339",
+   "truth": -1,
+   "p_bar": 0.6,
+   "persona_id": "P00",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3446",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P46",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12356",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P19",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-372",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P25",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3910",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15479",
+   "truth": 1,
+   "p_bar": 0.88,
+   "persona_id": "P10",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2643",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P13",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17314",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P17",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16113",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10203",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P30",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3245",
+   "truth": -1,
+   "p_bar": 0.72,
+   "persona_id": "P40",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1346",
+   "truth": 1,
+   "p_bar": 0.89,
+   "persona_id": "P43",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18070",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P49",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-18088",
+   "truth": 1,
+   "p_bar": 0.56,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13418",
+   "truth": -1,
+   "p_bar": 0.78,
+   "persona_id": "P23",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 60,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-260",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P21",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1254",
+   "truth": -1,
+   "p_bar": 0.624,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11146",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P04",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15996",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11341",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12271",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14872",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8800",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P05",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14393",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P40",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5829",
+   "truth": -1,
+   "p_bar": 0.65,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8070",
+   "truth": 1,
+   "p_bar": 0.64,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7363",
+   "truth": -1,
+   "p_bar": 0.63,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12546",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-21656",
+   "truth": -1,
+   "p_bar": 0.802,
+   "persona_id": "P16",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 99,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8258",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P11",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14073",
+   "truth": -1,
+   "p_bar": 0.83,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-14501",
+   "truth": 1,
+   "p_bar": 0.71,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-808",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P43",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5617",
+   "truth": 1,
+   "p_bar": 0.67,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1690",
+   "truth": -1,
+   "p_bar": 0.74,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-10319",
+   "truth": 1,
+   "p_bar": 0.57,
+   "persona_id": "P15",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9268",
+   "truth": -1,
+   "p_bar": 0.7,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17554",
+   "truth": 1,
+   "p_bar": 0.574,
+   "persona_id": "P45",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-22666",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P12",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": true
+  },
+  {
+   "claim_id": "liar2-12571",
+   "truth": 1,
+   "p_bar": 0.9,
+   "persona_id": "P32",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13353",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P54",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16009",
+   "truth": 1,
+   "p_bar": 0.87,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-3663",
+   "truth": -1,
+   "p_bar": 0.818,
+   "persona_id": "P08",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5156",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P57",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5128",
+   "truth": -1,
+   "p_bar": 0.66,
+   "persona_id": "P28",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-9723",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P34",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5648",
+   "truth": -1,
+   "p_bar": 0.68,
+   "persona_id": "P22",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-213",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P30",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-12068",
+   "truth": -1,
+   "p_bar": 0.796,
+   "persona_id": "P57",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4967",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-814",
+   "truth": -1,
+   "p_bar": 0.838,
+   "persona_id": "P31",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6216",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P29",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2193",
+   "truth": -1,
+   "p_bar": 0.674,
+   "persona_id": "P23",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5145",
+   "truth": 1,
+   "p_bar": 0.83,
+   "persona_id": "P37",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-848",
+   "truth": -1,
+   "p_bar": 0.55,
+   "persona_id": "P26",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17821",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P56",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4449",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P54",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11476",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P36",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-2505",
+   "truth": -1,
+   "p_bar": 0.82,
+   "persona_id": "P02",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-83",
+   "truth": 1,
+   "p_bar": 0.69,
+   "persona_id": "P35",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17068",
+   "truth": -1,
+   "p_bar": 0.88,
+   "persona_id": "P42",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-19385",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P42",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-5525",
+   "truth": -1,
+   "p_bar": 0.86,
+   "persona_id": "P04",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-17571",
+   "truth": 1,
+   "p_bar": 0.82,
+   "persona_id": "P27",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8294",
+   "truth": -1,
+   "p_bar": 0.9,
+   "persona_id": "P17",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16633",
+   "truth": 1,
+   "p_bar": 0.85,
+   "persona_id": "P08",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-6103",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P07",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-13046",
+   "truth": 1,
+   "p_bar": 0.81,
+   "persona_id": "P20",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 85,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-16086",
+   "truth": -1,
+   "p_bar": 0.62,
+   "persona_id": "P06",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-15069",
+   "truth": 1,
+   "p_bar": 0.8,
+   "persona_id": "P58",
+   "order": "TF",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4532",
+   "truth": -1,
+   "p_bar": 0.76,
+   "persona_id": "P37",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 20,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-8054",
+   "truth": 1,
+   "p_bar": 0.84,
+   "persona_id": "P48",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-4535",
+   "truth": -1,
+   "p_bar": 0.84,
+   "persona_id": "P53",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7270",
+   "truth": 1,
+   "p_bar": 0.7,
+   "persona_id": "P36",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 80,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-1625",
+   "truth": -1,
+   "p_bar": 0.8,
+   "persona_id": "P08",
+   "order": "TF",
+   "s": -1,
+   "p_true_solo": 0,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-11640",
+   "truth": 1,
+   "p_bar": 0.72,
+   "persona_id": "P12",
+   "order": "FT",
+   "s": 1,
+   "p_true_solo": 90,
+   "recent": false
+  },
+  {
+   "claim_id": "liar2-7865",
+   "truth": -1,
+   "p_bar": 0.64,
+   "persona_id": "P33",
+   "order": "FT",
+   "s": -1,
+   "p_true_solo": 0,
    "recent": false
   }
  ]
