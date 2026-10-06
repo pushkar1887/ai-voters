@@ -128,8 +128,12 @@ class Pool:
         return i
 
     async def post(self, payload: dict, tries: int = 8) -> dict:
-        for attempt in range(tries):
+        attempt = 0
+        while attempt < tries:
             i = await self._take_key()
+            if i in self.dead:                  # the key died while this call waited for its slot
+                continue
+            attempt += 1
             try:
                 r = await self.http.post("/chat/completions", json=payload,
                                          headers={"Authorization": f"Bearer {self.keys[i]}"})
