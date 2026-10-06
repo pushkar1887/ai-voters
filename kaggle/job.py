@@ -38,6 +38,11 @@ def kaggle_main(job: dict) -> None:
     commit = (code / "VERSION").read_text().strip()
     if commit != job["commit"]:
         sys.exit(f"stale bundle: dataset has {commit}, job expects {job['commit']}; re-run push")
+    for c, n in job.get("caches", {}).items():                     # a newer dataset version must still hold them
+        f = code / "runs" / f"{c}.jsonl"
+        have = sum(1 for _ in open(f, encoding="utf-8")) if f.exists() else 0
+        if have < n:
+            sys.exit(f"stale bundle: runs/{c}.jsonl has {have} records, job expects >= {n}; re-run push")
     runs = work / "runs"
     if (code / "runs").exists():                                    # resume from shipped caches
         shutil.copytree(code / "runs", runs, dirs_exist_ok=True)
@@ -77,7 +82,9 @@ def commit() -> str:
     return out.stdout.strip() + ("-dirty" if dirty else "")
 
 
-def bundle(user: str, version: str, caches: list[str]) -> Path:
+def bundle(user: str, version: str, caches: list[str]) -> tuple[Path, dict[str, int]]:
+    """Code + data + caches. Every local-model cache (runs/*/L*.jsonl) is always shipped, so each
+    dataset version is a superset and a kernel that mounts a newer version still finds its caches."""
     out = ROOT / "kaggle" / "build" / "bundle"
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
@@ -86,15 +93,18 @@ def bundle(user: str, version: str, caches: list[str]) -> Path:
             shutil.copytree(ROOT / d, out / d, ignore=shutil.ignore_patterns("__pycache__"))
     for f in ("config.yaml", "requirements.txt"):
         shutil.copy(ROOT / f, out / f)
-    for c in caches:                                                 # e.g. "S1/L1"
+    ship = set(caches) | {f"{p.parent.name}/{p.stem}" for p in (ROOT / "runs").glob("*/L*.jsonl")}
+    counts = {}
+    for c in sorted(ship):                                           # e.g. "S1/L1"
         src = ROOT / "runs" / f"{c}.jsonl"
         if src.exists():
             (out / "runs" / c).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(src, out / "runs" / f"{c}.jsonl")
+            counts[c] = sum(1 for _ in open(src, encoding="utf-8"))
     (out / "VERSION").write_text(version)
     (out / "dataset-metadata.json").write_text(json.dumps(
         {"title": DATASET, "id": f"{user}/{DATASET}", "licenses": [{"name": "other"}]}))
-    return out
+    return out, counts
 
 
 def push(name: str, cmds: list[str], vllm: str, caches: list[str]) -> None:
@@ -102,7 +112,7 @@ def push(name: str, cmds: list[str], vllm: str, caches: list[str]) -> None:
     a = api()
     user = a.get_config_value("username")
     version = commit()
-    b = bundle(user, version, caches)
+    b, counts = bundle(user, version, caches)
     try:
         a.dataset_create_version(str(b), version_notes=f"{name} @ {version}", dir_mode="zip", quiet=True)
     except Exception:                                                # first push: dataset does not exist
@@ -111,7 +121,7 @@ def push(name: str, cmds: list[str], vllm: str, caches: list[str]) -> None:
         if str(a.dataset_status(f"{user}/{DATASET}")).lower() == "ready":
             break
         time.sleep(10)
-    job = {"cmds": cmds, "vllm": vllm, "commit": version}
+    job = {"cmds": cmds, "vllm": vllm, "commit": version, "caches": counts}
     text = Path(__file__).read_text(encoding="utf-8").replace("JOB = None", f"JOB = {job!r}", 1)
     req = ApiSaveKernelRequest()
     req.slug, req.new_title, req.text = f"{user}/aiv-{name}", f"aiv-{name}", text
