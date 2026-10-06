@@ -56,13 +56,20 @@ def slope(df: pd.DataFrame, x: str = "lead_shown") -> float:
         return float("nan")
 
 
-def gamma(df: pd.DataFrame) -> float:
-    """Correlation neglect: weight of post-cascade (redundant) votes relative to informative ones."""
+def gamma_parts(df: pd.DataFrame) -> tuple[float, float]:
+    """(beta_inf, beta_extra): belief shift per informative vote and per redundant post-cascade vote."""
     try:
         p = smf.ols("delta ~ lead_inf + extra", data=df).fit().params
-        return float(p["extra"] / p["lead_inf"])
+        return float(p["lead_inf"]), float(p["extra"])
     except Exception:
-        return float("nan")
+        return float("nan"), float("nan")
+
+
+def gamma(df: pd.DataFrame) -> float:
+    """Correlation neglect: weight of post-cascade (redundant) votes relative to informative ones.
+    Unstable when beta_inf is near zero (a model that barely moves), so read it with gamma_parts."""
+    b_inf, b_extra = gamma_parts(df)
+    return b_extra / b_inf if b_inf else float("nan")
 
 
 def s3_table() -> pd.DataFrame:
@@ -83,6 +90,8 @@ def h1_h2(df: pd.DataFrame, B: int) -> pd.DataFrame:
         row = {"model": m, "cells": len(d), "claims": d.item_id.nunique(), "p_hat": p_hat,
                "rho_bayes_unstated": 1.0, "rho_bayes_q70": logit(Q) / logit(p_hat),
                "random_slope": slope(rnd), "independent_slope": slope(ind)}
+        row["seq_beta_inf"], row["seq_beta_extra"] = gamma_parts(seq)
+        row["ind_beta_inf"], row["ind_beta_extra"] = gamma_parts(ind)
         stats = {"rho_unstated": (ind[ind.q.isna()], rho), "rho_q70": (ind[ind.q.notna()], rho),
                  "q_star": (ind[ind.q.notna()], lambda x: float(expit(slope(x)))),
                  "gamma_independent": (ind, gamma), "gamma_sequential": (seq, gamma)}
@@ -100,6 +109,8 @@ def readable(t: pd.DataFrame) -> pd.DataFrame:
         out[name] = [f"{e:.2f} [{lo:.2f}, {hi:.2f}]" for e, lo, hi in zip(t[name], t[f"{name}_lo"], t[f"{name}_hi"])]
     out["rho_bayes_q70"] = t.rho_bayes_q70.round(2)
     out["random_slope"], out["independent_slope"] = t.random_slope.round(3), t.independent_slope.round(3)
+    for c in ("ind_beta_inf", "ind_beta_extra", "seq_beta_inf", "seq_beta_extra"):
+        out[c] = t[c].round(3)
     return out
 
 
@@ -113,7 +124,10 @@ def follow_curves(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def fixes(df: pd.DataFrame) -> pd.DataFrame:
-    """H6: each fix cell against the same claim's same main cell (paired)."""
+    """H6 in S3: each fix cell against the same claim's same main cell (paired). S3's scripted votes are
+    built from the agent's own verdict, not the truth, so the S3 outcome is agreement with Bayes; truth
+    accuracy is reported only for completeness (ignoring scripted votes is always 'accurate') and the
+    accuracy outcome for H6 comes from S4's real crowds."""
     key = ["model", "item_id", "cell"]
     main = df[df.part == "main"].set_index(key)
     rows = []
