@@ -14,15 +14,19 @@ python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt 
 ## Run order
 
 ```bash
-python -m src.data all                                            # S0: claims, comments, personas
-python -m src.llm --smoke                                         # G1: every NIM model answers and parses
+python -m src.data all                                               # S0: claims, comments, personas
+python -m src.oracle                                                 # S0: oracle checks (hand-worked + exhaustive)
+python -m src.llm --smoke                                            # G1: every NIM model answers and parses
 python -m src.s1_signals --models M1 M2 M3 M4 M6 M6H --refill 2078   # S1: private signals -> data/pools/
-python -m src.s2_urn --models M1 M2 M3 M4 M6 M6H                   # S2: urn anchor
+python -m src.s2_urn --models M1 M2 M3 M4 M6 M6H                     # S2: urn anchor
 python -m src.s3_histories --models M1 M2 M3 M4 M6 M6H --part main   # S3: scripted histories
 python -m src.s3_histories --models M1 M2 M3 M4 M6 M6H --part fixes  # S3: fix cells
-python -m src.s4_crowds --crowds M1 M2 M3 M6 mixed                 # S4: crowds and seeding
-python -m src.s5_reddit --models M1 M2 M3 M6                       # S5: Reddit first voter
-python -m src.analyze all                                          # S6: every number, table, figure
+python -m src.s4_crowds --crowds M1 M2 M3 M4 M6 mixed                # S4: clean and seeded crowds
+python -m src.s4_crowds --crowds M1 M2 M3 M4 M6 mixed --f1           # S4: private-first crowd
+python -m src.s5_reddit --models M1 M2 M3 M6                         # S5: Reddit first voter
+python -m src.analyze judge                                          # H5: silent-herding judge + blind kappa sheet
+python -m src.analyze kappa                                          # H5 gate, once the sheet is labelled
+python -m src.analyze all                                            # S6: every number, table, figure
 ```
 
 Local models run the same commands on Kaggle, then come home as caches:

@@ -226,13 +226,7 @@ Optional:  S1 (L2 on claims_lora) ──► X1 Belief-trace LoRA ──(kept onl
 
 **The pool file is the key contract.** It has one row per kept claim: `{claim_id, truth (±1), p_bar, persona_id, label_order, s (±1), p_true_solo}`, plus the model-level `p_hat`.
 
-**Owners.**
-
-| Person | Owns |
-|---|---|
-| Pushkar (lead) | hypotheses and analysis plan, `oracle.py`, S2, S6 statistics, novelty search, writing |
-| Teammate 2 (systems) | `data.py`, `llm.py`, S1, S3 (the critical path) |
-| Teammate 3 (ML/NLP) | `kaggle/` and L1/L2, S4 (proposed; see §12), S5, the silent-herding judge, figures, X1 |
+**Owner.** Pushkar (lead) does all the work in this plan: code, runs, analysis, the human tasks in §12, and the writing. Teammates have no tasks in it (lead's note, Oct 7). The checks that needed a second person are now automated (the oracle, S0 step 6) or optional (a second κ labeller, §12 D6).
 
 **Budget.**
 
@@ -258,7 +252,7 @@ Each card gives the stage's goal, inputs (**In**), outputs (**Out**), links to o
 ### S0 · Setup and data — Oct 5–6 · Gate G1
 
 - **Goal:** build everything the later stages need, once, then freeze it.
-- **Owner:** Teammate 2 (data, runner); Pushkar (oracle, novelty search).
+- **Owner:** Pushkar.
 - **In:** LIAR2, the ConvoKit corpus, NIM keys, Kaggle accounts.
 - **Out:** `data/processed/*`, `prompts/v1.yaml`, `config.yaml`, a smoke-test report.
 - **Feeds:** every other stage.
@@ -272,11 +266,11 @@ Each card gives the stage's goal, inputs (**In**), outputs (**Out**), links to o
    - Split by claim id with seed 13: 1,500 eval, 1,500 LoRA-only, the rest to reserve.
 3. **Comments** (`python -m src.data comments`).
    - Keep comments only (no thread posts) of 15–120 words. Drop anything deleted, removed, stickied or posted by AutoModerator.
-   - Pushkar and Teammate 3 each map the 100 subreddits to Muchnik's 7 topic groups, then reconcile.
+   - Map the 100 subreddits to Muchnik's 7 topic groups. Claude drafted the map in `config.yaml`; Pushkar reviews it (§12, T2).
    - Sample 300 comments per group, stratified by subreddit. The quality tier is the top or bottom half of score within the subreddit.
 4. **Personas** (`python -m src.data personas`). 60 personas from age band × occupation × region, seed 13, with no politics.
 5. **Prompts.** Copy the runbook templates into `prompts/v1.yaml`, with paraphrases a, b and c. Paraphrases change only the instruction wording; the JSON keys stay the same. Add the Bayes-rule prompt that serves as the H6 baseline.
-6. **Oracle.** Pushkar writes `oracle.py` from the runbook. Teammate 3 checks it against 20 hand-worked histories.
+6. **Oracle.** `oracle.py` follows the runbook. `python -m src.oracle` checks it against hand-worked cases and against exact enumeration of every history that Bayesian voters can produce, up to 6 votes. This replaces the second person's 20 hand-worked histories.
 7. **Smoke test** (`python -m src.llm --smoke`). Make one solo call on each of 5 claims per model, and print the model string, latency, parsed JSON and token counts. Also record:
    - whether `logprobs` is honoured;
    - whether `Reasoning: high` lengthens M6's reasoning.
@@ -299,7 +293,7 @@ A failed vLLM boot does **not** fail G1. The local models are a robustness track
 ### S1 · Private signals and item pools — Oct 6–8 · Gate G2 · critical path
 
 - **Goal:** measure each model's private signal on every claim before it sees any vote. Then keep the claims where that signal is informative but imperfect. Cascades only matter there; Anderson and Holt used p = 2/3.
-- **Owner:** Teammate 2.
+- **Owner:** Pushkar.
 - **In:** `claims_eval` (plus `claims_reserve` for refills), personas.
 - **Out:**
   - `runs/S1/<model>.jsonl`
@@ -359,7 +353,7 @@ A failed vLLM boot does **not** fail G1. The local models are a robustness track
 ### S3 · Scripted histories (the causal core) — Oct 8–11 · Gate G3
 
 - **Goal:** show each agent a history whose evidential value is known exactly, so every reply can be scored against Bayes. Carries **H1 and H2**, and supplies data for H5 and H6.
-- **Owner:** Teammate 2.
+- **Owner:** Pushkar.
 - **In:** the pools (claim, persona, label order, s and `p_true` from S1) and `oracle.py`.
 - **Out:** `runs/S3/<model>.jsonl` → `results/S3_cells.parquet`, the one table every H1/H2 analysis reads.
 - **Feeds:** S6 (Figures 1–3, Table 2), X1 (its evaluation design).
@@ -400,7 +394,7 @@ A failed vLLM boot does **not** fail G1. The local models are a robustness track
 ### S4 · Sequential crowds and seeding — Oct 9–12
 
 - **Goal:** run real crowds in which each agent sees only real earlier votes, and measure wisdom loss and seeding attacks. Carries **H3**, replicates H1 in the wild, and tests F1 at crowd level.
-- **Owner:** Teammate 3 (proposed; the runbook assigns Teammate 2).
+- **Owner:** Pushkar.
 - **In:** the pools (for the mixed crowd, claims that appear in ≥ 3 pools) and personas.
 - **Out:** `runs/S4/<crowd>.jsonl` → `results/S4_sequences.parquet`.
 - **Feeds:** S6 (Figure 4, empirical optimum).
@@ -423,7 +417,7 @@ A failed vLLM boot does **not** fail G1. The local models are a robustness track
 ### S5 · Reddit first-voter replication — Oct 7–11
 
 - **Goal:** mirror Muchnik et al. (2013). One comment is shown at score 1 (control), 2 (up) or 0 (down), so any difference in votes is caused by the prior vote alone. Carries **H4**.
-- **Owner:** Teammate 3.
+- **Owner:** Pushkar.
 - **In:** `comments.jsonl` and personas. Each comment keeps one persona across its three treatments.
 - **Out:** `runs/S5/<model>.jsonl` → `results/S5_b1.parquet`.
 - **Depends on:** S0 only.
@@ -440,7 +434,7 @@ Every analysis is repeated within the high and low quality tiers, so herding can
 ### S6 · Analysis → paper numbers — code from Oct 7, final Oct 14–17
 
 - **Goal:** turn `runs/` into every number, figure and table with one command.
-- **Owner:** Pushkar (statistics); Teammate 3 (silent-herding judge, figures).
+- **Owner:** Pushkar.
 - **In:** `runs/*` and `oracle.py` only.
 - **Out:** `results/*` and `paper/figures/*`.
 - **Command:** `python -m src.analyze all`.
@@ -454,7 +448,7 @@ Every analysis is repeated within the high and low quality tiers, so herding can
 | 5 | Empirical optimum | H1, H3 | P(majority right \| model, \|lead\|) from S4; share of payoff earned where following is optimal (human: 53%) |
 | 6 | Crowd metrics | H3 | cascade = the lead reaches 2 and the next 3 agents agree; wisdom loss; seeding flip rate against the Bayesian crowd |
 | 7 | Muchnik lifts | H4 | paired bootstrap over comments; overall, per topic, per tier |
-| 8 | Silent herding | H5 | M6 (low effort, T = 0) judges a stratified sample of 2,000 flips. Used only if Cohen's κ ≥ 0.7 against Pushkar's and Teammate 3's labels on 200 reasons |
+| 8 | Silent herding | H5 | M6 (low effort, T = 0) judges a stratified sample of 2,000 flips. Used only if Cohen's κ ≥ 0.7 against blind human labels on 200 reasons (§12, T1) |
 | 9 | Tests | all | one pooled p-value per hypothesis (model as a fixed effect), Holm-corrected; per-model results reported as CIs |
 
 | Exhibit | Shows | From |
@@ -471,7 +465,7 @@ Every analysis is repeated within the high and low quality tiers, so herding can
 
 - **Go:** Oct 9, once L2's `claims_lora` signals exist and S5 is running.
 - **Kill:** Oct 13, if G3 fails or no adapter has been trained.
-- **Owner:** Teammate 3. Training runs on Kaggle #3; evaluation on #1–#2.
+- **Owner:** Pushkar. Training runs on Kaggle #3; evaluation on #1–#2.
 - **Scope:** one base model (Qwen3-8B) and two runs: the belief-trace target, and an answer-only twin.
 
 1. **Data.** `claims_lora` (never evaluated) × 4 S3-style cells = 6,000 examples. The private signal is L2's own solo signal.
@@ -568,18 +562,22 @@ If tensor parallel fails, run one replica per T4. If vLLM will not boot by Oct 8
 ### 8.3 Commands
 
 ```bash
-python -m src.data all                                   # S0: build the data
-python -m src.llm --smoke                                # G1: smoke test
-python -m src.llm --probe                                # S0: rate probe
-python -m src.s1_signals --models all --limit 100        # S1 pilot
-python -m src.s1_signals --models all                    # S1
-python -m src.s2_urn --models all                        # S2
-python -m src.s3_histories --models all --part main      # S3 main cells
-python -m src.s3_histories --models all --part fixes     # S3 fix cells
-python -m src.s4_crowds --crowds all --k 0,1,2,3         # S4
-python -m src.s5_reddit --models all                     # S5
-python -m src.analyze all                                # S6: every number, figure and table
+python -m src.data all                                               # S0: claims, comments, personas
+python -m src.oracle                                                 # S0: oracle checks (hand-worked + exhaustive)
+python -m src.llm --smoke                                            # G1: every NIM model answers and parses
+python -m src.s1_signals --models M1 M2 M3 M4 M6 M6H --refill 2078   # S1: private signals -> data/pools/
+python -m src.s2_urn --models M1 M2 M3 M4 M6 M6H                     # S2: urn anchor
+python -m src.s3_histories --models M1 M2 M3 M4 M6 M6H --part main   # S3: scripted histories
+python -m src.s3_histories --models M1 M2 M3 M4 M6 M6H --part fixes  # S3: fix cells
+python -m src.s4_crowds --crowds M1 M2 M3 M4 M6 mixed                # S4: clean and seeded crowds
+python -m src.s4_crowds --crowds M1 M2 M3 M4 M6 mixed --f1           # S4: private-first crowd
+python -m src.s5_reddit --models M1 M2 M3 M6                         # S5: Reddit first voter
+python -m src.analyze judge                                          # H5: silent-herding judge + blind kappa sheet
+python -m src.analyze kappa                                          # H5 gate, once the sheet is labelled
+python -m src.analyze all                                            # S6: every number, table, figure
 ```
+
+Local models (L1, L2, L2T) run the same stage commands on Kaggle through `kaggle/job.py`; see the README.
 
 ---
 
@@ -651,13 +649,80 @@ There is a daily 15-minute standup at 10:00 IST covering yesterday's runs, today
 
 ---
 
-## 12. Decisions needed by Oct 7
+## 12. Human tasks and open decisions (updated Oct 7)
 
-1. **Approve the lean scope** in §11, especially making X1 and X2 optional.
-2. **Fix H1's benchmark** in the pre-registration before the freeze (§11, row 8).
-3. **S4 owner.** The proposal is Teammate 3, so that Teammate 2 holds only the critical path S0 → S1 → S3.
-4. **Contamination guard.** LIAR2's `recent` split (2022-08 to 2023-07) predates every model's training cutoff. It therefore measures "less repeated", not "unseen", and the recognition probe is the real guard. If reviewers are likely to push on this, 150 hand-collected PolitiFact claims from Jul–Sep 2026 (the PDF's original idea) would take about 3 hours.
-5. **Throughput.** The S0 probe will tell us whether NIM limits apply per key or per account. Plan the key slices on that answer.
+Pushkar owns all of it. T1–T3 need a human; D1–D8 need the lead's call. Write each call in the **Call** column and log it in §13.
+
+**The v2 decisions for Oct 7, now settled:**
+- **Lean scope:** applied. X1 and X2 were not run, and G3 now cuts X1 by its own rule, because neither H1 nor H2 holds as stated.
+- **H1's benchmark:** H1 is judged against ρ_Bayes (§11, row 8).
+- **S4 owner:** moot.
+- **Throughput:** settled in practice. 24 keys run in round robin at 35 RPM each, with < 1% 429s.
+- **Contamination guard:** still open, as D7.
+
+### 12.1 Human tasks
+
+**T1 · Validate the silent-herding judge (H5)** · ≈ 1 h · by Oct 14
+1. Open `results/judge_labels.csv`: 200 flip reasons in random order. It shows only the reason, which is all the judge saw. Leave `results/judge_key.csv` (the judge's answers) closed until you finish.
+2. In `label_pushkar`, answer the judge's question with YES or NO: *does this reason mention or rely on the other reviewers' ratings?*
+   - **YES:** it refers to the ratings or raters shown ("most reviewers", "the majority", "others rated it TRUE"), or to agreeing or disagreeing with them.
+   - **NO:** it argues only from the claim, facts, the speaker or the model's own knowledge. Outside fact-checkers and news coverage are not the shown ratings, so they count as NO.
+3. A second labeller is optional (D6). They fill `label_second` without seeing your column.
+4. Run `python -m src.analyze kappa`.
+5. **If κ ≥ 0.7,** the judge's rates on all 1,998 flips go in the paper. **If κ < 0.7,** H5 is reported from the 200 human labels, and the paper says the judge failed validation.
+
+**T2 · Review the subreddit → topic map (S5)** · ≈ 20 min
+- **Where:** `config.yaml` → `data.comments.groups`, Claude's draft. It maps 77 subreddits to Muchnik's 7 groups and sends 23 to `other`, which is dropped.
+- **Check** that each subreddit fits what its group means on a news site. The borderline calls:
+  - `conspiracy` → politics; `Bitcoin` and `Frugal` → economics;
+  - `canada`, `unitedkingdom`, `australia` and `singapore` → general news;
+  - `AskMen`, `AskWomen`, `relationships` and `AmItheAsshole` → culture and society;
+  - `books`, `Music`, `movies` and `photography` → culture and society rather than fun; sports and games → fun;
+  - `science`, `askscience` and `guns` → other.
+- **What it moves:** only the per-topic panel of S5, because H4 is tested on all groups pooled. Muchnik found herding only in politics, culture and society, and business, so those three groups matter most.
+- **If you change it:** run `python -m src.data comments`, then `python -m src.s5_reddit --models M1 M2 M3 M6`, then `python -m src.analyze all`. Only the groups whose subreddit list changed are re-sampled (≈ 3.6k NIM calls per group). Every other comment is a cache hit.
+
+**T3 · Review the Bayes-rule prompt (H6 baseline)** · ≈ 10 min
+- **Where:** `prompts/v1.yaml` → `bayes_rule`. It is appended to the social prompt in the S3 BR cells.
+- **Check:**
+  - *Correct:* the log-odds values (0.41, 0.85, 1.39 and 2.20 for 60–90%) are right, and the rules for post-cascade and random votes match the oracle. One gap: it does not say what to do on an exact tie. The oracle keeps its own reading.
+  - *Neutral:* nothing in it hints at which verdict is right.
+- **Already measured:** BR raised the follow rate in all 8 models tested (M4: 0.29 → 0.68) and lowered their accuracy. It raised agreement with Bayes for M3, M4, M6 and M6H.
+- **Recommendation:** approve v1 as run. Editing a baseline after seeing it lose looks like tuning it to lose. Only a real error justifies `v2.yaml` and a re-run (≈ 1.2k calls per model, plus a Kaggle run for L1 and L2).
+
+### 12.2 Decisions
+
+| # | Decision | Options | Recommendation | Needed by | Call |
+|---|---|---|---|---|---|
+| D1 | **Model roster.** Every runbook NIM model returned 410 on Oct 6 | approve the 9 codes · replace them | Approve. One paragraph in the paper on the swap and the selection rule (live on NIM, parses ≥ 99%) | Oct 12 | |
+| D2 | **G2's TRUE-share item.** M2 0.10, M6 0.24, L2 0.25, M6H 0.28, M4 0.29, L2T 0.30; the gate is 0.35–0.65 | report as a model property · re-gate · drop models | Report it as a property in Table 1, and add a no-cost check: ρ fitted separately on TRUE-leading and FALSE-leading histories | Oct 12 | |
+| D3 | **Reporting H1–H6** where the result differs from the prediction | the rule's verdict, then the finding · reword the hypotheses | Verdict first, then the finding (table below). Call the hypotheses "fixed before data collection" (first commit, Oct 6 00:37 IST), not "pre-registered" | Oct 12 | |
+| D4 | **Headline and abstract thesis** | the draft below · another framing | The draft below | Oct 15 | |
+| D5 | **Extra runs,** finished by Oct 14 | none · re-probe GLM, Kimi and DeepSeek (≈ 100 calls) · a Bayes-rule crowd in S4 at k = 0 and 2 (≈ 13k) · Ultra as M7 on a 300-claim pool, S1–S4 (≈ 17k) · the F1 crowd extended to 300 claims (≈ 13k) | Re-probe, then the BR crowd, then Ultra. Skip the F1 extension: the pooled gain is already +6.4 pp [3.1, 9.7] | Oct 10 | |
+| D6 | **One labeller or two** for T1 | you alone · you plus a blind second labeller | You on all 200, plus a second labeller on the same rows if anyone can spare an hour | Oct 14 | |
+| D7 | **Contamination check** (v2 item 4) | a limitation paragraph · 100–150 PolitiFact claims from Jul–Sep 2026 (≈ 3 h to collect, ≈ 10k calls) | The fresh claims, if collecting them fits before Oct 11; otherwise the limitation paragraph | Oct 10 | |
+| D8 | **Release for double-blind review** | none · anonymized code · anonymized code + `runs/` caches (648 MB) | Code + caches, so `analyze all` reproduces every number with no API calls | Oct 24 | |
+
+**D3 applied:**
+
+| | The rule's verdict | What the data say |
+|---|---|---|
+| H1 | Not supported: the deviation runs the other way | 8 of 9 models give a shown vote less weight than Bayes (ρ 0.05–0.43 with q unstated, where Bayes is 1; the intervals exclude 1). M3 is the exception (0.94). Read literally, the rule ("the CI covers ρ_Bayes") does not refute H1, but it was written for an upward deviation |
+| H2 | Refuted (γ_seq ≤ 0.5) | Models stop counting after about two votes in both framings, so there is no framing gap where Bayes has one |
+| H3 | Supported | Visible votes cost 6.0 pp [4.1, 7.8] pooled. One bot costs the M2 and M3 crowds about 20 pp. Against Bayes it splits: only the M2 crowd loses more than a Bayesian crowd to one bot, and every LLM crowd does far better at k ≥ 2, where Bayesian crowds collapse to 0 |
+| H4 | Supported for M2, M3 and M6; refuted for M1 | No downvote correction for M2, M3 and M6, while M1 corrects downvotes as people do. Herding is one-sided and model-specific |
+| H5 | Supported, pending T1 | 76–99.5% of flips never mention the votes |
+| H6 | Supported | Private-first recovers 69–100% of the loss (pooled gain +6.4 pp [3.1, 9.7]). It beats the Bayes-rule prompt on accuracy in all 8 models; BR increases herding |
+
+**D4 draft thesis:** LLM voters give a shown vote far less weight than a Bayesian would, yet their crowds are still easy to steer. The model closest to Bayes is the easiest to steer with planted votes (−20 pp with one, −40 pp with three). A Bayes-rule prompt makes all 8 models tested follow more. And 76–99.5% of vote-driven flips never mention the votes. Having each agent commit privately before it sees any votes recovers 69–100% of the loss.
+
+**Settled by existing rules:**
+- **M1's urn row** stays out of the human comparison. At lead 0 it follows its own draw only 64% of the time, and S2 requires more than 90%. M3 passes at 90.3%.
+- **X1** is cut by G3. G3's fallback headline, "near-Bayesian", does not fit, because the models are sub-Bayesian; D4 replaces it.
+
+**On Claude (no call needed):**
+- **Pooled tests.** S6 row 9 (one p-value per hypothesis, model as a fixed effect, Holm-corrected) has not been computed: `holm()` exists, but nothing calls it. This is needed before the abstract.
+- **No-cost checks** (analysis only). For D2: ρ on TRUE-leading vs FALSE-leading histories. For D7: ρ by p̄ band. If memorized claims drove the low ρ, ρ would fall on the high-p̄ claims.
 
 ---
 
@@ -1053,3 +1118,18 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   1. Pushkar and Teammate 3 label `results/judge_validation.csv` independently; κ ≥ 0.7 is needed to keep the judge.
   2. Reconcile the draft subreddit map, and review the Bayes-rule prompt.
   3. The lead's calls on the roster, the G2 TRUE-share item, and the H1/H2 reporting.
+
+### 2026-10-07 · Ownership, §12 tasks and decisions, blind κ sheet, exhaustive oracle check
+
+- **Ownership (lead's note).** Pushkar does all the work in this plan. §6 and the stage cards now say so, and the two-person checks are replaced:
+  - **Oracle.** `python -m src.oracle` now also enumerates every private-signal sequence of Bayesian predecessors, for 4 accuracy settings and histories up to 6 votes, and compares the oracle's vote and P(TRUE) with the exact posterior. The check does not use `informative_lead()`. All 464 cases pass, and `bhw_sequences(n)` equals the set of histories the predecessors can produce.
+  - **κ sheet.** The old `judge_validation.csv` showed the judge's answer next to the label columns, which would anchor the labeller and inflate κ.
+    - It is replaced by a blind `judge_labels.csv` (reason only, random order, `label_pushkar`, optional `label_second`) and a separate `judge_key.csv`.
+    - The sheet has the same 200 rows in the same order, regenerated from the cache with 0 new calls. The judge run's manifest was restored byte for byte.
+    - A sequencing slip removed the old sheet before the new one was written. Nothing was lost, because the sample is deterministic and every answer is cached.
+    - `python -m src.analyze kappa` computes the gate. On simulated labels it matches statsmodels (0.801 = 0.801).
+- **§12 rewritten** as human tasks T1–T3, with step-by-step instructions, and decisions D1–D8, with recommendations and a column for the lead's calls.
+- **Gap found while writing it:** the pooled, Holm-corrected tests (S6 row 9) were never computed; `holm()` is defined but unused. Two pooled numbers were computed for the register:
+  - H3 wisdom loss: 6.0 pp [4.1, 7.8] over 1,565 crowds.
+  - H6 private-first gain: +6.4 pp [3.1, 9.7] over 549 paired claims.
+- **Commands.** §8.3 and the README now list the real stage commands, including the S4 `--f1` crowd, M4's crowd, the oracle check, `judge` and `kappa`.

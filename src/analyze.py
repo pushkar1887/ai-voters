@@ -1,7 +1,8 @@
 """S6: the paper's numbers, computed only from the stage tables built out of runs/.
 
     python -m src.analyze all [--boot 2000]       rho, q*, gamma, follow curves, fixes, S2/S4/S5 tables
-    python -m src.analyze judge [--n 2000]        silent-herding judge on flips (M6, T = 0) + kappa sheet
+    python -m src.analyze judge [--n 2000]        silent-herding judge on flips (M6, T = 0) + blind kappa sheet
+    python -m src.analyze kappa                   H5 gate: judge vs human labels on that sheet
 
 Claims are the unit: every interval is a cluster bootstrap over claims.
 """
@@ -178,9 +179,46 @@ def judge(n: int) -> None:
     silent = flips.groupby("model").mentions.apply(lambda x: (x == "NO").mean()).round(3)
     print("silent-herding rate (flips toward the majority whose reason never mentions the votes):")
     print(silent)
-    flips.sample(min(200, len(flips)), random_state=CFG["seed"])[["model", "item_id", "cell", "reason", "mentions"]] \
-        .assign(label_pushkar="", label_teammate3="").to_csv(RES / "judge_validation.csv", index=False)
-    print("results/judge_validation.csv: 200 reasons for the two human labels (kappa >= 0.7 to use the judge)")
+    label_sheet(flips.sample(min(200, len(flips)), random_state=CFG["seed"]))
+
+
+def label_sheet(sample: pd.DataFrame) -> None:
+    """Blind kappa sheet: the labeller sees only what the judge saw (the reason), in random order.
+    The judge's answers go to a separate key file, so they cannot anchor the human label."""
+    s = sample.reset_index(drop=True).assign(row=lambda x: x.index + 1)
+    s[["row", "reason"]].assign(label_pushkar="", label_second="").to_csv(RES / "judge_labels.csv", index=False)
+    s[["row", "model", "item_id", "cell", "mentions"]].to_csv(RES / "judge_key.csv", index=False)
+    print(f"results/judge_labels.csv: {len(s)} reasons to label YES/NO (answers in judge_key.csv; do not open first)")
+
+
+def cohen(a: pd.Series, b: pd.Series) -> tuple[int, float, float]:
+    """Rows labelled by both, raw agreement, Cohen's kappa for YES/NO labels."""
+    ok = a.notna() & b.notna()
+    a, b = a[ok], b[ok]
+    po = (a == b).mean()
+    pe = sum((a == v).mean() * (b == v).mean() for v in ("YES", "NO"))
+    return int(ok.sum()), po, (po - pe) / (1 - pe) if pe < 1 else float("nan")
+
+
+def kappa() -> None:
+    """H5 gate: kappa >= 0.7 between the judge and the human keeps the judge's rates on all flips;
+    below that, H5 is reported from the human labels alone."""
+    d = pd.read_csv(RES / "judge_labels.csv").merge(pd.read_csv(RES / "judge_key.csv"), on="row")
+    yn = lambda s: s.map(lambda x: {"Y": "YES", "N": "NO"}.get(str(x).strip().upper()[:1]) if pd.notna(x) else None)
+    labels = {c: yn(d[c]) for c in d.columns if c.startswith("label_")}
+    labels = {c: h for c, h in labels.items() if h.notna().any()}
+    if not labels:
+        print("no labels yet: write YES or NO in label_pushkar in results/judge_labels.csv")
+    for c, h in labels.items():
+        n, po, k = cohen(d.mentions, h)
+        print(f"judge vs {c}: {n} rows, agreement {po:.3f}, kappa {k:.3f} -> "
+              f"{'keep the judge' if k >= 0.7 else 'report H5 from the human labels'}")
+        print(f"  silent share (NO): human {(h.dropna() == 'NO').mean():.3f}, judge on the same rows "
+              f"{(d.mentions[h.notna()] == 'NO').mean():.3f}")
+        print(pd.crosstab(d.mentions.rename("judge"), h.rename(c)).to_string())
+    if len(labels) == 2:
+        n, po, k = cohen(*labels.values())
+        print(f"{' vs '.join(labels)}: {n} rows, agreement {po:.3f}, kappa {k:.3f}")
 
 
 def main(B: int) -> None:
@@ -358,11 +396,13 @@ class Figures:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("what", choices=["all", "judge"])
+    ap.add_argument("what", choices=["all", "judge", "kappa"])
     ap.add_argument("--boot", type=int, default=2000, help="bootstrap resamples (0 = point estimates only)")
     ap.add_argument("--n", type=int, default=2000, help="flips to judge")
     a = ap.parse_args()
     if a.what == "all":
         main(a.boot)
-    else:
+    elif a.what == "judge":
         judge(a.n)
+    else:
+        kappa()

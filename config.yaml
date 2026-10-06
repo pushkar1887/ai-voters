@@ -50,8 +50,8 @@ data:
     min_words: 15
     max_words: 120
     title_words: 30
-    # Subreddit -> Muchnik et al. (2013) topic group. DRAFT by Claude (2026-10-06): Pushkar and
-    # Teammate 3 map independently and reconcile before G2. Group "other" is dropped.
+    # Subreddit -> Muchnik et al. (2013) topic group. DRAFT by Claude (2026-10-06); Pushkar
+    # reviews it (EXPERIMENT_PLAN.md §12, T2). Group "other" is dropped.
     groups:
       politics: [politics, POLITIC, Libertarian, conspiracy]
       general news: [worldnews, news, offbeat, canada, unitedkingdom, australia, singapore]
