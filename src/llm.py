@@ -97,12 +97,15 @@ class BadRequest(Exception):
 
 
 class Pool:
-    """Every NIM key behind its own pacer; each call takes the key that is free soonest."""
+    """Round robin over the live keys. Each key also keeps its own pacer (60/RPM s between its calls);
+    a key that is dead (401/403) or cooling down after a 429 is skipped for that turn."""
 
     def __init__(self, keys: list[str], rpm: float):
         self.keys, self.gap = keys, 60.0 / rpm
         self.free_at = [0.0] * len(keys)
         self.dead: set[int] = set()
+        self.next_key = 0
+        self.used: Counter = Counter()                  # requests per key index -> manifest, by fingerprint
         self.stats: Counter = Counter()
         self.lock = asyncio.Lock()
         self.http = httpx.AsyncClient(base_url=CFG["nim"]["base_url"], timeout=CFG["nim"]["timeout_s"],
@@ -110,13 +113,17 @@ class Pool:
 
     async def _take_key(self) -> int:
         async with self.lock:
-            live = [i for i in range(len(self.keys)) if i not in self.dead]
+            n, t_now = len(self.keys), time.monotonic()
+            order = [(self.next_key + j) % n for j in range(n)]
+            live = [i for i in order if i not in self.dead]
             if not live:
                 raise RuntimeError("every NIM key was rejected (401/403)")
-            i = min(live, key=self.free_at.__getitem__)
-            t_now = time.monotonic()
+            # next key in turn, unless it is cooling down after a 429 and a healthy key exists
+            i = next((k for k in live if self.free_at[k] <= t_now + self.gap), live[0])
+            self.next_key = (i + 1) % n
             t = max(t_now, self.free_at[i])
             self.free_at[i] = t + self.gap
+            self.used[i] += 1
         await asyncio.sleep(t - t_now)
         return i
 
@@ -402,7 +409,9 @@ def write_manifest(stage: str, name: str, models, mon: Monitor) -> None:
            "updated": now(), "requests": c["done"], "cache_hits": c["hit"], "parse_ok": c["ok"],
            "parse_retry_ok": c["retry_ok"], "parse_fail": c["fail"], "errors": c["error"],
            "minutes": round((time.monotonic() - mon.t0) / 60, 1),
-           "http": {str(k): v for k, v in (mon.pool.stats.items() if mon.pool else [])}}
+           "http": {str(k): v for k, v in (mon.pool.stats.items() if mon.pool else [])},
+           "key_requests": ({fp(mon.pool.keys[i]): n for i, n in sorted(mon.pool.used.items())}
+                            if mon.pool else {})}               # round-robin check: near-equal counts
     path = RUNS / stage / f"{name}.manifest.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(man, indent=1), encoding="utf-8")
