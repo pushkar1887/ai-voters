@@ -823,3 +823,21 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   - S1 (keys 0–17) and S5 (keys 18–23) on NIM.
   - Kaggle `aiv-local-l1`: S1 hits, then S3 main and fix cells.
   - Kaggle `aiv-local-l2`: L2 persona calls, S3 main and fix cells, then L2T S1 and S3.
+
+### 2026-10-06 · First full S3 result (L1), round-robin keys, how to read S3
+
+- **Keys:** strict round robin over live keys. Dead keys (401/403) are skipped permanently; a key in a 429 cool-down is skipped for that turn; each key keeps its own 35 RPM pacer. Verified offline, and every manifest now carries `key_requests`, per-key counts by fingerprint.
+- **Kaggle `aiv-local-l1`: complete.**
+  - S1 was all cache hits (21,468 screening + 1,000 persona calls), so the bundle race did not hit L1, and Kaggle's pool equals the laptop's.
+  - S3 main: 8,000 cells in 18 min. Fix cells: 3,242 in 9 min. Both 100% parsed.
+- **L1 (Llama-3.1-8B, 1,000 claims). First real H1/H2 numbers** (claim bootstrap, 300 resamples):
+  - **ρ** = 0.10 [0.06, 0.13] with q unstated (Bayes 1.0), and 0.05 [0.02, 0.09] with q = 70% (Bayes 0.45).
+  - **q\*** = 0.55 [0.54, 0.57] (Bayes 0.70).
+  - **Follow curve, independent framing:** flat at 0.29–0.39 for leads 1–6, where Bayes rises from 0 at lead 1 to 1.0 at lead 3 and above.
+  - **Random labels** are followed 8–25% of the time (Bayes 0), close to the sequential rate (12–25%).
+  - **Reading:** L1 strongly *under*-weights other votes and is insensitive to how big the majority is. Whatever does move it looks like anchoring rather than reasoning about evidence. For L1, H1 is refuted in the under-herding direction, which the plan counts as publishable either way.
+- **How to read S3** (a design point, now in the code docstrings): S3's scripted votes are built from the agent's own verdict, not from the truth, so they carry no real information about the claim.
+  - S3's outcome is therefore **consistency with the stated evidence**: ρ, q\*, γ and agreement with the Bayes oracle.
+  - Accuracy against the truth is meaningful only in S4's real crowds. This is why the Bayes-rule prompt "lowers accuracy" in S3 (0.61 vs 0.77) while moving following toward Bayes.
+- **γ** is reported with its parts, β_inf and β_extra, because the ratio is unstable when a model barely moves at all. L1's γ_sequential of −1.64 is that case.
+- **The S3 table** now includes every model with an S3 cache, so a NIM run never drops the Kaggle models' rows.

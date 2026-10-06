@@ -94,8 +94,10 @@ def specs_for(model: str, part: str, limit: int | None) -> list[dict]:
     return out
 
 
-def table(models: list[str]) -> pd.DataFrame:
-    """One row per S3 call: design, oracle and the model's social answer -> results/S3_cells.parquet."""
+def table(models: list[str] | None = None) -> pd.DataFrame:
+    """One row per S3 call: design, oracle and the model's social answer -> results/S3_cells.parquet.
+    Default: every model with an S3 cache (NIM and Kaggle alike), so no run drops another's rows."""
+    models = models or sorted(p.stem for p in (RUNS / "S3").glob("*.jsonl"))
     rows = []
     for m in models:
         in_pool = {r["claim_id"] for r in load_pool(m)["claims"]}      # pilot claims may have left the pool
@@ -131,7 +133,7 @@ if __name__ == "__main__":
     ap.add_argument("--limit", type=int, help="first N pool claims (pilot)")
     a = ap.parse_args()
     run_many("S3", {m: specs_for(m, a.part, a.limit) for m in a.models})
-    df = table(a.models)
+    df = table()
     against = df[df.follow.notna()]
     print("follow rate when the shown majority opposes the own verdict (model vs Bayes):")
     print(against.groupby(["model", "part", "fix", "framing"], dropna=False)
