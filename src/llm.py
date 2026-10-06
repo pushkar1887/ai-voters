@@ -363,12 +363,13 @@ class Monitor:
     def __init__(self, label: str, total: int, pool: Pool | None):
         self.label, self.total, self.pool = label, total, pool
         self.c: Counter = Counter()
-        self.t0 = time.monotonic()
+        self.t0, self.t0_iso = time.monotonic(), now()
 
-    def add(self, rec: dict, hit: bool) -> None:
+    def add(self, rec: dict, hit: bool | None = None) -> None:
+        """hit=None (callers of acall): a record written before this run started came from the cache."""
         c = self.c
         c["done"] += 1
-        c["hit"] += hit
+        c["hit"] += hit if hit is not None else rec.get("ts", "") < self.t0_iso
         c[rec.get("parse_status", "error")] += 1
         if v := (rec.get("parsed") or {}).get("verdict"):
             c["verdicts"] += 1

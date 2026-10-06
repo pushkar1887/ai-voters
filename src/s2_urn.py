@@ -34,7 +34,7 @@ async def play(model: str, r: int, mon: Monitor) -> None:
         rec = await acall("S2", model, spec(msg, kind="urn", decoding="sample", seed_tag=f"{r}|{t}",
                                             max_tokens=CFG["s2"]["max_tokens"].get(model),
                                             meta={"round": r, "t": t, "urn": urn, "draw": d, "history": guesses[:]}))
-        mon.add(rec, False)
+        mon.add(rec)
         if not rec.get("parsed"):            # a broken round stops here and is dropped in the table
             return
         guesses.append(1 if rec["parsed"]["urn"] == "A" else -1)
