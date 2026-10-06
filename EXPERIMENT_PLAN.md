@@ -1013,3 +1013,30 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 
 - **Reading.** H5 (more than 50% of flips are unacknowledged) holds for every model by a wide margin. Flips are justified with claim content ("As of 2011, Wisconsin governors were limited to a $125,000 salary…"), not with the crowd. Thinking variants acknowledge influence somewhat more often (L2T 0.82 vs L2 0.995; M4 0.94 vs M2 0.98).
 - **Pending validation.** The judge counts only if Cohen's κ ≥ 0.7 against human labels. `results/judge_validation.csv` holds 200 reasons; the judge said NO to 181 and YES to 19. Pushkar and Teammate 3 fill in `label_pushkar` and `label_teammate3` independently, and κ is computed on all 200.
+
+### 2026-10-06 · Final analysis pass (`analyze all`, 2,000 resamples, 9 models)
+
+- **H1/H2 now include L2 and L2T** (`results/S6_h1_h2.csv`):
+  - L2 (Qwen3-8B, thinking off): ρ = 0.42 [0.37, 0.47], q\* = 0.60.
+  - L2T (thinking on): ρ = 0.20 [0.14, 0.28], q\* = 0.54.
+  - **The reasoning effect replicates in a second family.** Thinking roughly halves the weight given to a shown vote on real claims: Qwen 0.42 → 0.20 and Nemotron 0.43 → 0.15. gpt-oss is already low at both effort levels (0.09 → 0.10).
+- **H6 private-first crowd** (`results/S6_private_first.csv`; paired over the same claims, about 100 per crowd):
+
+| Crowd | Independent | Sequential | Private-first | Gain [95% CI] | Share of loss recovered |
+|---|---|---|---|---|---|
+| M1 | 0.87 | 0.73 | 0.87 | +0.14 [0.07, 0.22] | 100% |
+| M2 | 0.875 | 0.795 | 0.875 | +0.08 [0.02, 0.15] | 100% |
+| M3 | 0.75 | 0.69 | 0.73 | +0.05 [−0.05, 0.14] | 69% |
+| M6 | 0.845 | 0.805 | 0.835 | +0.03 [−0.04, 0.10] | 75% |
+| mixed | 0.87 | 0.80 | 0.855 | +0.06 [−0.02, 0.13] | 79% |
+| M4 | 0.84 | 0.85 | 0.85 | 0 | no loss to recover |
+
+- **Reading for H6.** Private-first recovers 69–100% of the accuracy that visible votes cost, above the pre-registered 50% in every crowd that lost accuracy. It is significant for M1 and M2. With about 100 claims per crowd the other intervals are wide; extending the F1 crowd to 300 claims would firm them up (about 13k calls, solos cached).
+- **Figures 1–5** were regenerated from the final tables. Fig. 1 is now a 2 × 5 grid (7.3 in, ACM full width), and Fig. 2's x-range is −0.1 to 1.3.
+- **Hypothesis status:**
+  - H1: fails in the opposite direction; models under-weight votes, and Nemotron without thinking is the near-Bayes exception.
+  - H2: reframe as framing insensitivity.
+  - H3: ✅ for the follower models; nuanced against Bayes.
+  - H4: ✅ for Nemotron, mirror image for gpt-oss.
+  - H5: ✅ pending κ.
+  - H6: ✅, private-first works.
