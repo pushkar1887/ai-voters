@@ -63,7 +63,7 @@ async def chain(crowd: str, c: dict, k: int, variant: str, personas: list[dict],
         seed_tag=f"{crowd}|{a['t']}", meta={**base, "part": "solo", "t": a["t"], "persona_id": a["persona"]["id"]}),
         name=crowd) for a in ags))
     for r in solos:
-        mon.add(r, False)
+        mon.add(r)
     history, social = [-c["truth"]] * k, []
     for a, solo in zip(ags, solos):
         if not history:                                   # first voter of a clean crowd: nothing to see
@@ -77,7 +77,7 @@ async def chain(crowd: str, c: dict, k: int, variant: str, personas: list[dict],
                 msgs, kind="claim", decoding="sample", seed_tag=f"{crowd}|{a['t']}|{k}|{variant}",
                 meta={**base, "part": variant, "t": a["t"], "k": k, "persona_id": a["persona"]["id"],
                       "history": history[:]}), name=crowd)
-            mon.add(rec, False)
+            mon.add(rec)
             v = verdict(rec)
         if v == 0:                                        # unparseable vote: the chain stops here
             break
