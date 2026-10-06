@@ -19,7 +19,7 @@ import pandas as pd
 
 from src.data import load_claims, load_personas, private_first_messages, social_messages, solo_messages
 from src.llm import ROOT, Monitor, acall, close_pool, get_pool, rng, spec, write_manifest
-from src.oracle import informative_lead
+from src.oracle import informative_lead, oracle
 
 AGENTS, MIXED = 12, ["M1", "M2", "M3", "M6"]
 SIZES = {"clean": 300, "seeded": 150, "f1": 100}
@@ -131,15 +131,40 @@ async def run_crowds(crowds: list[str], f1: bool, limit: int | None) -> pd.DataF
     return df
 
 
+def bayes_majority(solo: list[int], models: list[str], truth: int, k: int, p_hat: dict[str, float]) -> int:
+    """The H3 benchmark: Bayesian agents with the same private signals (solo verdicts, accuracy p_hat of
+    their model) facing the same k unlabelled wrong votes, voting in the same order."""
+    hist, votes = [-int(truth)] * int(k), []
+    for s, m in zip(map(int, solo), models):
+        if s:                                              # an unparsed solo verdict carries no signal
+            v, _ = oracle(hist, s, p_hat[m], p_hat[m], "sequential")
+            votes.append(v)
+            hist.append(v)
+    total = sum(votes)
+    return (total > 0) - (total < 0)
+
+
 def summary(df: pd.DataFrame) -> pd.DataFrame:
     d = df[df.complete].copy()
+    p_hat = {p.stem: json.loads(p.read_text(encoding="utf-8"))["p_hat"] for p in (ROOT / "data" / "pools").glob("*.json")}
+    d["bayes_majority"] = [bayes_majority(list(r.solo), r.models.split(","), r.truth, r.k, p_hat)
+                           for r in d.itertuples()]
     acc = lambda maj, truth: (maj == truth).astype(float).where(maj != 0, 0.5)   # 6-6 tie counts as half
     d["social_acc"], d["indep_acc"] = acc(d.final_majority, d.truth), acc(d.indep_majority, d.truth)
+    d["bayes_acc"] = acc(d.bayes_majority, d.truth)
     d["wrong_cascade"] = (d.cascade != 0) & (d.cascade != d.truth)
-    return (d.groupby(["crowd", "variant", "k"])
-            .agg(seqs=("item_id", "size"), social_acc=("social_acc", "mean"), indep_acc=("indep_acc", "mean"),
-                 cascades=("cascade", lambda x: (x != 0).mean()), wrong_cascades=("wrong_cascade", "mean"))
-            .assign(wisdom_loss=lambda x: x.indep_acc - x.social_acc).round(3))
+    out = (d.groupby(["crowd", "variant", "k"])
+           .agg(seqs=("item_id", "size"), social_acc=("social_acc", "mean"), indep_acc=("indep_acc", "mean"),
+                bayes_acc=("bayes_acc", "mean"), cascades=("cascade", lambda x: (x != 0).mean()),
+                wrong_cascades=("wrong_cascade", "mean"))
+           .assign(wisdom_loss=lambda x: x.indep_acc - x.social_acc))
+    # Seeding effect on the same claims: k = 0 accuracy restricted to the claims that were also seeded.
+    seeded = d[d.k > 0].groupby("crowd").item_id.agg(set)
+    clean = d[(d.k == 0) & (d.variant == "social")]
+    k0 = {cr: clean[(clean.crowd == cr) & clean.item_id.isin(ids)].social_acc.mean() for cr, ids in seeded.items()}
+    out["acc_drop_vs_k0"] = [k0.get(cr, float("nan")) - acc if k > 0 else float("nan")
+                             for (cr, _, k), acc in zip(out.index, out.social_acc)]
+    return out.round(3)
 
 
 if __name__ == "__main__":
