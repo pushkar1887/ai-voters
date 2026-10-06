@@ -493,8 +493,9 @@ def verdict_prob(g) -> float | None:
 
 
 def _run_vllm(stage: str, model: str, specs: list[dict], name: str | None = None) -> list[dict]:
-    """Offline batch: drop cache hits, generate the rest in one call, retry bad parses once.
-    A fully cached run needs no vLLM, so pools and tables are rebuilt on the laptop from pulled caches."""
+    """Offline batches of vllm.chunk prompts: drop cache hits, generate, retry bad parses once, and
+    cache each chunk before the next, so a dead engine loses at most one chunk. A fully cached run
+    needs no vLLM, so pools and tables are rebuilt on the laptop from pulled caches."""
     cache = cache_for(stage, name or model)
     mon = Monitor(f"{stage}/{name or model}", len(specs), None)
     ps = [payload_for(model, s) for s in specs]
@@ -512,26 +513,30 @@ def _run_vllm(stage: str, model: str, specs: list[dict], name: str | None = None
                                   seed=int(hs[i][:8], 16)) for i in idx]
             return dict(zip(idx, llm.chat(msgs, sps, use_tqdm=True, **kw)))
 
-        t0 = time.monotonic()
-        outs = generate(todo, [ps[i]["messages"] for i in todo])
-        bad = [i for i in todo if parse(outs[i].outputs[0].text, specs[i]["kind"]) is None]
-        retry = {}
-        if bad:
-            msgs = [ps[i]["messages"] + [{"role": "assistant", "content": outs[i].outputs[0].text},
-                                         {"role": "user", "content": RETRY_MSG}] for i in bad]
-            retry = {i: o.outputs[0].text for i, o in generate(bad, msgs).items()}
-        per_call = (time.monotonic() - t0) / len(todo)
-        for i in todo:
-            o, g = outs[i], outs[i].outputs[0]
-            parsed, status = parse(g.text, specs[i]["kind"]), "ok"
-            if parsed is None:
-                parsed = parse(retry.get(i), specs[i]["kind"])
-                status = "retry_ok" if parsed else "fail"
-            reasoning = g.text.split("</think>")[0] if "</think>" in g.text else ""
-            usage = {"prompt_tokens": len(o.prompt_token_ids or []), "completion_tokens": len(g.token_ids)}
-            extra = {"lp_p_true": verdict_prob(g)} if specs[i]["kind"] == "claim" else {}
-            cache.put(make_record(hs[i], stage, model, "vllm", ps[i], specs[i], g.text, reasoning,
-                                  g.finish_reason, usage, parsed, status, retry.get(i), per_call, **extra))
+        size = CFG["vllm"]["chunk"]
+        for start in range(0, len(todo), size):
+            part = todo[start:start + size]
+            t0 = time.monotonic()
+            outs = generate(part, [ps[i]["messages"] for i in part])
+            bad = [i for i in part if parse(outs[i].outputs[0].text, specs[i]["kind"]) is None]
+            retry = {}
+            if bad:
+                msgs = [ps[i]["messages"] + [{"role": "assistant", "content": outs[i].outputs[0].text},
+                                             {"role": "user", "content": RETRY_MSG}] for i in bad]
+                retry = {i: o.outputs[0].text for i, o in generate(bad, msgs).items()}
+            per_call = (time.monotonic() - t0) / len(part)
+            for i in part:
+                o, g = outs[i], outs[i].outputs[0]
+                parsed, status = parse(g.text, specs[i]["kind"]), "ok"
+                if parsed is None:
+                    parsed = parse(retry.get(i), specs[i]["kind"])
+                    status = "retry_ok" if parsed else "fail"
+                reasoning = g.text.split("</think>")[0] if "</think>" in g.text else ""
+                usage = {"prompt_tokens": len(o.prompt_token_ids or []), "completion_tokens": len(g.token_ids)}
+                extra = {"lp_p_true": verdict_prob(g)} if specs[i]["kind"] == "claim" else {}
+                cache.put(make_record(hs[i], stage, model, "vllm", ps[i], specs[i], g.text, reasoning,
+                                      g.finish_reason, usage, parsed, status, retry.get(i), per_call, **extra))
+            print(f"[{stage}/{name or model}] cached {min(start + size, len(todo))}/{len(todo)} new", flush=True)
     fresh = set(todo)
     recs = [cache.get(h) for h in hs]
     for i, r in enumerate(recs):

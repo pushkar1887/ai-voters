@@ -79,9 +79,11 @@ def screen_table(claims: list[dict], recs: list[dict]) -> tuple[pd.DataFrame, bo
         rs = by_claim.get(c["id"], [])
         samples = [r for r in rs if r["meta"].get("part") == "sample" and r.get("parsed")]
         rec = next((r for r in rs if r["meta"].get("part") == "recog"), {})
-        pc = [(r["parsed"]["p_true"] / 100 if c["truth"] > 0 else 1 - r["parsed"]["p_true"] / 100) for r in samples]
+        # Integer percent, one division: float sum() differs across Python versions (3.12+ compensates),
+        # which moved a claim sitting exactly on the band edge between the laptop and Kaggle.
+        pc = [r["parsed"]["p_true"] if c["truth"] > 0 else 100 - r["parsed"]["p_true"] for r in samples]
         rows.append({"claim_id": c["id"], "truth": c["truth"], "recent": c["recent"], "n_parsed": len(samples),
-                     "p_bar": sum(pc) / len(pc) if len(pc) >= 3 else None, "said_side": said_side(rec),
+                     "p_bar": sum(pc) / (100 * len(pc)) if len(pc) >= 3 else None, "said_side": said_side(rec),
                      "n_true_verdicts": sum(r["parsed"]["verdict"] == "TRUE" for r in samples),
                      "n_disagree": sum((r["parsed"]["verdict"] == "TRUE") != (r["parsed"]["p_true"] >= 50)
                                        for r in samples)})
@@ -165,6 +167,9 @@ def main(models: list[str], limit: int | None, refill: int) -> None:
     res = pd.DataFrame(summary)
     path = ROOT / "results" / "S1_summary.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():                                   # keep the rows of models not in this run
+        old = pd.read_csv(path)
+        res = pd.concat([old[~old.model.isin(models)], res], ignore_index=True).sort_values("model")
     res.to_csv(path, index=False)
     print(res.to_string(index=False))
     g2 = Counter()
