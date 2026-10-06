@@ -841,3 +841,25 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   - Accuracy against the truth is meaningful only in S4's real crowds. This is why the Bayes-rule prompt "lowers accuracy" in S3 (0.61 vs 0.77) while moving following toward Bayes.
 - **γ** is reported with its parts, β_inf and β_extra, because the ratio is unstable when a model barely moves at all. L1's γ_sequential of −1.64 is that case.
 - **The S3 table** now includes every model with an S3 cache, so a NIM run never drops the Kaggle models' rows.
+
+### 2026-10-06 · S5 complete (Reddit first voter, H4)
+
+- **Run:** 2,100 comments × 3 treatments × 4 models (M1, M2, M3, M6) = 25,200 calls. 100% parsed, 9 429s in total. `results/S5_b1.parquet`.
+- **Results** (paired bootstrap over comments, 2,000 resamples):
+
+| Model | Up-lift in P(UP) | Down minus control | Reading |
+|---|---|---|---|
+| Humans (Muchnik et al.) | +32% | +4.5 pts | herd after an upvote, correct a downvote |
+| M1 Llama-3.2-11B | +0.0% [−1.4, +1.4] | +2.5 [+1.4, +3.7] | no up-herding; corrects downvotes, as humans do |
+| M2 Nemotron-Super | +10.6% [+2.8, +18.7] | −0.1 [−1.8, +1.4] | up-herding, no correction |
+| M3 Nemotron-Lightning | +12.0% [+4.3, +21.0] | −1.0 [−3.0, +1.1] | up-herding, no correction |
+| M6 gpt-oss-20b | −2.7% [−9.1, +4.2] | −2.0 [−4.0, −0.1] | follows the downvote (negative herding) |
+
+- **Reading for H4:**
+  - The Nemotron models show exactly H4's predicted asymmetry, positive herding without the human downvote correction, at about a third of the human effect size.
+  - gpt-oss shows the mirror image: it follows a downvote and ignores an upvote.
+  - Llama corrects downvotes like people do.
+  - There is no single "LLM voter" profile.
+- **Topics.** By topic group, up-lifts do not concentrate in politics, culture and business the way Muchnik found for people; each group has 300 comments, so these cells are noisy.
+- **Code.** `s5_reddit.lifts` now returns the paired-bootstrap intervals, and Fig. 5 draws them.
+- **Earlier pilot was noise.** The 100-comment pilot's +92% lift for M2 shrank to +10.6% on the full data.

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 
+import numpy as np
 import pandas as pd
 
 from src.data import load_comments, load_personas
@@ -40,13 +41,23 @@ def table(models: list[str]) -> pd.DataFrame:
     return df
 
 
-def lifts(df: pd.DataFrame) -> pd.DataFrame:
-    """Per model: P(UP) by treatment, the up-lift (Muchnik: +32%) and the down-treatment upvote rate
-    (Muchnik: 0.099 vs 0.054 control, i.e. correction)."""
-    up = df.assign(up=df.vote == "UP").pivot_table(index="model", columns="treatment", values="up", aggfunc="mean")
-    up["lift_up"] = up["up"] / up["control"] - 1
-    up["down_vs_control"] = up["down"] - up["control"]
-    return up.round(3)
+def lifts(df: pd.DataFrame, B: int = 2000) -> pd.DataFrame:
+    """Per model: P(UP) by treatment, the up-lift (Muchnik: +32%) and the down-minus-control upvote rate
+    (Muchnik: 0.099 vs 0.054, i.e. correction), with 95% intervals from a paired bootstrap over comments."""
+    w = (df.assign(up=(df.vote == "UP").astype(float))
+         .pivot_table(index=["model", "item_id"], columns="treatment", values="up").dropna())
+    rng = np.random.default_rng(13)
+    rows = []
+    for m, x in w.groupby(level="model"):
+        a = x[["control", "up", "down"]].to_numpy()
+        boot = np.array([a[rng.integers(0, len(a), len(a))].mean(0) for _ in range(B)])
+        lift, diff = boot[:, 1] / boot[:, 0] - 1, boot[:, 2] - boot[:, 0]
+        c, u, d = a.mean(0)
+        rows.append({"model": m, "comments": len(a), "control": c, "up": u, "down": d,
+                     "lift_up": u / c - 1, "lift_up_lo": np.nanpercentile(lift, 2.5),
+                     "lift_up_hi": np.nanpercentile(lift, 97.5), "down_vs_control": d - c,
+                     "down_lo": np.percentile(diff, 2.5), "down_hi": np.percentile(diff, 97.5)})
+    return pd.DataFrame(rows).set_index("model").round(3)
 
 
 if __name__ == "__main__":
