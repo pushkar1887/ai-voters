@@ -30,10 +30,11 @@ def boot(df: pd.DataFrame, stat, B: int, seed: int = CFG["seed"]) -> tuple[float
     if B <= 0 or math.isnan(est):
         return est, float("nan"), float("nan")
     rng = np.random.default_rng(seed)
-    groups = [g for _, g in df.groupby("item_id")]
+    groups = list(df.groupby("item_id").indices.values())        # positional row indices per claim
     vals = []
     for _ in range(B):
-        v = stat(pd.concat([groups[i] for i in rng.integers(0, len(groups), len(groups))], ignore_index=True))
+        take = np.concatenate([groups[i] for i in rng.integers(0, len(groups), len(groups))])
+        v = stat(df.iloc[take])
         if not math.isnan(v):
             vals.append(v)
     lo, hi = np.percentile(vals, [2.5, 97.5]) if vals else (float("nan"), float("nan"))
