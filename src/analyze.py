@@ -260,20 +260,26 @@ class Figures:
 
     def follow(self, fc: pd.DataFrame) -> None:
         """Fig. 1: P(follow | majority opposes own verdict) by |lead|, independent framing, against Bayes."""
+        from matplotlib.ticker import MaxNLocator
         d = fc.xs("independent", level="framing")
         models = list(d.index.get_level_values("model").unique())
-        fig, axes = self.plt.subplots(1, len(models), figsize=(1.45 * len(models), 1.8), sharey=True, squeeze=False)
-        from matplotlib.ticker import MaxNLocator
-        for ax, m in zip(axes[0], models):
+        ncols = min(5, len(models))
+        nrows = -(-len(models) // ncols)
+        fig, axes = self.plt.subplots(nrows, ncols, figsize=(1.45 * ncols, 1.75 * nrows), sharey=True,
+                                      sharex=True, squeeze=False)
+        for ax, m in zip(axes.flat, models):
             x = d.loc[m]
             ax.fill_between(x.index, x.lo, x.hi, color=self.S1, alpha=0.15, linewidth=0)
             ax.plot(x.index, x.follow, color=self.S1, marker="o", label="model")
             ax.plot(x.index, x.bayes, color=self.INK2, linestyle="--", linewidth=1, label="Bayes")
             ax.set_title(m)
-            ax.set_xlabel("|lead| shown")
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
             ax.set_ylim(-0.03, 1.03)
-        axes[0][0].set_ylabel("P(follow majority)")
+        for ax in axes.flat[len(models):]:
+            ax.set_visible(False)
+        for row in axes:
+            row[0].set_ylabel("P(follow majority)")
+        fig.supxlabel("|lead| shown against the own verdict", fontsize=8, color=self.INK2, y=-0.02)
         axes[0][0].legend(loc="upper left")
         self.save(fig, "fig1_follow_curves")
 
@@ -305,7 +311,7 @@ class Figures:
     def rho(self, t: pd.DataFrame) -> None:
         """Fig. 2: rho per model (q unstated), against its Bayes value 1."""
         self._forest(t, [("rho_unstated", self.S1, "q unstated")], [(1.0, "Bayes")],
-                     "ρ: one shown vote in units of the own signal", (-0.5, 3.0), "fig2_rho")
+                     "ρ: one shown vote in units of the own signal", (-0.1, 1.3), "fig2_rho")
 
     def gamma(self, t: pd.DataFrame) -> None:
         """Fig. 3: gamma under independent vs sequential framing, against Bayes 1 and 0."""
