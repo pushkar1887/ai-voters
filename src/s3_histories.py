@@ -100,22 +100,28 @@ def table(models: list[str] | None = None) -> pd.DataFrame:
     models = models or sorted(p.stem for p in (RUNS / "S3").glob("*.jsonl"))
     rows = []
     for m in models:
-        in_pool = {r["claim_id"] for r in load_pool(m)["claims"]}      # pilot claims may have left the pool
+        pool = load_pool(m)
+        p_hat, in_pool = pool["p_hat"], {r["claim_id"] for r in pool["claims"]}   # pilot claims may have left
         for r in read_jsonl(RUNS / "S3" / f"{m}.jsonl"):
             meta, p = r["meta"], r.get("parsed") or {}
             if meta["item_id"] not in in_pool:
                 continue
             v = meta["votes"]
+            # The oracle is recomputed from the current pool: a cache hit keeps the meta it was first written
+            # with (pilot cells carried the pilot pool's p_hat).
+            q_eff = meta["q"] / 100 if meta["q"] else p_hat
+            ov, op = oracle(v, meta["s"], p_hat, q_eff, meta["framing"])
             shown = sum(v)
             vote = (1 if p["verdict"] == "TRUE" else -1) if p else None
             maj = (1 if shown > 0 else -1) if shown else 0
             against = bool(maj) and maj != meta["s"]           # the shown majority opposes the own verdict
             rows.append({"model": m, **{k: meta[k] for k in meta if k != "votes"},
+                         "p_hat": p_hat, "oracle_vote": ov, "oracle_p": round(op, 4),
                          "votes": "".join("T" if x > 0 else "F" for x in v), "n": len(v),
                          "n_true": sum(x > 0 for x in v), "lead_shown": shown, "lead_rel": shown * meta["s"],
                          "extra": shown - meta["lead_inf"], "vote": vote, "p_true": p.get("p_true"),
                          "follow": (vote == maj) if (vote and against) else None,
-                         "oracle_follow": (meta["oracle_vote"] == maj) if against else None,
+                         "oracle_follow": (ov == maj) if against else None,
                          "parse_status": r["parse_status"], "reasoning_chars": r.get("reasoning_chars", 0),
                          "lp_p_true": r.get("lp_p_true")})
     df = pd.DataFrame(rows)
