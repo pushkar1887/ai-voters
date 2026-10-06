@@ -1040,3 +1040,16 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   - H4: ✅ for Nemotron, mirror image for gpt-oss.
   - H5: ✅ pending κ.
   - H6: ✅, private-first works.
+
+### 2026-10-06 · Runs stopped (lead's decision)
+
+- **No new runs for now;** the team moves to writing and human labeling. Nothing is left running: every NIM job and both Kaggle kernels have finished.
+- **Deferred, can resume any time:**
+  - Nemotron-3-Ultra-550B as M7 (≈ 53k calls; it works with retries).
+  - A re-probe of GLM, Kimi and DeepSeek (0/12 answered on Oct 6).
+  - The H6 private-first crowd extended to 300 claims (≈ 13k calls).
+  - To resume, add the model line in `config.yaml` and re-run the stage commands. Cached calls are free.
+- **Human tasks:**
+  1. Pushkar and Teammate 3 label `results/judge_validation.csv` independently; κ ≥ 0.7 is needed to keep the judge.
+  2. Reconcile the draft subreddit map, and review the Bayes-rule prompt.
+  3. The lead's calls on the roster, the G2 TRUE-share item, and the H1/H2 reporting.
