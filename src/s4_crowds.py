@@ -15,6 +15,7 @@ import asyncio
 import json
 from collections import Counter
 
+import numpy as np
 import pandas as pd
 
 from src.data import load_claims, load_personas, private_first_messages, social_messages, solo_messages
@@ -165,6 +166,31 @@ def summary(df: pd.DataFrame) -> pd.DataFrame:
     out["acc_drop_vs_k0"] = [k0.get(cr, float("nan")) - acc if k > 0 else float("nan")
                              for (cr, _, k), acc in zip(out.index, out.social_acc)]
     return out.round(3)
+
+
+def private_first(df: pd.DataFrame, B: int = 2000) -> pd.DataFrame:
+    """H6 in real crowds: the clean sequential crowd vs the private-first crowd on the same claims.
+    recovered = (private-first accuracy - sequential accuracy) / (independent - sequential), with a
+    paired bootstrap over claims for the accuracy gain."""
+    d = df[df.complete].copy()
+    d["acc"] = (d.final_majority == d.truth).astype(float).where(d.final_majority != 0, 0.5)
+    d["ind"] = (d.indep_majority == d.truth).astype(float).where(d.indep_majority != 0, 0.5)
+    rng = np.random.default_rng(13)
+    rows = []
+    for cr, g in d.groupby("crowd"):
+        f = g[g.variant == "f1"].set_index("item_id")
+        s = g[(g.variant == "social") & (g.k == 0)].set_index("item_id").reindex(f.index).dropna(subset=["acc"])
+        f = f.loc[s.index]
+        if not len(f):
+            continue
+        gain = f.acc.to_numpy() - s.acc.to_numpy()
+        boot = [gain[rng.integers(0, len(gain), len(gain))].mean() for _ in range(B)]
+        lost = s.ind.mean() - s.acc.mean()
+        rows.append({"crowd": cr, "claims": len(f), "independent": s.ind.mean(), "sequential": s.acc.mean(),
+                     "private_first": f.acc.mean(), "gain": gain.mean(), "gain_lo": np.percentile(boot, 2.5),
+                     "gain_hi": np.percentile(boot, 97.5), "lost": lost,
+                     "recovered": gain.mean() / lost if lost > 0.005 else np.nan})
+    return pd.DataFrame(rows).round(3)
 
 
 if __name__ == "__main__":

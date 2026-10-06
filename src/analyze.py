@@ -204,11 +204,15 @@ def main(B: int) -> None:
             fx.to_csv(RES / "S6_fixes.csv", index=False)
             print("\nfixes vs paired main cells:\n", fx.to_string(index=False))
     if (RES / "S4_sequences.parquet").exists():
-        from src.s4_crowds import summary
-        s4 = summary(pd.read_parquet(RES / "S4_sequences.parquet"))
+        from src.s4_crowds import private_first, summary
+        seqs = pd.read_parquet(RES / "S4_sequences.parquet")
+        s4 = summary(seqs)
         s4.to_csv(RES / "S6_crowds.csv")
         print("\ncrowds:\n", s4.to_string())
         figs.crowds(s4)
+        pf = private_first(seqs, B)
+        pf.to_csv(RES / "S6_private_first.csv", index=False)
+        print("\nH6 private-first crowd vs sequential crowd (same claims):\n", pf.to_string(index=False))
     if (RES / "S5_b1.parquet").exists():
         from src.s5_reddit import lifts
         s5 = lifts(pd.read_parquet(RES / "S5_b1.parquet"))
