@@ -913,3 +913,23 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   - M1 fails the comprehension check (it follows its own draw only 64% of the time at lead 0), so its row carries a caveat.
 - **Round robin, checked in the manifest:** the five live keys in the 18–23 slice got 482–483 requests each.
 - **Fix:** the dead key (`0eff8f`) still received 42 requests that had been assigned before its first 403 came back. `Pool.post` now re-checks after the pacing wait and moves to another key without spending a retry.
+
+### 2026-10-06 · S4: first crowd (M2) and the Bayesian-crowd benchmark
+
+- **M2 crowd:** 750 sequences (300 clean, plus 150 each at k = 1, 2, 3), all complete. Solo verdicts are identical across k for 300 of 300 claims, which confirms the in-flight dedup fix. Key slice 18–23: 87 429s in about 17k calls (0.5%).
+- **New in the summary** (`s4_crowds.summary`):
+  - **Bayesian-crowd benchmark (H3).** The same solo signals (each agent's own verdict, with its model's p̂) face the same unlabelled bot votes, in the same order.
+  - **Paired seeding effect.** k = 0 accuracy on the same 150 claims that were seeded.
+
+| k | LLM crowd accuracy | Drop vs k = 0 (same claims) | Independent majority | Bayesian crowd | Wrong cascades |
+|---|---|---|---|---|---|
+| 0 | 0.77 | — | 0.84 | 0.82 | 18% |
+| 1 | 0.61 | −0.19 | 0.87 | 0.75 | 31% |
+| 2 | 0.50 | −0.30 | 0.87 | 0.00 | 45% |
+| 3 | 0.49 | −0.31 | 0.87 | 0.00 | 58% |
+
+- **Reading for H3:**
+  - **Wisdom loss holds for M2:** visible votes cost 7 points with no bots, and one bot costs another 19.
+  - **The "worse than Bayes" clause splits.** One bot hurts the LLM crowd more than a Bayesian crowd (0.61 vs 0.75). Two bots wipe out the Bayesian crowd entirely, because rational agents who trust the planted votes cascade on them (textbook BHW), while the LLM crowd half-resists.
+  - So Bayes is a poor safety benchmark under manipulation. The paper should say "more manipulable than Bayes by one bot, less by two".
+- **Running:** the M3 crowd on keys 18–23. The remaining crowds (M1, M4, M6, mixed) and the private-first crowd follow on all keys after S3.
