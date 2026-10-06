@@ -65,7 +65,7 @@ def urn_bayes(draw: int, guesses) -> tuple[int, float]:
 
 
 if __name__ == "__main__":
-    # Hand-worked cases (two-person rule: Teammate 3 adds 20 more before G2).
+    # Hand-worked cases.
     assert len(bhw_sequences(3)) == 6                     # (1,1,-1) and (-1,-1,1) are impossible
     assert informative_lead([1, 1, 1, 1, 1]) == 2         # cascade after two votes
     assert informative_lead([1, -1, 1, 1, -1]) == 2       # lead hits 2 at vote 4; vote 5 adds nothing
@@ -79,4 +79,34 @@ if __name__ == "__main__":
     assert oracle([1, 1, 1, 1, 1], -1, p, q, "random")[0] == -1      # random labels count for nothing
     assert abs(oracle([1, 1], -1, p, q, "independent")[1] - 0.7) < 1e-9
     assert urn_bayes(-1, [1, 1])[0] == 1 and urn_bayes(-1, [1])[0] == -1 and urn_bayes(1, [])[0] == 1
-    print("oracle checks pass")
+
+    # Exhaustive check, in place of a second person's hand-worked cases: enumerate every private-signal
+    # sequence of Bayesian predecessors (accuracy q, ties to the own signal, prior 1/2) and compute each
+    # history's likelihood from scratch, without informative_lead() or evidence().
+    from functools import lru_cache
+
+    @lru_cache(maxsize=None)
+    def lik(hist: tuple, theta: int, q: float) -> float:
+        """P(the predecessors act out hist | truth theta)."""
+        return sum(math.prod(q if x == theta else 1 - q for x in sig)
+                   for sig in itertools.product((1, -1), repeat=len(hist))
+                   if all(act(hist[:t], sig[t], q) == hist[t] for t in range(len(hist))))
+
+    @lru_cache(maxsize=None)
+    def act(hist: tuple, s: int, q: float) -> int:
+        t, f = lik(hist, 1, q) * (q if s == 1 else 1 - q), lik(hist, -1, q) * (1 - q if s == 1 else q)
+        return s if abs(t - f) <= 1e-12 * max(t, f) else (1 if t > f else -1)
+
+    checked = 0
+    for q, p_self in [(URN_P, URN_P), (0.6, 0.8), (0.7, 0.7), (0.85, 0.65)]:
+        for n in range(1, 7):
+            seqs = bhw_sequences(n)
+            assert set(seqs) == {h for h in itertools.product((1, -1), repeat=n) if lik(h, 1, q) > 0}
+            for h, s in itertools.product(seqs, (1, -1)):
+                t = lik(h, 1, q) * (p_self if s == 1 else 1 - p_self)
+                f = lik(h, -1, q) * (1 - p_self if s == 1 else p_self)
+                vote, p_true = oracle(h, s, p_self, q, "sequential")
+                assert abs(p_true - t / (t + f)) < 1e-9
+                assert vote == (s if abs(t - f) <= 1e-12 * max(t, f) else (1 if t > f else -1))
+                checked += 1
+    print(f"oracle checks pass ({checked} exhaustive cases, histories up to 6 votes)")
