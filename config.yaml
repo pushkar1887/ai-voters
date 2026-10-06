@@ -76,6 +76,10 @@ data:
                   insurance agent, librarian]
     regions: [the Northeast, the Midwest, the South, the Southwest, the West Coast]
 
+s2:
+  # Urn reasoning runs long: at 4,096 / 2,048 tokens over 10% of M4 / M6H calls hit the cap (p50 1,612 / 995).
+  max_tokens: {M4: 16384, M6H: 16384, L2T: 16384}
+
 s1:
   samples: 5
   band: [0.55, 0.90]
