@@ -328,10 +328,11 @@ class Figures:
         t = s5.reset_index()
         fig, ax = self.plt.subplots(figsize=(3.3, 0.35 * len(t) + 0.8))
         y = np.arange(len(t))
-        ax.plot(t.lift_up, y, "o", color=self.S1)
+        ax.errorbar(t.lift_up, y, xerr=[t.lift_up - t.lift_up_lo, t.lift_up_hi - t.lift_up], fmt="o",
+                    color=self.S1, ecolor=self.S1, elinewidth=1, capsize=0)
         ax.axvline(0.32, color=self.S2, linestyle="--", linewidth=1)
         ax.text(0.32, 1.01, "humans, +32% (Muchnik et al. 2013)", transform=ax.get_xaxis_transform(),
-                color=self.INK2, fontsize=7, ha="left", va="bottom")
+                color=self.INK2, fontsize=7, ha="right", va="bottom")
         ax.axvline(0, color=self.AXIS, linewidth=0.8)
         ax.set_yticks(y, t.model)
         ax.invert_yaxis()
