@@ -73,7 +73,10 @@ def gamma(df: pd.DataFrame) -> float:
     return b_extra / b_inf if b_inf else float("nan")
 
 
-def s3_table() -> pd.DataFrame:
+def s3_table(rebuild: bool = False) -> pd.DataFrame:
+    if rebuild or not (RES / "S3_cells.parquet").exists():   # from every model's S3 cache (NIM and Kaggle)
+        from src.s3_histories import table
+        table()
     df = pd.read_parquet(RES / "S3_cells.parquet")
     df = df[df.vote.notna()].copy()
     df["vote_true"] = (df.vote > 0).astype(int)
@@ -156,7 +159,7 @@ def holm(pvals: dict[str, float]) -> dict[str, float]:
 
 def judge(n: int) -> None:
     """H5: does the reason of a flip toward the majority mention the other votes? M6 judges at T = 0."""
-    df = s3_table()
+    df = s3_table(rebuild=True)
     flips = df[(df.part == "main") & (df.follow == 1)]
     reasons = {}
     for m in flips.model.unique():
@@ -185,8 +188,8 @@ def main(B: int) -> None:
     pd.set_option("display.width", 220)
     pd.set_option("display.max_columns", 30)
     figs = Figures()
-    if (RES / "S3_cells.parquet").exists():
-        df = s3_table()
+    if (RUNS / "S3").exists():
+        df = s3_table(rebuild=True)
         t = h1_h2(df, B)
         t.to_csv(RES / "S6_h1_h2.csv", index=False)
         print("H1/H2 by model (point [95% CI], claims resampled):\n", readable(t).to_string(index=False))
