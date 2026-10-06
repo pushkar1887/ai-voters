@@ -863,3 +863,29 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - **Topics.** By topic group, up-lifts do not concentrate in politics, culture and business the way Muchnik found for people; each group has 300 comments, so these cells are noisy.
 - **Code.** `s5_reddit.lifts` now returns the paired-bootstrap intervals, and Fig. 5 draws them.
 - **Earlier pilot was noise.** The 100-comment pilot's +92% lift for M2 shrank to +10.6% on the full data.
+
+### 2026-10-06 · S1 complete, gate G2
+
+**S1 final** (`results/S1_summary.csv`, `data/pools/`; L2 and L2T are still running on Kaggle)
+
+| Model | Screened | Parsed | TRUE share | Solo accuracy | Probe | In band | Pool | p̂ |
+|---|---|---|---|---|---|---|---|---|
+| L1 | 3,578 | 99.99% | 0.60 | 0.64 | invalid (91% YES) | 1,665 | 1,000 | 0.87 |
+| M1 | 3,578 | 99.99% | 0.47 | 0.63 | invalid (80% YES) | 1,565 | 1,000 | 0.86 |
+| M2 | 3,578 | 100% | 0.10 | 0.57 | valid, 1% recognized | 594 | 418 | 0.85 |
+| M3 | 3,578 | 99.98% | 0.39 | 0.64 | valid, 3% recognized | 1,027 | 840 | 0.81 |
+| M4 | 2,500 | 99.98% | 0.29 | 0.69 | valid, 49% recognized | 421 | 300 (cap) | 0.84 |
+| M6 | 3,578 | 100% | 0.24 | 0.57 | invalid (79% YES) | 1,172 | 804 | 0.74 |
+| M6H | 2,500 | 99.70% | 0.28 | 0.59 | invalid (94% YES) | 813 | 297 | 0.77 |
+
+**Gate G2**
+- Parse ≥ 99%: ✅ all models.
+- Pools: ✅ by the plan's fallback (≥ 600 for M1, M3, M6 and L1). M2 has 418 claims and gets 12 cells per claim in S3.
+- p̂ in [0.60, 0.85]: ✅ for 5 of 6 NIM models. M1 (0.86) and L1 (0.87) sit just above the band.
+- TRUE share 0.50 ± 0.15: ❌ for M2, M4, M6 and M6H, the skeptical prior. **Proposal: report it as a model property, not a gate.** Pools are balanced by truth, and the analysis conditions on s and `p_true`.
+- **G2 passes on the plan's own fallbacks, with the TRUE-share item awaiting the lead's call.** Prompts are frozen at v1 from here; any change goes to `v2.yaml` plus a re-run.
+
+**Other notes**
+- **Recognition.** Only M4 (thinking on) shows real recognition: 49% of claims, named on the correct side well above chance. Its pool excludes those claims.
+- **Calibration.** ECE is 0.21–0.36, so stated `p_true` is poorly calibrated across the board. This motivates leaning on token probabilities (L1, L2) for the belief analyses.
+- **Launched:** S3 main and fix cells on all six NIM models (keys 0–17, round robin), and the S2 re-run of M4 and M6H with a 16k-token budget (keys 18–23).
