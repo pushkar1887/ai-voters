@@ -978,3 +978,26 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
   3. Silent-herding judge (`python -m src.analyze judge`) and the 200-reason κ sheet for Pushkar and Teammate 3.
   4. `python -m src.analyze all` for the final tables and figures. L2 and L2T now enter the H1/H2 table automatically.
   5. The lead's decisions: the new roster, the G2 TRUE-share item, and the H1/H2 reporting (see the S3 entry).
+
+### 2026-10-06 · S4 complete (6 crowds); large-model probe; next steps
+
+- **S4, clean and seeded:** 4,039 of 4,041 sequences complete. Solo verdicts are identical across k for 1,566 of 1,566 claims. The mixed crowd has 216 clean claims, the number of claims that sit in at least 3 member pools.
+
+| Crowd | Sequential, no bots | Independent majority | Accuracy change with 1 / 2 / 3 bots (same claims) | Bayesian crowd at k = 1 / ≥ 2 |
+|---|---|---|---|---|
+| M3 Nemotron-Lightning | 0.73 | 0.80 | −20 / −28 / −40 | 0.56 / 0.00 |
+| M2 Nemotron-Super | 0.77 | 0.84 | −19 / −30 / −31 | 0.75 / 0.00 |
+| mixed | 0.80 | 0.84 | −10 / −17 / −19 | 0.64 / 0.00 |
+| M6 gpt-oss | 0.78 | 0.81 | −7 / −7 / −9 | 0.69 / 0.00 |
+| M4 Nemotron, thinking on | 0.85 | 0.84 | +1 / −9 / −5 | 0.67 / 0.00 |
+| M1 Llama-3.2-11B | 0.75 | 0.87 | +4 / +10 / +9 | 0.76 / 0.00 |
+
+- **Reading:**
+  - **The followers in S3 are the manipulable crowds in S4.** M2 and M3 lose about 20 points to one bot.
+  - **The under-weighters resist bots.** M4, M6 and M1 barely move. M1 even gains: its answers move away from the planted votes, which in S4 are always wrong. Yet M1 still loses 12 points to visible votes with no bots, so its social prompt itself degrades its answers. Treat M1 with caution; it also failed the urn comprehension check.
+  - **Every LLM crowd beats a Bayesian crowd at k ≥ 2**, which cascades on the planted votes and drops to 0.
+- **Large models on NIM** (12 real claim prompts each, launched together; 5-minute cap per call):
+  - DeepSeek-v4.1-flash, GLM-5.3 and GLM-5.3-flash, Kimi-K3 and Gemma-4-31B: 0/12. Llama-3.2-90B: 1/12. The errors were timeouts and 503s, which is free-tier capacity, not our code.
+  - **Nemotron-3-Ultra-550B-A55B (thinking off): 30/30 with retries** (22 503s absorbed), median 5 s. It leans TRUE (21/30).
+  - **Decision (lead):** finish the current analysis first, then decide on adding Ultra (≈ 53k calls; a 3B → 12B → 55B-active scale ladder within the Nemotron family) and on re-probing GLM, Kimi and DeepSeek.
+- **Running:** the S4 private-first crowd (H6, keys 0–11) and the silent-herding judge (H5, keys 12–23). `analyze` now rebuilds the S3 table from every cache, so L2 and L2T enter the H1/H2 table.
