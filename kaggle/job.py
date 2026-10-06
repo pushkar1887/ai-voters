@@ -48,12 +48,16 @@ def kaggle_main(job: dict) -> None:
     subprocess.run(f"pip install -q {job['vllm']}", shell=True, check=True)
     subprocess.run("pip uninstall -y -q torchaudio", shell=True)   # built for the old torch; nothing here needs audio
     subprocess.run(probe + " && python -c \"import vllm; print('vllm', vllm.__version__)\"", shell=True)
-    env = {**os.environ, "AIV_RUNS": str(runs), "AIV_COMMIT": commit, "PYTHONUNBUFFERED": "1"}
+    env = {**os.environ, "AIV_RUNS": str(runs), "AIV_COMMIT": commit, "PYTHONUNBUFFERED": "1",
+           "VLLM_RPC_TIMEOUT": "600000"}                                 # long thinking steps; default is short
     for cmd in job["cmds"]:
-        t0 = time.time()
-        print(f"\n=== {cmd}", flush=True)
-        r = subprocess.run([sys.executable, "-m", *cmd.split()], cwd=code, env=env)
-        print(f"=== exit {r.returncode} after {(time.time() - t0) / 60:.1f} min", flush=True)
+        for attempt in range(1, 4):                                      # a dead engine resumes from the cache
+            t0 = time.time()
+            print(f"\n=== {cmd}  (attempt {attempt})", flush=True)
+            r = subprocess.run([sys.executable, "-m", *cmd.split()], cwd=code, env=env)
+            print(f"=== exit {r.returncode} after {(time.time() - t0) / 60:.1f} min", flush=True)
+            if r.returncode == 0:
+                break
     shutil.rmtree(code)                                              # output = runs/ only
 
 

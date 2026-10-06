@@ -37,6 +37,7 @@ vllm:   # Kaggle T4 x2: no bf16, no FlashAttention 2
   max_model_len: 4096
   gpu_memory_utilization: 0.85
   logprobs: 20
+  chunk: 1000            # prompts per batch; each batch is cached before the next (engine deaths lose one chunk)
 
 data:
   liar2_repo: chengxuphd/liar2
@@ -79,5 +80,5 @@ s1:
   samples: 5
   band: [0.55, 0.90]
   pool_target: 1000
-  screen: {M4: 2500, M6H: 2500, L2T: 2500}   # reasoning variants: smaller pools, but ~12% pilot yield
+  screen: {M4: 2500, M6H: 2500, L2T: 1200}   # reasoning variants: 300-claim pools; L2T thinking is GPU-costly
   pool_cap: {M4: 300, M6H: 300, L2T: 300}
