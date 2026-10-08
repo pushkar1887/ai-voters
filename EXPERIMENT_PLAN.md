@@ -716,7 +716,7 @@ Pushkar owns all of it. The lead's calls on D1–D8 are recorded from Oct 8.
 | H3 | Supported | Visible votes cost 6.0 pp [4.1, 7.8] pooled. One bot costs the M2 and M3 crowds about 20 pp. Against Bayes it splits: only the M2 crowd loses more than a Bayesian crowd to one bot, and every LLM crowd does far better at k ≥ 2, where Bayesian crowds collapse to 0 |
 | H4 | Supported for M2, M3 and M6; refuted for M1 | No downvote correction for M2, M3 and M6, while M1 corrects downvotes as people do. Herding is one-sided and model-specific |
 | H5 | Supported, pending T1 | 76–99.5% of flips never mention the votes |
-| H6 | Supported | Private-first recovers 69–100% of the loss (pooled gain +6.4 pp [3.1, 9.7]). It beats the Bayes-rule prompt on accuracy in all 8 models; BR increases herding |
+| H6 | Supported | Private-first recovers 69–100% of the loss (pooled gain +6.4 pp [3.1, 9.7]). In single decisions it beats the Bayes-rule prompt on accuracy in all 8 models. In crowds the Bayes-rule prompt adds nothing without bots (M2 +1.3 pp, M3 −1.5 pp) and makes seeded crowds follow the bots more (k = 2: M2 −11 pp, M3 −28 pp, against the social crowd on the same claims) |
 
 ### 12.4 Still open on Claude's side
 
@@ -1160,3 +1160,16 @@ This log is append-only, with the newest entry last. Each entry says what ran, w
 - **Bayes-rule crowd** (D5.2). New S4 mode `--br`: the same claims and k as the social crowd, with the Bayes-rule paragraph in the system prompt. Solo calls come from cache, so only the social calls run. M2 and M3 at k = 0 (300 claims) and k = 2 (150 claims): about 10.2k calls, not the 13k I estimated. Paired results go to `results/S6_bayes_rule_crowds.csv` through `analyze all`.
 - **Code.** `s4_crowds.paired()` replaces `private_first()` and handles both the F1 and BR comparisons. The `S6_private_first.csv` columns are renamed (`acc_*`); the H6 numbers should not change. Check after regeneration.
 - **Running at entry:** Ultra S1 screen on keys 0–11 (about 1 h at 240 calls per minute); Bayes-rule crowd on keys 12–23. Next, once the pool is built: S2, S3 and S4 for M7, S4 F1 for M7, then `analyze all`.
+- **Ultra screen interrupted and restarted** (2026-10-08, 15:45 IST). The first run omitted `--refill`, so it screened only the 1,500 eval claims (9,000 calls, not 15,000). At 3,000 of 9,000 it hit a rate-limit storm (5,562 429s, 529 errors, parse rate 82%). I stopped it; the cache kept 2,624 completed calls. The restart uses `--refill 1000` (2,500 screened, as for M4), `NIM_RPM=15` per key and keys 0–11. Failed calls are not cached, so they are retried in the restart.
+
+- **Bayes-rule crowd, M2 and M3, done** (2026-10-08, 15:51 IST). Requests: 10,500 (M2) and 10,480 (M3); 100% of M2 replies and 99.95% of M3 replies parsed. The 5 unparsed M3 replies left 2 M3 chains incomplete at k = 0 and 1 at k = 2; the paired comparison drops them. Paired with the social crowd on the same claims and k (`s4_crowds.paired()`, 2,000 resamples; `analyze all` will regenerate these):
+
+| Crowd | k | Claims | Social accuracy | Bayes-rule accuracy | Gain [95% CI] | Share of the visible-vote loss recovered |
+|---|---|---|---|---|---|---|
+| M2 | 0 | 300 | 0.773 | 0.787 | +0.013 [−0.017, +0.045] | 19% |
+| M2 | 2 | 150 | 0.503 | 0.393 | −0.110 [−0.190, −0.037] | — |
+| M3 | 0 | 297 | 0.729 | 0.714 | −0.015 [−0.061, +0.029] | −21% |
+| M3 | 2 | 148 | 0.416 | 0.132 | −0.284 [−0.361, −0.203] | — |
+
+- **Reading.** The Bayes-rule prompt does not help crowds. Without bots it changes nothing; under two planted votes it makes the crowd follow the bots, and M3's accuracy falls to 13%. Private-first, at k = 0 on the same models, gains +8 pp (M2) and +4.5 pp (M3). This supports H6 (the cheap fix that works is private-first) and reverses the planned "Bayes-rule baseline" comparison: the baseline does not beat private-first, and it is more manipulable.
+- **H6 check.** The refactored `paired()` reproduces every `S6_private_first.csv` gain and CI exactly (M1–M6 and mixed), so the earlier H6 numbers stand.
