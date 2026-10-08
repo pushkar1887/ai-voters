@@ -242,14 +242,18 @@ def main(B: int) -> None:
             fx.to_csv(RES / "S6_fixes.csv", index=False)
             print("\nfixes vs paired main cells:\n", fx.to_string(index=False))
     if (RES / "S4_sequences.parquet").exists():
-        from src.s4_crowds import private_first, summary
+        from src.s4_crowds import paired, summary
         seqs = pd.read_parquet(RES / "S4_sequences.parquet")
         s4 = summary(seqs)
         s4.to_csv(RES / "S6_crowds.csv")
         print("\ncrowds:\n", s4.to_string())
         figs.crowds(s4)
-        pf = private_first(seqs, B)
+        pf = paired(seqs, "f1", B)
         pf.to_csv(RES / "S6_private_first.csv", index=False)
+        br = paired(seqs, "br", B)
+        if not br.empty:
+            br.to_csv(RES / "S6_bayes_rule_crowds.csv", index=False)
+            print("\nBayes-rule crowd vs social crowd (same claims, same k):\n", br.to_string(index=False))
         print("\nH6 private-first crowd vs sequential crowd (same claims):\n", pf.to_string(index=False))
     if (RES / "S5_b1.parquet").exists():
         from src.s5_reddit import lifts

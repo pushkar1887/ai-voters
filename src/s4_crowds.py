@@ -2,6 +2,7 @@
 
     python -m src.s4_crowds --crowds M1 M2 M3 M6 mixed [--limit 20]        clean (k = 0) and seeded (k = 1-3)
     python -m src.s4_crowds --crowds M1 M2 M3 M6 mixed --f1                 private-first crowd (k = 0)
+    python -m src.s4_crowds --crowds M2 M3 --br                             Bayes-rule prompt (k = 0 and k = 2)
 
 Agent t makes a solo call (its private signal), then a social call showing every earlier vote.
 The first voter in a clean crowd has nothing to see, so its vote is its solo verdict. Solo calls do
@@ -72,8 +73,9 @@ async def chain(crowd: str, c: dict, k: int, variant: str, personas: list[dict],
         else:
             if variant == "f1" and solo.get("parsed"):
                 msgs = private_first_messages(c, a["persona"], "a", a["order"], solo["text"], "sequential", history)
-            else:
-                msgs = social_messages(c, a["persona"], "a", a["order"], "sequential", history)
+            else:                                  # "br" adds the Bayes-rule paragraph to the system prompt
+                msgs = social_messages(c, a["persona"], "a", a["order"], "sequential", history,
+                                       bayes_rule=variant == "br")
             rec = await acall("S4", a["model"], spec(
                 msgs, kind="claim", decoding="sample", seed_tag=f"{crowd}|{a['t']}|{k}|{variant}",
                 meta={**base, "part": variant, "t": a["t"], "k": k, "persona_id": a["persona"]["id"],
@@ -96,7 +98,7 @@ async def chain(crowd: str, c: dict, k: int, variant: str, personas: list[dict],
             "first_lead2": first2, "cascade": cascade, "lead_inf_final": informative_lead(shown)}
 
 
-async def run_crowds(crowds: list[str], f1: bool, limit: int | None) -> pd.DataFrame:
+async def run_crowds(crowds: list[str], mode: str, limit: int | None) -> pd.DataFrame:
     get_pool()
     personas = load_personas()
     sem = asyncio.Semaphore(256)
@@ -105,8 +107,11 @@ async def run_crowds(crowds: list[str], f1: bool, limit: int | None) -> pd.DataF
     for cr in crowds:
         claims, scale = crowd_claims(cr), SCALE.get(cr, 1.0)
         n = lambda key: min(len(claims), limit or int(SIZES[key] * scale))
-        if f1:
+        if mode == "f1":
             jobs += [(cr, c, 0, "f1") for c in claims[:n("f1")]]
+        elif mode == "br":                         # Bayes-rule prompt: clean crowd and k = 2 seeding
+            jobs += [(cr, c, 0, "br") for c in claims[:n("clean")]]
+            jobs += [(cr, c, 2, "br") for c in claims[:n("seeded")]]
         else:
             jobs += [(cr, c, 0, "social") for c in claims[:n("clean")]]
             jobs += [(cr, c, k, "social") for k in (1, 2, 3) for c in claims[:n("seeded")]]
@@ -118,8 +123,9 @@ async def run_crowds(crowds: list[str], f1: bool, limit: int | None) -> pd.DataF
     try:
         rows = await asyncio.gather(*(one(j) for j in jobs))
     finally:
-        for cr in crowds:
-            write_manifest("S4", cr, MIXED if cr == "mixed" else cr, mons[cr])
+        for cr in crowds:                          # manifests of variants get their own name
+            name = cr if mode == "social" else f"{cr}-{mode}"
+            write_manifest("S4", name, MIXED if cr == "mixed" else cr, mons[cr])
         await close_pool()
     df = pd.DataFrame(rows)
     path = ROOT / "results" / "S4_sequences.parquet"
@@ -168,35 +174,40 @@ def summary(df: pd.DataFrame) -> pd.DataFrame:
     return out.round(3)
 
 
-def private_first(df: pd.DataFrame, B: int = 2000) -> pd.DataFrame:
-    """H6 in real crowds: the clean sequential crowd vs the private-first crowd on the same claims.
-    recovered = (private-first accuracy - sequential accuracy) / (independent - sequential), with a
-    paired bootstrap over claims for the accuracy gain."""
+def paired(df: pd.DataFrame, variant: str, B: int = 2000) -> pd.DataFrame:
+    """A prompt variant against the plain social crowd on the same claims and at the same k.
+    gain = variant accuracy - social accuracy, with a paired bootstrap over claims.
+    lost = independent majority - social accuracy (what visible votes cost); recovered = gain / lost.
+    "f1" is H6's private-first crowd (k = 0); "br" is the Bayes-rule crowd (k = 0 and k = 2)."""
     d = df[df.complete].copy()
     d["acc"] = (d.final_majority == d.truth).astype(float).where(d.final_majority != 0, 0.5)
     d["ind"] = (d.indep_majority == d.truth).astype(float).where(d.indep_majority != 0, 0.5)
     rng = np.random.default_rng(13)
     rows = []
-    for cr, g in d.groupby("crowd"):
-        f = g[g.variant == "f1"].set_index("item_id")
-        s = g[(g.variant == "social") & (g.k == 0)].set_index("item_id").reindex(f.index).dropna(subset=["acc"])
-        f = f.loc[s.index]
-        if not len(f):
-            continue
-        gain = f.acc.to_numpy() - s.acc.to_numpy()
-        boot = [gain[rng.integers(0, len(gain), len(gain))].mean() for _ in range(B)]
-        lost = s.ind.mean() - s.acc.mean()
-        rows.append({"crowd": cr, "claims": len(f), "independent": s.ind.mean(), "sequential": s.acc.mean(),
-                     "private_first": f.acc.mean(), "gain": gain.mean(), "gain_lo": np.percentile(boot, 2.5),
-                     "gain_hi": np.percentile(boot, 97.5), "lost": lost,
-                     "recovered": gain.mean() / lost if lost > 0.005 else np.nan})
+    for cr in sorted(d.crowd.unique()):
+        for k in sorted(d[(d.crowd == cr) & (d.variant == variant)].k.unique()):
+            f = d[(d.crowd == cr) & (d.variant == variant) & (d.k == k)].set_index("item_id")
+            s = (d[(d.crowd == cr) & (d.variant == "social") & (d.k == k)].set_index("item_id")
+                 .reindex(f.index).dropna(subset=["acc"]))
+            f = f.loc[s.index]
+            if not len(f):
+                continue
+            gain = f.acc.to_numpy() - s.acc.to_numpy()
+            boot = [gain[rng.integers(0, len(gain), len(gain))].mean() for _ in range(B)]
+            lost = s.ind.mean() - s.acc.mean()
+            rows.append({"crowd": cr, "k": k, "claims": len(f), "acc_independent": s.ind.mean(),
+                         "acc_social": s.acc.mean(), "acc_variant": f.acc.mean(), "gain": gain.mean(),
+                         "gain_lo": np.percentile(boot, 2.5), "gain_hi": np.percentile(boot, 97.5),
+                         "lost": lost, "recovered": gain.mean() / lost if lost > 0.005 else np.nan})
     return pd.DataFrame(rows).round(3)
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--crowds", nargs="+", required=True, help="model codes and/or 'mixed'")
-    ap.add_argument("--f1", action="store_true", help="private-first crowd instead of clean + seeded")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--f1", action="store_true", help="private-first crowd (k = 0)")
+    mode.add_argument("--br", action="store_true", help="Bayes-rule prompt crowd (k = 0 and 2)")
     ap.add_argument("--limit", type=int, help="claims per crowd and k (pilot)")
     a = ap.parse_args()
-    print(summary(asyncio.run(run_crowds(a.crowds, a.f1, a.limit))))
+    print(summary(asyncio.run(run_crowds(a.crowds, "f1" if a.f1 else "br" if a.br else "social", a.limit))))
