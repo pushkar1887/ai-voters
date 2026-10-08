@@ -17,6 +17,7 @@ decoding:
 
 # Model codes used everywhere (cache files, tables). Roster frozen at G1 (2026-10-06) from what NIM
 # actually serves: all six runbook strings return 410 Gone (EXPERIMENT_PLAN.md, Logs). M5 is retired.
+# M7 added 2026-10-08 (lead's decision): Nemotron-3-Ultra-550B, thinking off, 512-token cap as probed.
 # `extra` is sent with every request and is part of the cache key.
 models:
   M1:  {id: meta/llama-3.2-11b-vision-instruct, backend: nim}
@@ -28,6 +29,7 @@ models:
   L1:  {id: hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4, backend: vllm}
   L2:  {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: false}}}
   L2T: {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: true}}, max_tokens: 2048}
+  M7:  {id: nvidia/nemotron-3-ultra-550b-a55b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: false}}, max_tokens: 512}
 
 vllm:   # Kaggle T4 x2: no bf16, no FlashAttention 2
   tensor_parallel_size: 2
@@ -84,5 +86,5 @@ s1:
   samples: 5
   band: [0.55, 0.90]
   pool_target: 1000
-  screen: {M4: 2500, M6H: 2500, L2T: 1200}   # reasoning variants: 300-claim pools; L2T thinking is GPU-costly
-  pool_cap: {M4: 300, M6H: 300, L2T: 300}
+  screen: {M4: 2500, M6H: 2500, L2T: 1200, M7: 2500}   # 300-claim pools for the reasoning variants and M7; L2T thinking is GPU-costly
+  pool_cap: {M4: 300, M6H: 300, L2T: 300, M7: 300}
