@@ -4,6 +4,9 @@
     python -m src.analysis.paper_results judge [--n 2000]        silent-herding judge on flips (M6, T = 0) + blind kappa sheet
     python -m src.analysis.paper_results kappa                   H5 gate: judge vs human labels on that sheet
     python -m src.analysis.paper_results holm [--boot 2000]      pooled Holm-corrected tests for H1-H4 and H6 (writes S6_holm.csv only)
+    python -m src.analysis.paper_results judge_rates [--n 2000] [--models ...]  H5 rates from cached judge answers (no API calls)
+    python -m src.analysis.paper_results muchnik_topic [--boot 2000]          S5 Muchnik panel within each topic group
+    python -m src.analysis.paper_results summary                              H2 median across models (from S6_h1_h2.csv)
 
 Claims are the unit: every interval is a cluster bootstrap over claims.
 """
@@ -333,8 +336,8 @@ class Figures:
 
     def _forest(self, t: pd.DataFrame, cols: list[tuple[str, str, str]], refs: list[tuple[float, str]],
                 xlabel: str, xlim: tuple[float, float], name: str) -> None:
-        """Point + 95% CI per model; intervals are clipped to xlim (an arrow-free cap keeps the scale honest
-        for the well-estimated models; the CSV holds the unclipped numbers)."""
+        """Point + 95% CI per model; intervals are clipped to xlim. A point outside xlim sits on the edge and is
+        labelled with its true value; the CSV holds the unclipped numbers."""
         fig, ax = self.plt.subplots(figsize=(3.3, 0.35 * len(t) + 0.9))
         y = np.arange(len(t))
         for j, (col, color, label) in enumerate(cols):
@@ -342,6 +345,12 @@ class Figures:
             est, lo, hi = (t[c].clip(*xlim) for c in (col, f"{col}_lo", f"{col}_hi"))
             ax.errorbar(est, y + off, xerr=[est - lo, hi - est], fmt="o", color=color, ecolor=color,
                         elinewidth=1, capsize=0, label=label)
+            for yi, v in zip(y + off, t[col]):               # off-scale points: label them with the true value
+                if pd.notna(v) and not (xlim[0] <= v <= xlim[1]):
+                    edge = xlim[0] if v < xlim[0] else xlim[1]
+                    side = "left" if v < xlim[0] else "right"
+                    ax.annotate(f"{v:.2f}", xy=(edge, yi), xytext=(10 if side == "left" else -10, 0),
+                                textcoords="offset points", ha=side, va="center", fontsize=6, color=color)
         for i, (x, lab) in enumerate(refs):                  # first label sits left of its line, the next right
             ax.axvline(x, color=self.INK2, linestyle="--", linewidth=1)
             ax.text(x, 1.01, lab, transform=ax.get_xaxis_transform(), color=self.INK2, fontsize=7,
@@ -474,6 +483,14 @@ def pooled_holm(B: int = 2000) -> pd.DataFrame:
         de[m] = diff.mean()
     pooled["H4"], est["H4"] = np.mean(dn, axis=0), de
 
+    # Robustness: claim-weighted pooling (each claim counts once, so bigger crowds weigh more).
+    cw = []
+    for h, per in (("H3", gap), ("H6", gain)):
+        vals = np.concatenate(list(per.values()))
+        lo, hi = np.percentile(vec_draws(vals, B, rng), [2.5, 97.5])
+        cw.append({"check": f"{h} claim-weighted", "estimate": vals.mean(), "lo": lo, "hi": hi, "claims": len(vals)})
+    pd.DataFrame(cw).round(4).to_csv(RES / "S6_holm_robustness.csv", index=False)
+
     rows = []
     for h in ["H1", "H2", "H3", "H4", "H6"]:
         d = pooled[h][~np.isnan(pooled[h])]
@@ -497,9 +514,64 @@ def pooled_holm(B: int = 2000) -> pd.DataFrame:
     return out
 
 
+def judge_rates(n: int = 2000, models: list[str] | None = None) -> pd.DataFrame:
+    """H5 rates from the cached judge answers only. Rebuilds the flip sample that judge() draws (same seed and
+    per-model cap), looks up each reason in runs/S6/judge.jsonl, and makes no API calls. Writes
+    results/S6_judge_rates.csv. Unlike judge(), it never rewrites the blind labelling sheet."""
+    df = s3_table()
+    flips = df[(df.part == "main") & (df.follow == 1)]
+    if models:
+        flips = flips[flips.model.isin(models)]
+    reasons = {}
+    for m in flips.model.unique():
+        for r in read_jsonl(RUNS / "S3" / f"{m}.jsonl"):
+            if (r.get("parsed") or {}).get("reason"):
+                reasons[(m, r["meta"]["item_id"], r["meta"]["cell"], r["meta"].get("fix"))] = r["parsed"]["reason"]
+    flips = flips.assign(reason=[reasons.get((r.model, r.item_id, r.cell, None)) for r in flips.itertuples()])
+    flips = flips[flips.reason.notna()]
+    flips = flips.groupby("model", group_keys=False).apply(
+        lambda g: g.sample(min(len(g), n // max(1, flips.model.nunique())), random_state=CFG["seed"]))
+    judged = {r["messages"][0]["content"]: (r.get("parsed") or {}).get("answer")
+              for r in read_jsonl(RUNS / "S6" / "judge.jsonl")}
+    flips = flips.assign(mentions=[judged.get(render("judge", reason=x)) for x in flips.reason])
+    missing = int(flips.mentions.isna().sum())
+    if missing:
+        raise SystemExit(f"{missing} sampled flips have no cached judge answer; nothing was requested")
+    rates = (flips.groupby("model")
+             .agg(flips=("mentions", "size"),
+                  silent_share=("mentions", lambda x: (x == "NO").mean()),
+                  mention_share=("mentions", lambda x: (x == "YES").mean()))
+             .round(3).reset_index())
+    rates.to_csv(RES / "S6_judge_rates.csv", index=False)
+    print(rates.to_string(index=False))
+    print(f"flips judged: {len(flips)}; silent share over all flips: {(flips.mentions == 'NO').mean():.3f}")
+    return rates
+
+
+def muchnik_by_topic(B: int = 2000) -> pd.DataFrame:
+    """Muchnik panel by topic group (the approved subreddit map, T2): the S5 lifts recomputed inside each group.
+    Writes results/S6_muchnik_by_topic.csv."""
+    from src.stages.stage5_reddit import lifts
+    s5 = pd.read_parquet(RES / "S5_b1.parquet")
+    cols = ["group", "model", "comments", "control", "up", "down", "lift_up", "lift_up_lo", "lift_up_hi",
+            "down_vs_control", "down_lo", "down_hi"]
+    out = pd.concat([lifts(d, B).reset_index().assign(group=g) for g, d in s5.groupby("group")])[cols]
+    out.round(4).to_csv(RES / "S6_muchnik_by_topic.csv", index=False)
+    print(out.round(3).to_string(index=False))
+    return out
+
+
+def summary() -> None:
+    """H2 robustness: the median sequential-framing gamma across the models in S6_h1_h2.csv (no bootstrap)."""
+    t = pd.read_csv(RES / "S6_h1_h2.csv")
+    t[["model", "gamma_sequential", "gamma_sequential_lo", "gamma_sequential_hi"]].round(4).to_csv(
+        RES / "S6_h2_by_model.csv", index=False)
+    print(f"H2 median gamma_sequential across {len(t)} models: {t.gamma_sequential.median():.3f}")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("what", choices=["all", "judge", "kappa", "holm"])
+    ap.add_argument("what", choices=["all", "judge", "kappa", "holm", "judge_rates", "muchnik_topic", "summary"])
     ap.add_argument("--boot", type=int, default=2000, help="bootstrap resamples (0 = point estimates only)")
     ap.add_argument("--n", type=int, default=2000, help="flips to judge")
     ap.add_argument("--models", nargs="+", default=None, help="restrict 'all' to these models")
@@ -510,5 +582,11 @@ if __name__ == "__main__":
         judge(a.n)
     elif a.what == "holm":
         pooled_holm(a.boot)
+    elif a.what == "judge_rates":
+        judge_rates(a.n, a.models)
+    elif a.what == "muchnik_topic":
+        muchnik_by_topic(a.boot)
+    elif a.what == "summary":
+        summary()
     else:
         kappa()
