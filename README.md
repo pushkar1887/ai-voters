@@ -33,9 +33,14 @@ python -m src.stages.stage3_histories --models M1 M2 M3 M4 M6 M6H --part fixes  
 python -m src.stages.stage4_crowds --crowds M1 M2 M3 M4 M6 mixed                # S4: clean and seeded crowds
 python -m src.stages.stage4_crowds --crowds M1 M2 M3 M4 M6 mixed --f1           # S4: private-first crowd
 python -m src.stages.stage5_reddit --models M1 M2 M3 M6                         # S5: Reddit first voter
-python -m src.analysis.paper_results judge                                          # H5: silent-herding judge + blind kappa sheet
-python -m src.analysis.paper_results kappa                                          # H5 gate, once the sheet is labelled
-python -m src.analysis.paper_results all                                            # S6: every number, table, figure
+python -m src.analysis.paper_results judge            # H5: first run only, draws the blind labelling sheet (never overwrites one)
+python -m src.analysis.paper_results judge_fill       # H5: judge calls for the flip sample (only uncached reasons)
+python -m src.analysis.paper_results judge_rates      # H5: silent-herding rates from the cache, no API calls
+python -m src.analysis.paper_results kappa            # H5 gate, once the sheet is labelled
+python -m src.analysis.paper_results all              # S6: tables and figures
+python -m src.analysis.paper_results holm             # pooled Holm tests and the claim-weighted check
+python -m src.analysis.paper_results muchnik_topic    # S5 Muchnik panel within each topic group
+python -m src.analysis.paper_results summary          # H2 median across models
 ```
 
 Local models run the same commands on Kaggle, then come home as caches:
@@ -51,4 +56,4 @@ python -m src.stages.stage1_private_signals --models L1 --refill 2078      # all
 - **Every call is cached** in `runs/<stage>/<name>.jsonl`, keyed by a hash of the request. Re-running is free, and a crash resumes where it stopped.
 - **One process per key slice.** Use `NIM_KEY_SLICE=0:18` and `NIM_KEY_SLICE=18:24` for two jobs at once.
 - **Prompts live in `prompts/templates_v1.yaml`** and freeze at G2. Any later edit goes into `templates_v2.yaml`, followed by a re-run.
-- **Numbers in the paper come only from `python -m src.analysis.paper_results all`.**
+- **Numbers in the paper come only from the `paper_results` commands:** `all`, `holm`, `judge_rates`, `muchnik_topic` and `summary`.
