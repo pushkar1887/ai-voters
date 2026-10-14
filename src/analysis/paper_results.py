@@ -420,9 +420,10 @@ class Figures:
 # ------------------------------------------------------------------ pooled tests (B3)
 
 MODELS_SIX = ["M1", "M2", "M3", "M4", "M6", "M7"]     # the six crowd models; "mixed" is a crowd, not a model
-CLAIM = {"H1": "rho > 1", "H2": "gamma_sequential > 0.5", "H3": "visible votes cost at least 5 pp (k = 0)",
+TEN_MODELS = ["M1", "M2", "M3", "M4", "M6", "M6H", "L1", "L2", "L2T", "M7"]   # the ten completed models
+CLAIM = {"H1": "rho > rho_Bayes (q = 70%)", "H5": "silent share > 50% of judged flips", "H2": "gamma_sequential > 0.5", "H3": "visible votes cost at least 5 pp (k = 0)",
          "H4": "no downvote correction (down minus control <= 0)", "H6": "private-first gain over social > 0"}
-NULL_SIDE = {"H1": lambda d: np.mean(d <= 1.0), "H2": lambda d: np.mean(d <= 0.5),
+NULL_SIDE = {"H1": lambda d: np.mean(d <= 0.0), "H5": lambda d: np.mean(d <= 0.5), "H2": lambda d: np.mean(d <= 0.5),
              "H3": lambda d: np.mean(d < 0.05), "H4": lambda d: np.mean(d > 0), "H6": lambda d: np.mean(d <= 0)}
 
 
@@ -442,21 +443,35 @@ def vec_draws(vals: np.ndarray, B: int, rng: np.random.Generator) -> np.ndarray:
     return vals[rng.integers(0, len(vals), size=(B, len(vals)))].mean(axis=1)
 
 
+def _judge_answers(n: int, models: list[str]) -> pd.DataFrame:
+    """H5 flips with their cached judge answer (mentions). Reads the cache only; raises if an answer is missing."""
+    flips = _judge_sample(n, models)
+    judged = {r["messages"][0]["content"]: (r.get("parsed") or {}).get("answer")
+              for r in read_jsonl(RUNS / "S6" / "judge.jsonl")}
+    flips = flips.assign(mentions=[judged.get(render("judge", reason=x)) for x in flips.reason])
+    if flips.mentions.isna().any():
+        raise SystemExit(f"{int(flips.mentions.isna().sum())} sampled flips have no cached judge answer; run judge_fill first")
+    return flips
+
+
 def pooled_holm(B: int = 2000) -> pd.DataFrame:
     """Plan row 9: one pooled test per hypothesis. Each model or crowd is resampled over its own claims, the
     draws are averaged with equal weight (model as a fixed effect), and Holm corrects across the tests.
     p is the share of bootstrap draws on the null side of the claim, so a small p supports the claim.
-    H5 has no test yet: it waits for the T1 gate. Writes results/S6_holm.csv only."""
+    H5 is judged from the cache (six crowd models, no API calls). Writes S6_holm.csv and S6_holm_robustness.csv."""
     rng = np.random.default_rng(CFG["seed"])
     pooled, est = {}, {}
 
     s3 = s3_table()                                                       # H1, H2: S3 main cells
     main = s3[(s3.part == "main") & s3.model.isin(MODELS_SIX)]
-    h1, h2, e1, e2 = {}, {}, {}, {}
+    h1, h2, e1, e2, h1u, e1u = {}, {}, {}, {}, {}, {}
     for m, d in main.groupby("model"):
         ind, seq = d[d.framing == "independent"], d[d.framing == "sequential"]
-        ind_u = ind[ind.q.isna()]
-        h1[m], e1[m] = draws(ind_u, rho, B), rho(ind_u)
+        ind_q = ind[ind.q.notna()]                                    # stated quality, q = 70%
+        bayes = logit(Q) / logit(d.p_hat.iloc[0])                     # rho_Bayes = logit(q) / logit(p_hat) (plan §11 row 8)
+        h1[m], e1[m] = draws(ind_q, rho, B) - bayes, rho(ind_q) - bayes
+        ind_u = ind[ind.q.isna()]                                     # robustness only: benchmark 1
+        h1u[m], e1u[m] = draws(ind_u, rho, B), rho(ind_u)
         h2[m], e2[m] = draws(seq, gamma, B), gamma(seq)
     pooled["H1"], est["H1"] = np.nanmean(np.vstack(list(h1.values())), axis=0), e1
     pooled["H2"], est["H2"] = np.nanmean(np.vstack(list(h2.values())), axis=0), e2
@@ -487,16 +502,29 @@ def pooled_holm(B: int = 2000) -> pd.DataFrame:
         de[m] = diff.mean()
     pooled["H4"], est["H4"] = np.mean(dn, axis=0), de
 
+    # H5: silent herding. Judged flips from the cache, six crowd models, equal weight; flip-level bootstrap.
+    rng5 = np.random.default_rng(CFG["seed"] + 5)
+    j5 = _judge_answers(2000, TEN_MODELS)
+    d5, e5 = [], {}
+    for m, g in j5[j5.model.isin(MODELS_SIX)].groupby("model"):
+        x = (g.mentions == "NO").astype(float).to_numpy()
+        d5.append(vec_draws(x, B, rng5))
+        e5[m] = x.mean()
+    pooled["H5"], est["H5"] = np.mean(d5, axis=0), e5
+
     # Robustness: claim-weighted pooling (each claim counts once, so bigger crowds weigh more).
     cw = []
     for h, per in (("H3", gap), ("H6", gain)):
         vals = np.concatenate(list(per.values()))
         lo, hi = np.percentile(vec_draws(vals, B, rng), [2.5, 97.5])
         cw.append({"check": f"{h} claim-weighted", "estimate": vals.mean(), "lo": lo, "hi": hi, "claims": len(vals)})
+    h1u_mean = np.nanmean(np.vstack(list(h1u.values())), axis=0)
+    cw.append({"check": "H1 unstated benchmark (rho > 1), equal weight", "estimate": np.mean(list(e1u.values())),
+               "lo": np.nanpercentile(h1u_mean, 2.5), "hi": np.nanpercentile(h1u_mean, 97.5), "claims": np.nan})
     pd.DataFrame(cw).round(4).to_csv(RES / "S6_holm_robustness.csv", index=False)
 
     rows = []
-    for h in ["H1", "H2", "H3", "H4", "H6"]:
+    for h in ["H1", "H2", "H3", "H4", "H5", "H6"]:
         d = pooled[h][~np.isnan(pooled[h])]
         lo, hi = np.percentile(d, [2.5, 97.5])
         rows.append({"hypothesis": h, "claim": CLAIM[h], "units": " ".join(est[h]),
@@ -508,7 +536,6 @@ def pooled_holm(B: int = 2000) -> pd.DataFrame:
     print(f"Pooled tests (equal weight across units, B = {B}):\n", out.round(3).to_string(index=False))
     for h in est:
         print(f"  {h} per unit:", {k: round(float(v), 3) for k, v in est[h].items()})
-    print("H5: no pooled test yet (waits for the T1 gate). Adding it makes the Holm family six tests.")
     all_gap, all_gain = np.concatenate(list(gap.values())), np.concatenate(list(gain.values()))
     print(f"Register check, six crowds, claims-weighted:\n"
           f"  H3 visible-vote cost at k = 0: {all_gap.mean() * 100:.1f} pp over {len(all_gap)} claim rows "
