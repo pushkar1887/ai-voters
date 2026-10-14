@@ -3,9 +3,6 @@
 /*
 !/.gitignore
 !/README.md
-!/EXPERIMENT_PLAN.md
-!/DOMAIN_GAPS.md
-!/OUR_CONTRIBUTION.md
 !/config.yaml
 !/requirements.txt
 !/prompts/
