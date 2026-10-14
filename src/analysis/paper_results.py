@@ -5,6 +5,7 @@
     python -m src.analysis.paper_results kappa                   H5 gate: judge vs human labels on that sheet
     python -m src.analysis.paper_results holm [--boot 2000]      pooled Holm-corrected tests for H1-H4 and H6 (writes S6_holm.csv only)
     python -m src.analysis.paper_results judge_rates [--n 2000] [--models ...]  H5 rates from cached judge answers (no API calls)
+    python -m src.analysis.paper_results judge_fill [--n 2000] [--models ...]  request only the uncached H5 judge calls
     python -m src.analysis.paper_results muchnik_topic [--boot 2000]          S5 Muchnik panel within each topic group
     python -m src.analysis.paper_results summary                              H2 median across models (from S6_h1_h2.csv)
 
@@ -183,7 +184,10 @@ def judge(n: int) -> None:
     silent = flips.groupby("model").mentions.apply(lambda x: (x == "NO").mean()).round(3)
     print("silent-herding rate (flips toward the majority whose reason never mentions the votes):")
     print(silent)
-    label_sheet(flips.sample(min(200, len(flips)), random_state=CFG["seed"]))
+    if (RES / "judge_labels.csv").exists():
+        print("labelling sheet already exists; not rewritten (delete it first to draw a new one)")
+    else:
+        label_sheet(flips.sample(min(200, len(flips)), random_state=CFG["seed"]))
 
 
 def label_sheet(sample: pd.DataFrame) -> None:
@@ -514,10 +518,9 @@ def pooled_holm(B: int = 2000) -> pd.DataFrame:
     return out
 
 
-def judge_rates(n: int = 2000, models: list[str] | None = None) -> pd.DataFrame:
-    """H5 rates from the cached judge answers only. Rebuilds the flip sample that judge() draws (same seed and
-    per-model cap), looks up each reason in runs/S6/judge.jsonl, and makes no API calls. Writes
-    results/S6_judge_rates.csv. Unlike judge(), it never rewrites the blind labelling sheet."""
+def _judge_sample(n: int, models: list[str] | None) -> pd.DataFrame:
+    """The H5 flip sample: S3 main-cell flips with a stored reason, at most n // (number of models) per model,
+    drawn with the seed. Same draw as judge(); the models filter only changes the per-model cap."""
     df = s3_table()
     flips = df[(df.part == "main") & (df.follow == 1)]
     if models:
@@ -529,14 +532,20 @@ def judge_rates(n: int = 2000, models: list[str] | None = None) -> pd.DataFrame:
                 reasons[(m, r["meta"]["item_id"], r["meta"]["cell"], r["meta"].get("fix"))] = r["parsed"]["reason"]
     flips = flips.assign(reason=[reasons.get((r.model, r.item_id, r.cell, None)) for r in flips.itertuples()])
     flips = flips[flips.reason.notna()]
-    flips = flips.groupby("model", group_keys=False).apply(
+    return flips.groupby("model", group_keys=False).apply(
         lambda g: g.sample(min(len(g), n // max(1, flips.model.nunique())), random_state=CFG["seed"]))
+
+
+def judge_rates(n: int = 2000, models: list[str] | None = None) -> pd.DataFrame:
+    """H5 rates from the cached judge answers only: no API calls, and the blind labelling sheet is never touched.
+    Writes results/S6_judge_rates.csv."""
+    flips = _judge_sample(n, models)
     judged = {r["messages"][0]["content"]: (r.get("parsed") or {}).get("answer")
               for r in read_jsonl(RUNS / "S6" / "judge.jsonl")}
     flips = flips.assign(mentions=[judged.get(render("judge", reason=x)) for x in flips.reason])
     missing = int(flips.mentions.isna().sum())
     if missing:
-        raise SystemExit(f"{missing} sampled flips have no cached judge answer; nothing was requested")
+        raise SystemExit(f"{missing} sampled flips have no cached judge answer; run judge_fill first")
     rates = (flips.groupby("model")
              .agg(flips=("mentions", "size"),
                   silent_share=("mentions", lambda x: (x == "NO").mean()),
@@ -546,6 +555,24 @@ def judge_rates(n: int = 2000, models: list[str] | None = None) -> pd.DataFrame:
     print(rates.to_string(index=False))
     print(f"flips judged: {len(flips)}; silent share over all flips: {(flips.mentions == 'NO').mean():.3f}")
     return rates
+
+
+def judge_fill(n: int = 2000, models: list[str] | None = None) -> None:
+    """Fill the judge cache for the H5 sample. Requests only the reasons not yet cached (one call per distinct
+    reason text). Never touches the blind labelling sheet."""
+    flips = _judge_sample(n, models)
+    judged = {r["messages"][0]["content"] for r in read_jsonl(RUNS / "S6" / "judge.jsonl")}
+    todo = {}
+    for r in flips.itertuples():
+        content = render("judge", reason=r.reason)
+        if content not in judged:
+            todo.setdefault(content, r)
+    print(f"sample {len(flips)} flips; {len(todo)} new reason texts to request")
+    if todo:
+        specs = [spec([{"role": "user", "content": c}], kind="judge", seed_tag="judge",
+                      meta={"model": r.model, "item_id": r.item_id, "cell": r.cell}) for c, r in todo.items()]
+        run_many("S6", {"M6": specs}, {"M6": "judge"})
+    print("judge cache filled for the sample")
 
 
 def muchnik_by_topic(B: int = 2000) -> pd.DataFrame:
@@ -571,7 +598,7 @@ def summary() -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("what", choices=["all", "judge", "kappa", "holm", "judge_rates", "muchnik_topic", "summary"])
+    ap.add_argument("what", choices=["all", "judge", "kappa", "holm", "judge_rates", "judge_fill", "muchnik_topic", "summary"])
     ap.add_argument("--boot", type=int, default=2000, help="bootstrap resamples (0 = point estimates only)")
     ap.add_argument("--n", type=int, default=2000, help="flips to judge")
     ap.add_argument("--models", nargs="+", default=None, help="restrict 'all' to these models")
@@ -584,6 +611,8 @@ if __name__ == "__main__":
         pooled_holm(a.boot)
     elif a.what == "judge_rates":
         judge_rates(a.n, a.models)
+    elif a.what == "judge_fill":
+        judge_fill(a.n, a.models)
     elif a.what == "muchnik_topic":
         muchnik_by_topic(a.boot)
     elif a.what == "summary":
