@@ -1,4 +1,4 @@
-# ai-voters configuration. One file drives every stage; see EXPERIMENT_PLAN.md.
+# Configuration for the whole pipeline. One file drives every stage.
 project: ai-voters
 seed: 13
 prompt_version: v1
@@ -16,7 +16,7 @@ decoding:
   max_tokens: 160
 
 # Model codes used everywhere (cache files, tables). Roster frozen at G1 (2026-10-06) from what NIM
-# actually serves: all six runbook strings return 410 Gone (EXPERIMENT_PLAN.md, Logs). M5 is retired.
+# actually serves: all six runbook strings return 410 Gone. M5 is retired.
 # M7 added 2026-10-08 (lead's decision): Nemotron-3-Ultra-550B, thinking off, 512-token cap as probed.
 # `extra` is sent with every request and is part of the cache key.
 models:
@@ -29,7 +29,14 @@ models:
   L1:  {id: hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4, backend: vllm}
   L2:  {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: false}}}
   L2T: {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: true}}, max_tokens: 2048}
-  M7:  {id: nvidia/nemotron-3-ultra-550b-a55b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: false}}, max_tokens: 512}
+  M7:  {id: nvidia/nemotron-3-ultra-550b-a55b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: false}}, max_tokens: 512, tries: 1000}
+  # Oct 8, lead's decisions: no tight limits, waiting is fine. timeout_s is per request (seconds); tries is the
+  # attempt budget per request (503/504/429/timeouts). Both are adjustable per model.
+  M8:  {id: z-ai/glm-5.3, backend: nim, max_tokens: 8192, timeout_s: 7200, tries: 1000}
+  M9:  {id: deepseek-ai/deepseek-v4.1-flash, backend: nim, max_tokens: 32768, extra: {reasoning_effort: low}, timeout_s: 7200, tries: 1000,
+        legacy: {max_tokens: 4096, s2_max_tokens: 16384}}   # Oct 11: low reasoning, 32k cap for new calls; cached calls keep the earlier settings
+  M10: {id: google/gemma-4-31b-it, backend: nim, max_tokens: 512, timeout_s: 7200, tries: 1000}
+  M11: {id: moonshotai/kimi-k3, backend: nim, extra: {top_p: 0.95}, max_tokens: 8192, timeout_s: 7200, tries: 1000}  # Kimi K3 fixes top_p at 0.95 (any other value is a 400)
 
 vllm:   # Kaggle T4 x2: no bf16, no FlashAttention 2
   tensor_parallel_size: 2
@@ -52,8 +59,8 @@ data:
     min_words: 15
     max_words: 120
     title_words: 30
-    # Subreddit -> Muchnik et al. (2013) topic group. DRAFT by Claude (2026-10-06); Pushkar
-    # reviews it (EXPERIMENT_PLAN.md §12, T2). Group "other" is dropped.
+    # Subreddit -> Muchnik et al. (2013) topic group. Draft by Claude (2026-10-06); reviewed by the lead.
+    # Group "other" is dropped.
     groups:
       politics: [politics, POLITIC, Libertarian, conspiracy]
       general news: [worldnews, news, offbeat, canada, unitedkingdom, australia, singapore]
@@ -80,11 +87,11 @@ data:
 
 s2:
   # Urn reasoning runs long: at 4,096 / 2,048 tokens over 10% of M4 / M6H calls hit the cap (p50 1,612 / 995).
-  max_tokens: {M4: 16384, M6H: 16384, L2T: 16384}
+  max_tokens: {M4: 16384, M6H: 16384, L2T: 16384, M8: 16384, M9: 32768, M11: 16384}
 
 s1:
   samples: 5
   band: [0.55, 0.90]
   pool_target: 1000
-  screen: {M4: 2500, M6H: 2500, L2T: 1200, M7: 2500}   # 300-claim pools for the reasoning variants and M7; L2T thinking is GPU-costly
-  pool_cap: {M4: 300, M6H: 300, L2T: 300, M7: 300}
+  screen: {M4: 2500, M6H: 2500, L2T: 1200, M7: 2500, M8: 2500, M9: 2500, M10: 2500, M11: 2500}   # 300-claim pools for the reasoning variants and M7; L2T thinking is GPU-costly
+  pool_cap: {M4: 300, M6H: 300, L2T: 300, M7: 300, M8: 300, M9: 300, M10: 300, M11: 300}
