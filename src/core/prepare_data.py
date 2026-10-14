@@ -1,6 +1,6 @@
 """S0 data (LIAR2 claims, Reddit comments, personas), loaders, and the claim prompts.
 
-    python -m src.data claims | comments | personas | all
+    python -m src.core.prepare_data claims | comments | personas | all
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from collections import Counter
 import httpx
 import pandas as pd
 
-from src.llm import CFG, PROMPTS, ROOT, read_jsonl, render, rng, write_jsonl
+from src.core.nim_client import CFG, PROMPTS, ROOT, read_jsonl, render, rng, write_jsonl
 
 RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "processed"
 

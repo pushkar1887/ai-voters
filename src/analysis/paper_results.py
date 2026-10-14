@@ -1,9 +1,9 @@
 """S6: the paper's numbers, computed only from the stage tables built out of runs/.
 
-    python -m src.analyze all [--boot 2000]       rho, q*, gamma, follow curves, fixes, S2/S4/S5 tables
-    python -m src.analyze judge [--n 2000]        silent-herding judge on flips (M6, T = 0) + blind kappa sheet
-    python -m src.analyze kappa                   H5 gate: judge vs human labels on that sheet
-    python -m src.analyze holm [--boot 2000]      pooled Holm-corrected tests for H1-H4 and H6 (writes S6_holm.csv only)
+    python -m src.analysis.paper_results all [--boot 2000]       rho, q*, gamma, follow curves, fixes, S2/S4/S5 tables
+    python -m src.analysis.paper_results judge [--n 2000]        silent-herding judge on flips (M6, T = 0) + blind kappa sheet
+    python -m src.analysis.paper_results kappa                   H5 gate: judge vs human labels on that sheet
+    python -m src.analysis.paper_results holm [--boot 2000]      pooled Holm-corrected tests for H1-H4 and H6 (writes S6_holm.csv only)
 
 Claims are the unit: every interval is a cluster bootstrap over claims.
 """
@@ -19,7 +19,7 @@ import statsmodels.formula.api as smf
 from scipy.special import expit, logit
 from statsmodels.stats.proportion import proportion_confint
 
-from src.llm import CFG, ROOT, RUNS, read_jsonl, render, run_many, spec
+from src.core.nim_client import CFG, ROOT, RUNS, read_jsonl, render, run_many, spec
 
 RES = ROOT / "results"
 Q = 0.70
@@ -77,7 +77,7 @@ def gamma(df: pd.DataFrame) -> float:
 
 def s3_table(rebuild: bool = False) -> pd.DataFrame:
     if rebuild or not (RES / "S3_cells.parquet").exists():   # from every model's S3 cache (NIM and Kaggle)
-        from src.s3_histories import table
+        from src.stages.stage3_histories import table
         table()
     df = pd.read_parquet(RES / "S3_cells.parquet")
     df = df[df.vote.notna()].copy()
@@ -246,7 +246,7 @@ def main(B: int, models: list[str] | None = None) -> None:
             fx.to_csv(RES / "S6_fixes.csv", index=False)
             print("\nfixes vs paired main cells:\n", fx.to_string(index=False))
     if (RES / "S4_sequences.parquet").exists():
-        from src.s4_crowds import paired, summary
+        from src.stages.stage4_crowds import paired, summary
         seqs = pd.read_parquet(RES / "S4_sequences.parquet")
         if models:
             seqs = seqs[seqs.crowd.isin(list(models) + ["mixed"])]
@@ -262,13 +262,13 @@ def main(B: int, models: list[str] | None = None) -> None:
             print("\nBayes-rule crowd vs social crowd (same claims, same k):\n", br.to_string(index=False))
         print("\nH6 private-first crowd vs sequential crowd (same claims):\n", pf.to_string(index=False))
     if (RES / "S5_b1.parquet").exists():
-        from src.s5_reddit import lifts
+        from src.stages.stage5_reddit import lifts
         s5 = lifts(pd.read_parquet(RES / "S5_b1.parquet"))
         s5.to_csv(RES / "S6_muchnik.csv")
         print("\nMuchnik lifts:\n", s5.to_string())
         figs.muchnik(s5)
     if (RUNS / "S2").exists():
-        from src.s2_urn import table
+        from src.stages.stage2_urn import table
         models = sorted(p.stem for p in (RUNS / "S2").glob("*.jsonl") if not models or p.stem in models)
         s2 = table(models, 200)
         s2.to_csv(RES / "S6_urn.csv", index=False)

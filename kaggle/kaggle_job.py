@@ -1,9 +1,9 @@
 """Run pipeline commands on a Kaggle GPU (T4 x2, vLLM backend) and bring the caches home.
 
 From the laptop (credentials from ~/.kaggle/kaggle.json):
-    python kaggle/job.py push   --name boot --cmd "src.llm --smoke 40 --codes L1" [--cmd ...]
-    python kaggle/job.py status --name boot
-    python kaggle/job.py pull   --name boot          # merges the job's runs/ into ./runs by hash
+    python kaggle/kaggle_job.py push   --name boot --cmd "src.core.nim_client --smoke 40 --codes L1" [--cmd ...]
+    python kaggle/kaggle_job.py status --name boot
+    python kaggle/kaggle_job.py pull   --name boot          # merges the job's runs/ into ./runs by hash
 
 `push` bundles code, config, prompts, processed data, pools and any existing caches the commands
 will extend into the private dataset <user>/ai-voters-code, then pushes this file as a GPU kernel.
@@ -30,11 +30,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def kaggle_main(job: dict) -> None:
     work = Path("/kaggle/working")
-    hit = next(Path("/kaggle/input").rglob("src/llm.py"), None)
+    hit = next(Path("/kaggle/input").rglob("src/core/nim_client.py"), None)
     if hit is None:
         sys.exit("bundle not found under /kaggle/input")
     code = work / "aiv"
-    shutil.copytree(hit.parents[1], code, dirs_exist_ok=True)        # writable copy
+    shutil.copytree(hit.parents[2], code, dirs_exist_ok=True)        # writable copy
     commit = (code / "VERSION").read_text().strip()
     if commit != job["commit"]:
         sys.exit(f"stale bundle: dataset has {commit}, job expects {job['commit']}; re-run push")
