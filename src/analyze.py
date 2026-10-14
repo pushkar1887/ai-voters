@@ -3,6 +3,7 @@
     python -m src.analyze all [--boot 2000]       rho, q*, gamma, follow curves, fixes, S2/S4/S5 tables
     python -m src.analyze judge [--n 2000]        silent-herding judge on flips (M6, T = 0) + blind kappa sheet
     python -m src.analyze kappa                   H5 gate: judge vs human labels on that sheet
+    python -m src.analyze holm [--boot 2000]      pooled Holm-corrected tests for H1-H4 and H6 (writes S6_holm.csv only)
 
 Claims are the unit: every interval is a cluster bootstrap over claims.
 """
@@ -186,7 +187,7 @@ def label_sheet(sample: pd.DataFrame) -> None:
     """Blind kappa sheet: the labeller sees only what the judge saw (the reason), in random order.
     The judge's answers go to a separate key file, so they cannot anchor the human label."""
     s = sample.reset_index(drop=True).assign(row=lambda x: x.index + 1)
-    s[["row", "reason"]].assign(label_pushkar="", label_second="").to_csv(RES / "judge_labels.csv", index=False)
+    s[["row", "reason"]].assign(label_first="", label_second="").to_csv(RES / "judge_labels.csv", index=False)
     s[["row", "model", "item_id", "cell", "mentions"]].to_csv(RES / "judge_key.csv", index=False)
     print(f"results/judge_labels.csv: {len(s)} reasons to label YES/NO (answers in judge_key.csv; do not open first)")
 
@@ -208,7 +209,7 @@ def kappa() -> None:
     labels = {c: yn(d[c]) for c in d.columns if c.startswith("label_")}
     labels = {c: h for c, h in labels.items() if h.notna().any()}
     if not labels:
-        print("no labels yet: write YES or NO in label_pushkar in results/judge_labels.csv")
+        print("no labels yet: write YES or NO in label_first in results/judge_labels.csv")
     for c, h in labels.items():
         n, po, k = cohen(d.mentions, h)
         print(f"judge vs {c}: {n} rows, agreement {po:.3f}, kappa {k:.3f} -> "
@@ -221,13 +222,16 @@ def kappa() -> None:
         print(f"{' vs '.join(labels)}: {n} rows, agreement {po:.3f}, kappa {k:.3f}")
 
 
-def main(B: int) -> None:
+def main(B: int, models: list[str] | None = None) -> None:
+    """models: restrict every table to these models (S4 keeps the mixed crowd); None = all cached models."""
     RES.mkdir(exist_ok=True)
     pd.set_option("display.width", 220)
     pd.set_option("display.max_columns", 30)
     figs = Figures()
     if (RUNS / "S3").exists():
         df = s3_table(rebuild=True)
+        if models:
+            df = df[df.model.isin(models)]
         t = h1_h2(df, B)
         t.to_csv(RES / "S6_h1_h2.csv", index=False)
         print("H1/H2 by model (point [95% CI], claims resampled):\n", readable(t).to_string(index=False))
@@ -244,6 +248,8 @@ def main(B: int) -> None:
     if (RES / "S4_sequences.parquet").exists():
         from src.s4_crowds import paired, summary
         seqs = pd.read_parquet(RES / "S4_sequences.parquet")
+        if models:
+            seqs = seqs[seqs.crowd.isin(list(models) + ["mixed"])]
         s4 = summary(seqs)
         s4.to_csv(RES / "S6_crowds.csv")
         print("\ncrowds:\n", s4.to_string())
@@ -263,7 +269,7 @@ def main(B: int) -> None:
         figs.muchnik(s5)
     if (RUNS / "S2").exists():
         from src.s2_urn import table
-        models = sorted(p.stem for p in (RUNS / "S2").glob("*.jsonl"))
+        models = sorted(p.stem for p in (RUNS / "S2").glob("*.jsonl") if not models or p.stem in models)
         s2 = table(models, 200)
         s2.to_csv(RES / "S6_urn.csv", index=False)
         print("\nurn (Anderson & Holt: cascade rate 0.71, inconsistent ~0.04):\n", s2.to_string(index=False))
@@ -398,15 +404,111 @@ class Figures:
         self.save(fig, "fig5_muchnik")
 
 
+# ------------------------------------------------------------------ pooled tests (B3)
+
+MODELS_SIX = ["M1", "M2", "M3", "M4", "M6", "M7"]     # the six crowd models; "mixed" is a crowd, not a model
+CLAIM = {"H1": "rho > 1", "H2": "gamma_sequential > 0.5", "H3": "visible votes cost at least 5 pp (k = 0)",
+         "H4": "no downvote correction (down minus control <= 0)", "H6": "private-first gain over social > 0"}
+NULL_SIDE = {"H1": lambda d: np.mean(d <= 1.0), "H2": lambda d: np.mean(d <= 0.5),
+             "H3": lambda d: np.mean(d < 0.05), "H4": lambda d: np.mean(d > 0), "H6": lambda d: np.mean(d <= 0)}
+
+
+def draws(df: pd.DataFrame, stat, B: int, seed: int = CFG["seed"]) -> np.ndarray:
+    """Bootstrap distribution of stat over claims: the resampling of boot(), kept as draws."""
+    rng = np.random.default_rng(seed)
+    groups = list(df.groupby("item_id").indices.values())
+    out = np.full(B, np.nan)
+    for b in range(B):
+        take = np.concatenate([groups[i] for i in rng.integers(0, len(groups), len(groups))])
+        out[b] = stat(df.iloc[take])
+    return out
+
+
+def vec_draws(vals: np.ndarray, B: int, rng: np.random.Generator) -> np.ndarray:
+    """Bootstrap distribution of the mean of per-claim values."""
+    return vals[rng.integers(0, len(vals), size=(B, len(vals)))].mean(axis=1)
+
+
+def pooled_holm(B: int = 2000) -> pd.DataFrame:
+    """Plan row 9: one pooled test per hypothesis. Each model or crowd is resampled over its own claims, the
+    draws are averaged with equal weight (model as a fixed effect), and Holm corrects across the tests.
+    p is the share of bootstrap draws on the null side of the claim, so a small p supports the claim.
+    H5 has no test yet: it waits for the T1 gate. Writes results/S6_holm.csv only."""
+    rng = np.random.default_rng(CFG["seed"])
+    pooled, est = {}, {}
+
+    s3 = s3_table()                                                       # H1, H2: S3 main cells
+    main = s3[(s3.part == "main") & s3.model.isin(MODELS_SIX)]
+    h1, h2, e1, e2 = {}, {}, {}, {}
+    for m, d in main.groupby("model"):
+        ind, seq = d[d.framing == "independent"], d[d.framing == "sequential"]
+        ind_u = ind[ind.q.isna()]
+        h1[m], e1[m] = draws(ind_u, rho, B), rho(ind_u)
+        h2[m], e2[m] = draws(seq, gamma, B), gamma(seq)
+    pooled["H1"], est["H1"] = np.nanmean(np.vstack(list(h1.values())), axis=0), e1
+    pooled["H2"], est["H2"] = np.nanmean(np.vstack(list(h2.values())), axis=0), e2
+
+    s4 = pd.read_parquet(RES / "S4_sequences.parquet")                    # H3, H6: S4 crowds at k = 0
+    s4 = s4[s4.complete & s4.crowd.isin(MODELS_SIX) & (s4.k == 0)]
+    acc = lambda maj, truth: (maj == truth).astype(float).where(maj != 0, 0.5).to_numpy()
+    gap, gain, gap_d, gain_d = {}, {}, [], []
+    for cr, d in s4.groupby("crowd"):
+        soc = d[d.variant == "social"].set_index("item_id")
+        f1 = d[d.variant == "f1"].set_index("item_id")
+        f1 = f1.loc[f1.index.intersection(soc.index)]
+        gap[cr] = acc(soc.indep_majority, soc.truth) - acc(soc.final_majority, soc.truth)
+        sp = soc.loc[f1.index]                                            # paired with the private-first claims
+        gain[cr] = acc(f1.final_majority, f1.truth) - acc(sp.final_majority, sp.truth)
+        gap_d.append(vec_draws(gap[cr], B, rng))
+        gain_d.append(vec_draws(gain[cr], B, rng))
+    pooled["H3"], est["H3"] = np.mean(gap_d, axis=0), {c: v.mean() for c, v in gap.items()}
+    pooled["H6"], est["H6"] = np.mean(gain_d, axis=0), {c: v.mean() for c, v in gain.items()}
+
+    s5 = pd.read_parquet(RES / "S5_b1.parquet")                           # H4: S5 comments (M1, M2, M3, M6)
+    w = (s5.assign(up=(s5.vote == "UP").astype(float))
+         .pivot_table(index=["model", "item_id"], columns="treatment", values="up").dropna())
+    dn, de = [], {}
+    for m, x in w.groupby(level="model"):
+        diff = x["down"].to_numpy() - x["control"].to_numpy()
+        dn.append(vec_draws(diff, B, rng))
+        de[m] = diff.mean()
+    pooled["H4"], est["H4"] = np.mean(dn, axis=0), de
+
+    rows = []
+    for h in ["H1", "H2", "H3", "H4", "H6"]:
+        d = pooled[h][~np.isnan(pooled[h])]
+        lo, hi = np.percentile(d, [2.5, 97.5])
+        rows.append({"hypothesis": h, "claim": CLAIM[h], "units": " ".join(est[h]),
+                     "estimate": np.mean(list(est[h].values())), "lo": lo, "hi": hi, "p": NULL_SIDE[h](d)})
+    out = pd.DataFrame(rows)
+    out["p_holm"] = out.hypothesis.map(holm(dict(zip(out.hypothesis, out["p"]))))
+    out.round(4).to_csv(RES / "S6_holm.csv", index=False)
+    pd.set_option("display.width", 220)
+    print(f"Pooled tests (equal weight across units, B = {B}):\n", out.round(3).to_string(index=False))
+    for h in est:
+        print(f"  {h} per unit:", {k: round(float(v), 3) for k, v in est[h].items()})
+    print("H5: no pooled test yet (waits for the T1 gate). Adding it makes the Holm family six tests.")
+    all_gap, all_gain = np.concatenate(list(gap.values())), np.concatenate(list(gain.values()))
+    print(f"Register check, six crowds, claims-weighted:\n"
+          f"  H3 visible-vote cost at k = 0: {all_gap.mean() * 100:.1f} pp over {len(all_gap)} claim rows "
+          f"(register §12.3: 6.0 pp over 1,565 crowds)\n"
+          f"  H6 private-first gain: {all_gain.mean() * 100:.1f} pp over {len(all_gain)} claims "
+          f"(register §12.3: +6.4 pp over 549 claims)")
+    return out
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("what", choices=["all", "judge", "kappa"])
+    ap.add_argument("what", choices=["all", "judge", "kappa", "holm"])
     ap.add_argument("--boot", type=int, default=2000, help="bootstrap resamples (0 = point estimates only)")
     ap.add_argument("--n", type=int, default=2000, help="flips to judge")
+    ap.add_argument("--models", nargs="+", default=None, help="restrict 'all' to these models")
     a = ap.parse_args()
     if a.what == "all":
-        main(a.boot)
+        main(a.boot, a.models)
     elif a.what == "judge":
         judge(a.n)
+    elif a.what == "holm":
+        pooled_holm(a.boot)
     else:
         kappa()
