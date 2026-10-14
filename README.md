@@ -1,6 +1,6 @@
 # Do LLM Voters Cascade? (WWW 2027)
 
-Do LLM agents that vote after seeing earlier votes weigh them like Bayesian learners, like people, or like blind herders? The plan, stage contracts, gates and the running log are in [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md).
+Do LLM agents that vote after seeing earlier votes weigh them like Bayesian learners, like people, or like blind herders? The run order and stage outputs are below.
 
 ## Setup
 
