@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 from src.data import load_claims, load_personas, private_first_messages, social_messages, solo_messages
-from src.llm import ROOT, Monitor, acall, close_pool, get_pool, rng, spec, write_manifest
+from src.llm import CONCURRENCY, ROOT, Monitor, acall, close_pool, get_pool, rng, spec, write_manifest
 from src.oracle import informative_lead, oracle
 
 AGENTS, MIXED = 12, ["M1", "M2", "M3", "M6"]
@@ -101,7 +101,7 @@ async def chain(crowd: str, c: dict, k: int, variant: str, personas: list[dict],
 async def run_crowds(crowds: list[str], mode: str, limit: int | None) -> pd.DataFrame:
     get_pool()
     personas = load_personas()
-    sem = asyncio.Semaphore(256)
+    sem = asyncio.Semaphore(CONCURRENCY)
     mons = {cr: Monitor(f"S4/{cr}", 0, get_pool()) for cr in crowds}
     jobs = []
     for cr in crowds:
