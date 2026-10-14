@@ -5,10 +5,10 @@ batch backend for the Kaggle GPU models, an append-only hash cache and the reply
 parser. Every record lands in runs/<stage>/<name>.jsonl, so re-running anything
 costs nothing and a crash resumes where it stopped.
 
-    python -m src.llm --check-keys [MODEL]     one tiny call per key, masked report
-    python -m src.llm --models ID [ID ...]     which NIM model strings answer
-    python -m src.llm --smoke                  5 claims x every NIM model (gate G1)
-    python -m src.llm --probe [--minutes 5]    rate probe: 3 keys at 40 RPM
+    python -m src.core.nim_client --check-keys [MODEL]     one tiny call per key, masked report
+    python -m src.core.nim_client --models ID [ID ...]     which NIM model strings answer
+    python -m src.core.nim_client --smoke                  5 claims x every NIM model (gate G1)
+    python -m src.core.nim_client --probe [--minutes 5]    rate probe: 3 keys at 40 RPM
 """
 from __future__ import annotations
 
@@ -31,11 +31,11 @@ from string import Template
 import httpx
 import yaml
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 CFG = yaml.safe_load((ROOT / "config.yaml").read_text(encoding="utf-8"))
 CONCURRENCY = int(os.environ.get("NIM_CONCURRENCY", CFG["nim"]["concurrency"]))   # in-flight requests per process
 RATE_LIMIT_WAITS = 10**9      # 429s one request waits out without spending an attempt (only real failures count)
-PROMPTS = yaml.safe_load((ROOT / "prompts" / f"{CFG['prompt_version']}.yaml").read_text(encoding="utf-8"))
+PROMPTS = yaml.safe_load((ROOT / "prompts" / f"templates_{CFG['prompt_version']}.yaml").read_text(encoding="utf-8"))
 RUNS = Path(os.environ.get("AIV_RUNS", ROOT / "runs"))
 
 
@@ -44,7 +44,7 @@ def now() -> str:
 
 
 def render(name: str, key: str | None = None, **slots) -> str:
-    """Fill a template from prompts/<version>.yaml; `key` picks a paraphrase or variant."""
+    """Fill a template from prompts/templates_<version>.yaml; `key` picks a paraphrase or variant."""
     t = PROMPTS[name]
     if isinstance(t, dict):
         t = t[key or "a"]
@@ -626,7 +626,7 @@ async def _probe_models(ids: list[str], limit_s: float = 120) -> None:
 
 def _smoke(n: int = 5, codes: list[str] | None = None) -> None:
     """G1: n claims through each model (default: every NIM model); NIM models also get a logprobs check."""
-    from src.data import load_claims, solo_messages          # lazy: data imports this module
+    from src.core.prepare_data import load_claims, solo_messages          # lazy: data imports this module
     claims = load_claims("eval")[:n]
     codes = codes or [c for c, m in CFG["models"].items() if m["backend"] == "nim"]
     nim = [c for c in codes if CFG["models"][c]["backend"] == "nim"]

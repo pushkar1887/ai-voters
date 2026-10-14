@@ -1,6 +1,6 @@
 """S5: Muchnik, Aral & Taylor (2013) first-voter replication on real Reddit comments (H4).
 
-    python -m src.s5_reddit --models M1 M2 M3 M6 [--limit 100]
+    python -m src.stages.stage5_reddit --models M1 M2 M3 M6 [--limit 100]
 
 Each comment is shown under three treatments in separate stateless calls: control (score 1),
 up (score 2) and down (score 0). The persona is fixed per comment, so only the score changes.
@@ -12,8 +12,8 @@ import argparse
 import numpy as np
 import pandas as pd
 
-from src.data import load_comments, load_personas
-from src.llm import ROOT, RUNS, read_jsonl, render, rng, run_many, spec
+from src.core.prepare_data import load_comments, load_personas
+from src.core.nim_client import ROOT, RUNS, read_jsonl, render, rng, run_many, spec
 
 TREATMENTS = {"control": 1, "up": 2, "down": 0}
 

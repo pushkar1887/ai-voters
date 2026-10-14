@@ -2,7 +2,7 @@
 
 Votes, signals and draws are +1 (TRUE / urn A / light ball) or -1 (FALSE / urn B / dark ball).
 
-    python -m src.oracle        runs the hand-worked checks below
+    python -m src.core.bayes_oracle        runs the hand-worked checks below
 """
 from __future__ import annotations
 

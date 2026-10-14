@@ -1,8 +1,8 @@
 """S4: sequential crowds of 12 agents, with bot seeding (H3; H1 in the wild; F1 at crowd level).
 
-    python -m src.s4_crowds --crowds M1 M2 M3 M6 mixed [--limit 20]        clean (k = 0) and seeded (k = 1-3)
-    python -m src.s4_crowds --crowds M1 M2 M3 M6 mixed --f1                 private-first crowd (k = 0)
-    python -m src.s4_crowds --crowds M2 M3 --br                             Bayes-rule prompt (k = 0 and k = 2)
+    python -m src.stages.stage4_crowds --crowds M1 M2 M3 M6 mixed [--limit 20]        clean (k = 0) and seeded (k = 1-3)
+    python -m src.stages.stage4_crowds --crowds M1 M2 M3 M6 mixed --f1                 private-first crowd (k = 0)
+    python -m src.stages.stage4_crowds --crowds M2 M3 --br                             Bayes-rule prompt (k = 0 and k = 2)
 
 Agent t makes a solo call (its private signal), then a social call showing every earlier vote.
 The first voter in a clean crowd has nothing to see, so its vote is its solo verdict. Solo calls do
@@ -19,9 +19,9 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
-from src.data import load_claims, load_personas, private_first_messages, social_messages, solo_messages
-from src.llm import CONCURRENCY, ROOT, Monitor, acall, close_pool, get_pool, rng, spec, write_manifest
-from src.oracle import informative_lead, oracle
+from src.core.prepare_data import load_claims, load_personas, private_first_messages, social_messages, solo_messages
+from src.core.nim_client import CONCURRENCY, ROOT, Monitor, acall, close_pool, get_pool, rng, spec, write_manifest
+from src.core.bayes_oracle import informative_lead, oracle
 
 AGENTS, MIXED = 12, ["M1", "M2", "M3", "M6"]
 SIZES = {"clean": 300, "seeded": 150, "f1": 100}

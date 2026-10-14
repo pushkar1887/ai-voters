@@ -1,6 +1,6 @@
 """S1: each model's private signal on every claim, then per-model item pools.
 
-    python -m src.s1_signals --models M1 M2 M3 M4 M6 [--limit 100] [--refill 500]
+    python -m src.stages.stage1_private_signals --models M1 M2 M3 M4 M6 [--limit 100] [--refill 500]
 
 Screening (steps 1-2): 5 solo samples at T = 0.7 without persona, plus a recognition probe.
 p_bar = mean probability put on the correct label. Pool (3-4): 0.55 <= p_bar <= 0.90, not
@@ -17,8 +17,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.data import load_claims, load_personas, recog_messages, solo_messages
-from src.llm import CFG, ROOT, now, rng, run_many, spec
+from src.core.prepare_data import load_claims, load_personas, recog_messages, solo_messages
+from src.core.nim_client import CFG, ROOT, now, rng, run_many, spec
 
 S = CFG["s1"]
 TRUE_SIDE = {"true", "mostly true", "correct", "accurate"}

@@ -1,7 +1,7 @@
 """S2: Anderson & Holt (1997) urn cascades with LLM agents, the like-for-like human anchor.
 
-    python -m src.s2_urn --models M1 M2 M3 M6 --rounds 20     sanity check (lead 0 -> own draw > 90%)
-    python -m src.s2_urn --models M1 M2 M3 M6                 full run (200 rounds) + results/S2_table.csv
+    python -m src.stages.stage2_urn --models M1 M2 M3 M6 --rounds 20     sanity check (lead 0 -> own draw > 90%)
+    python -m src.stages.stage2_urn --models M1 M2 M3 M6                 full run (200 rounds) + results/S2_table.csv
 
 Each round a fair coin picks urn A or B. Six agents draw privately (light with probability 2/3 under A)
 and guess in turn, seeing only earlier guesses. Bayes and own-draw agents are scored on the same draws.
@@ -13,8 +13,8 @@ import asyncio
 
 import pandas as pd
 
-from src.llm import CONCURRENCY, CFG, RUNS, ROOT, Monitor, acall, close_pool, get_pool, read_jsonl, render, rng, spec, write_manifest
-from src.oracle import informative_lead, urn_bayes
+from src.core.nim_client import CONCURRENCY, CFG, RUNS, ROOT, Monitor, acall, close_pool, get_pool, read_jsonl, render, rng, spec, write_manifest
+from src.core.bayes_oracle import informative_lead, urn_bayes
 
 AGENTS, ROUNDS = 6, 200
 
