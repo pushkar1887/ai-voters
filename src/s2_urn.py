@@ -13,7 +13,7 @@ import asyncio
 
 import pandas as pd
 
-from src.llm import CFG, RUNS, ROOT, Monitor, acall, close_pool, get_pool, read_jsonl, render, rng, spec, write_manifest
+from src.llm import CONCURRENCY, CFG, RUNS, ROOT, Monitor, acall, close_pool, get_pool, read_jsonl, render, rng, spec, write_manifest
 from src.oracle import informative_lead, urn_bayes
 
 AGENTS, ROUNDS = 6, 200
@@ -42,7 +42,7 @@ async def play(model: str, r: int, mon: Monitor) -> None:
 
 async def run_rounds(models: list[str], rounds: int) -> None:
     get_pool()
-    sem = asyncio.Semaphore(CFG["nim"]["concurrency"])
+    sem = asyncio.Semaphore(CONCURRENCY)
     mons = {m: Monitor(f"S2/{m}", rounds * AGENTS, get_pool()) for m in models}
 
     async def one(m, r):
@@ -69,7 +69,8 @@ def decisions(model: str, rounds: int) -> pd.DataFrame:
         guess = 1 if rec["parsed"]["urn"] == "A" else -1
         rows.append({"round": m["round"], "t": m["t"], "urn": m["urn"], "draw": m["draw"], "lead": lead,
                      "guess": guess, "bayes": bayes, "p_a": rec["parsed"]["p_a"] / 100, "bayes_p_a": p_a})
-    df = pd.DataFrame(rows).drop_duplicates(["round", "t"])
+    cols = ["round", "t", "urn", "draw", "lead", "guess", "bayes", "p_a", "bayes_p_a"]   # keeps empty models working
+    df = pd.DataFrame(rows, columns=cols).drop_duplicates(["round", "t"])
     full = df.groupby("round")["t"].transform("size") == AGENTS          # drop broken rounds
     return df[full]
 

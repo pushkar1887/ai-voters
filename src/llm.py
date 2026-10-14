@@ -33,6 +33,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 CFG = yaml.safe_load((ROOT / "config.yaml").read_text(encoding="utf-8"))
+CONCURRENCY = int(os.environ.get("NIM_CONCURRENCY", CFG["nim"]["concurrency"]))   # in-flight requests per process
+RATE_LIMIT_WAITS = 10**9      # 429s one request waits out without spending an attempt (only real failures count)
 PROMPTS = yaml.safe_load((ROOT / "prompts" / f"{CFG['prompt_version']}.yaml").read_text(encoding="utf-8"))
 RUNS = Path(os.environ.get("AIV_RUNS", ROOT / "runs"))
 
@@ -79,9 +81,12 @@ def load_keys() -> list[str]:
         path = ROOT / CFG["nim"]["keys_file"]
         raw = path.read_text(encoding="utf-8") if path.exists() else ""
     keys = list(dict.fromkeys(KEY_RE.findall(raw)))
-    if sl := os.environ.get("NIM_KEY_SLICE"):
-        a, b = (int(x) if x else None for x in sl.split(":"))
-        keys = keys[a:b]
+    if sl := os.environ.get("NIM_KEY_SLICE"):          # "a:b" or several ranges "a:b,c:d"
+        picked = []
+        for part in sl.split(","):
+            a, b = (int(x) if x else None for x in part.split(":"))
+            picked += keys[a:b]
+        keys = list(dict.fromkeys(picked))
     if not keys:
         sys.exit("No NIM keys: set NIM_KEYS or put them in the file named by nim.keys_file.")
     return keys
@@ -104,12 +109,12 @@ class Pool:
         self.keys, self.gap = keys, 60.0 / rpm
         self.free_at = [0.0] * len(keys)
         self.dead: set[int] = set()
-        self.next_key = 0
+        self.next_key = int(os.environ.get("NIM_KEY_OFFSET", 0)) % len(keys)   # processes start at different keys
         self.used: Counter = Counter()                  # requests per key index -> manifest, by fingerprint
         self.stats: Counter = Counter()
         self.lock = asyncio.Lock()
         self.http = httpx.AsyncClient(base_url=CFG["nim"]["base_url"], timeout=CFG["nim"]["timeout_s"],
-                                      limits=httpx.Limits(max_connections=CFG["nim"]["concurrency"]))
+                                      limits=httpx.Limits(max_connections=CONCURRENCY))
 
     async def _take_key(self) -> int:
         async with self.lock:
@@ -127,15 +132,16 @@ class Pool:
         await asyncio.sleep(t - t_now)
         return i
 
-    async def post(self, payload: dict, tries: int = 8) -> dict:
-        attempt = 0
+    async def post(self, payload: dict, tries: int = 8, timeout: float | None = None) -> dict:
+        attempt = limited = 0
+        kw = {} if timeout is None else {"timeout": timeout}      # per model; None keeps nim.timeout_s
         while attempt < tries:
             i = await self._take_key()
             if i in self.dead:                  # the key died while this call waited for its slot
                 continue
             attempt += 1
             try:
-                r = await self.http.post("/chat/completions", json=payload,
+                r = await self.http.post("/chat/completions", json=payload, **kw,
                                          headers={"Authorization": f"Bearer {self.keys[i]}"})
             except httpx.HTTPError:
                 self.stats["net_error"] += 1
@@ -148,6 +154,9 @@ class Pool:
                     continue
                 if r.status_code == 429:
                     self.free_at[i] = max(self.free_at[i], time.monotonic() + 20)
+                    limited += 1
+                    if limited <= RATE_LIMIT_WAITS:      # waiting out a rate limit is not a failed attempt
+                        attempt -= 1
                     continue
                 if r.status_code in (400, 404, 410, 422):
                     raise BadRequest(f"{r.status_code} {r.text[:200]}")
@@ -226,10 +235,16 @@ def spec(messages: list[dict], *, kind: str = "claim", decoding: str = "greedy",
             "meta": meta or {}, "max_tokens": max_tokens}
 
 
-def payload_for(model: str, s: dict) -> dict:
-    """The model's `extra` (reasoning switches) goes into the payload, so it is part of the cache key."""
+def payload_for(model: str, s: dict, legacy: bool = False) -> dict:
+    """The model's `extra` (reasoning switches) goes into the payload, so it is part of the cache key.
+    legacy=True rebuilds the payload a call was cached under before the model's settings changed."""
     m = CFG["models"][model]
     dec = CFG["decoding"][s["decoding"]]
+    if legacy:
+        leg = m["legacy"]
+        return {"model": m["id"], "messages": s["messages"], "temperature": dec["temperature"], "top_p": dec["top_p"],
+                "max_tokens": leg["s2_max_tokens"] if s["kind"] == "urn" else leg["max_tokens"],
+                **(leg.get("extra") or {})}
     return {"model": m["id"], "messages": s["messages"], "temperature": dec["temperature"], "top_p": dec["top_p"],
             "max_tokens": s["max_tokens"] or m.get("max_tokens") or CFG["decoding"]["max_tokens"],
             **(m.get("extra") or {})}
@@ -325,6 +340,9 @@ async def _nim_one(pool: Pool, cache: Cache, stage: str, model: str, s: dict) ->
     h = req_hash(p, s["seed_tag"])
     if (hit := cache.get(h)) is not None:
         return hit, True
+    if CFG["models"][model].get("legacy"):          # done under the earlier settings: keep it, do not redo
+        if (old := cache.get(req_hash(payload_for(model, s, legacy=True), s["seed_tag"]))) is not None:
+            return old, True
     if h in _INFLIGHT:
         return await asyncio.shield(_INFLIGHT[h]), True
     fut = asyncio.get_running_loop().create_future()
@@ -343,13 +361,15 @@ async def _nim_one(pool: Pool, cache: Cache, stage: str, model: str, s: dict) ->
 
 async def _nim_call(pool: Pool, cache: Cache, stage: str, model: str, s: dict, p: dict, h: str) -> dict:
     t0 = time.monotonic()
+    mc = CFG["models"][model]
+    budget = {"tries": mc.get("tries", 8), "timeout": mc.get("timeout_s")}
     try:
-        text, reasoning, finish, usage = _unpack(await pool.post(p))
+        text, reasoning, finish, usage = _unpack(await pool.post(p, **budget))
         parsed, status, retry_text = parse(text, s["kind"]), "ok", None
         if parsed is None:
             msgs = p["messages"] + [{"role": "assistant", "content": text or ""},
                                     {"role": "user", "content": RETRY_MSG}]
-            retry_text = _unpack(await pool.post({**p, "messages": msgs}))[0]
+            retry_text = _unpack(await pool.post({**p, "messages": msgs}, **budget))[0]
             parsed = parse(retry_text, s["kind"])
             status = "retry_ok" if parsed else "fail"
     except (BadRequest, RuntimeError) as e:          # not cached, so a later run tries again
@@ -430,7 +450,7 @@ async def acall(stage: str, model: str, s: dict, name: str | None = None) -> dic
 
 async def arun(stage: str, model: str, specs: list[dict], name: str | None = None) -> list[dict]:
     pool, cache = get_pool(), cache_for(stage, name or model)
-    sem = asyncio.Semaphore(CFG["nim"]["concurrency"])
+    sem = asyncio.Semaphore(CONCURRENCY)
     mon = Monitor(f"{stage}/{name or model}", len(specs), pool)
 
     async def one(s):
