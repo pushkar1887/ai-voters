@@ -1,6 +1,6 @@
 """S1: each model's private signal on every claim, then per-model item pools.
 
-    python -m src.stages.stage1_private_signals --models M1 M2 M3 M4 M6 [--limit 100] [--refill 500]
+    python -m Experiments.stage1_private_signals --models M1 M2 M3 M4 M6 [--limit 100] [--refill 500]
 
 Screening (steps 1-2): 5 solo samples at T = 0.7 without persona, plus a recognition probe.
 p_bar = mean probability put on the correct label. Pool (3-4): 0.55 <= p_bar <= 0.90, not
@@ -17,8 +17,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.core.prepare_data import load_claims, load_personas, recog_messages, solo_messages
-from src.core.nim_client import CFG, ROOT, now, rng, run_many, spec
+from Datasets.prepare_data import load_claims, load_personas, recog_messages, solo_messages
+from Experiments.core.nim_client import CFG, ROOT, now, rng, run_many, spec
 
 S = CFG["s1"]
 TRUE_SIDE = {"true", "mostly true", "correct", "accurate"}
@@ -142,7 +142,7 @@ def main(models: list[str], limit: int | None, refill: int) -> None:
                          "persona_id": r["meta"]["persona_id"], "order": r["meta"]["order"], "s": s,
                          "p_true_solo": p["p_true"], "recent": bool(by_id[cid]["recent"])})
         p_hat = sum(x["s"] == x["truth"] for x in rows) / max(1, len(rows))
-        out = Path(ROOT / "data" / "pools" / f"{m}.json")
+        out = Path(ROOT / "Datasets" / "pools" / f"{m}.json")
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps({"model": m, "model_id": CFG["models"][m]["id"], "created": now(),
                                    "screened": len(screened[m]), "p_hat": round(p_hat, 4), "n": len(rows),

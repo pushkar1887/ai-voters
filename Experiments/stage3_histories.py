@@ -1,7 +1,7 @@
 """S3: scripted histories whose evidential value is known exactly (H1, H2; data for H5, H6).
 
-    python -m src.stages.stage3_histories --models M1 M2 M3 M4 M6 M6H --part main [--limit 50]
-    python -m src.stages.stage3_histories --models M1 M2 M3 M4 M6 M6H --part fixes      (after main)
+    python -m Experiments.stage3_histories --models M1 M2 M3 M4 M6 M6H --part main [--limit 50]
+    python -m Experiments.stage3_histories --models M1 M2 M3 M4 M6 M6H --part fixes      (after main)
 
 Each pool claim gets 8 cells sampled (not crossed) from: framing (independent 40%, sequential 40%,
 random 20%), q stated or not, list/tally display, paraphrase a/b/c, and a history of 1-6 votes.
@@ -19,9 +19,9 @@ import json
 
 import pandas as pd
 
-from src.core.prepare_data import load_claims, load_personas, private_first_messages, social_messages
-from src.core.nim_client import CFG, ROOT, RUNS, read_jsonl, rng, run_many, spec
-from src.core.bayes_oracle import bhw_sequences, informative_lead, oracle
+from Datasets.prepare_data import load_claims, load_personas, private_first_messages, social_messages
+from Experiments.core.nim_client import CFG, ROOT, RUNS, read_jsonl, rng, run_many, spec
+from Experiments.core.bayes_oracle import bhw_sequences, informative_lead, oracle
 
 CELLS, CELLS_SMALL_POOL, FIX_CLAIMS, Q = 8, 12, 300, 70     # plan fallback: pool < 600 -> 12 cells
 FRAMINGS, WEIGHTS = ["independent", "sequential", "random"], [0.4, 0.4, 0.2]
@@ -29,7 +29,7 @@ SEQS = {n: bhw_sequences(n) for n in range(1, 7)}
 
 
 def load_pool(model: str) -> dict:
-    return json.loads((ROOT / "data" / "pools" / f"{model}.json").read_text(encoding="utf-8"))
+    return json.loads((ROOT / "Datasets" / "pools" / f"{model}.json").read_text(encoding="utf-8"))
 
 
 def make_cell(claim_id: str, k: int, s: int) -> dict:
