@@ -1,37 +1,41 @@
 # Do LLM Voters Cascade?
 
-Do LLM agents that vote after seeing earlier votes weigh them the way a Bayesian would, the way people do, or by blindly following the crowd?
+In a cascade, later voters copy the votes they can see instead of trusting their own judgement. This repository asks whether LLM voters cascade, and if so, whether they do it for the right reasons. Each model is compared with a Bayesian benchmark: a rational voter who weighs a shown vote by how reliable it is and treats repeated or post-cascade votes as redundant. Three experiments test this: the Anderson and Holt (1997) urn cascade; fact-checked political claims from LIAR2, judged alone and again after seeing other reviewers' ratings; and a Reddit first-voter experiment that replicates Muchnik et al. (2013) across seven topic groups. The code, configuration, prompts, claim pools and analysis behind the paper are all here. The paper's numbers come only from the commands in [Section 5](#5-reproduce-the-results).
 
-This repository holds the code, configuration, prompts, claim pools and analysis behind a WWW 2027 research-track paper. Every number in the paper is produced by the commands in [Running the pipeline](#running-the-pipeline).
+## Repository map
 
-> **Status (14 October 2026).** Ten models have completed every stage and form the basis of the results. Three later models (GLM-5.3, DeepSeek-v4.1-flash and Kimi-K3) are unfinished and excluded. See [Status](#status).
+```
+Datasets/
+  prepare_data.py              claims, comments, personas
+  processed/                   prepared claims, Reddit comments, personas, subreddit list, build report
+  pools/                       per-model claim pools (output of S1)
+Experiments/
+  core/                        NIM client (key pool, cache); Bayes oracle
+  stage1_private_signals.py    S1: private signals and claim pools
+  stage2_urn.py                S2: urn cascade
+  stage3_histories.py          S3: scripted vote histories and fix cells
+  stage4_crowds.py             S4: crowds, seeding, private-first and Bayes-rule prompts
+  stage5_reddit.py             S5: Reddit first voter
+  kaggle/                      launcher for the local models on Kaggle GPUs
+Analysis/
+  paper_results.py             every number, table and figure in the paper (S6)
+config.yaml                    settings for every stage and model
+prompts/                       frozen prompt templates
+```
 
-## The question
-
-In a cascade, later voters copy the votes they can see instead of trusting their own judgement. We ask whether LLM voters cascade, and if so, whether they do it for the right reasons. Each model is compared with a Bayesian benchmark: a rational voter who weighs a shown vote by how reliable it is, and treats repeated or post-cascade votes as redundant.
-
-## Design
-
-Two experiments share one pipeline.
-
-- **Urn experiment (S2).** The Anderson and Holt (1997) urn cascade. A fair coin picks one of two urns. Each agent draws one ball, and the earlier guesses are visible. The human reference cascade rate is 0.71.
-- **Claim experiment (S1, S3, S4).** Fact-checked political claims from LIAR2. Each model judges a claim alone, which gives its private signal. It then judges the same claim again after seeing other reviewers' votes, scripted in several framings (independent, sequential, random and cue). Crowds are built from these responses, both clean and seeded with bot votes. S4 also tests a private-first condition, where a model commits to its own view before it sees any votes, and a Bayes-rule prompt.
-- **Reddit (S5).** Whether an upvote or downvote on a comment changes later voters' behaviour, replicating Muchnik et al. (2013) across seven topic groups.
-- **Analysis (S6).** Pooled tests, tables and figures, the silent-herding judge (H5) and its validation.
+Each stage is a module run from the repository root with `python -m`. Every model call goes through one runner that caches the reply, so a stage can be rerun without new calls. S0 prepares the data, S1 builds the per-model claim pools that S3 and S4 draw on, and S6 reads the tables written by S2 to S5.
 
 | Stage | Question | Module | Output |
 |---|---|---|---|
-| S0 | Claims, comments, personas; Bayes oracle checks | `src/core/prepare_data.py`, `src/core/bayes_oracle.py` | `data/processed/` |
-| S1 | Each model's private judgement of every claim; claim pools | `src/stages/stage1_private_signals.py` | `data/pools/`, `runs/S1/` |
-| S2 | Urn cascade | `src/stages/stage2_urn.py` | `runs/S2/` |
-| S3 | Scripted vote histories and fix cells | `src/stages/stage3_histories.py` | `runs/S3/` |
-| S4 | Crowds: clean, seeded, private-first, Bayes-rule prompt | `src/stages/stage4_crowds.py` | `runs/S4/` |
-| S5 | Reddit first-voter experiment | `src/stages/stage5_reddit.py` | `runs/S5/` |
-| S6 | Every number, table and figure in the paper | `src/analysis/paper_results.py` | `results/`, `paper/figures/` |
+| S0 | Claims, comments, personas; Bayes oracle checks | `Datasets/prepare_data.py`, `Experiments/core/bayes_oracle.py` | `Datasets/processed/` |
+| S1 | Each model's private judgement of every claim; claim pools | `Experiments/stage1_private_signals.py` | `Datasets/pools/`, `runs/S1/`, `results/S1_summary.csv` |
+| S2 | Urn cascade (Anderson and Holt 1997) | `Experiments/stage2_urn.py` | `runs/S2/`, `results/S2_table.csv` |
+| S3 | Scripted vote histories and fix cells | `Experiments/stage3_histories.py` | `runs/S3/`, `results/S3_cells.parquet` |
+| S4 | Crowds: clean, seeded, private-first, Bayes-rule prompt | `Experiments/stage4_crowds.py` | `runs/S4/`, `results/S4_sequences.parquet` |
+| S5 | Reddit first-voter experiment | `Experiments/stage5_reddit.py` | `runs/S5/`, `results/S5_b1.parquet` |
+| S6 | Every number, table and figure in the paper | `Analysis/paper_results.py` | `results/`, `paper/figures/` |
 
-## Hypotheses
-
-The hypotheses were pre-registered in the project plan and frozen on 7 October 2026. H1 and H2 carry the paper.
+H1 and H2 carry the paper. The hypotheses were fixed before the runs.
 
 | | Hypothesis | Refuted if |
 |---|---|---|
@@ -42,9 +46,7 @@ The hypotheses were pre-registered in the project plan and frozen on 7 October 2
 | H5 | Silent herding: most vote-driven flips never mention the votes | 50% or fewer of the flips are unacknowledged |
 | H6 | Cheap fixes work: a private-first step beats prompting with the Bayes rule | no fix beats the Bayes-rule prompt |
 
-ρ is the weight a shown vote gets, measured against the model's own signal. ρ_Bayes = logit(q) / logit(p̂) is the Bayesian weight, where q is the reliability of the shown votes and p̂ is the model's own accuracy. γ is the ratio of redundant to informative votes.
-
-## Models
+ρ is the weight a shown vote gets, measured against the model's own signal. ρ_Bayes = logit(q) / logit(p̂) is the Bayesian weight, where q is the reliability of the shown votes and p̂ is the model's own accuracy. γ is the ratio of redundant to informative votes. Section 4 gives the exact definitions and denominators.
 
 The ten models with completed results:
 
@@ -61,120 +63,155 @@ The ten models with completed results:
 | L2 | `Qwen/Qwen3-8B-AWQ` | vLLM on Kaggle | thinking off |
 | L2T | `Qwen/Qwen3-8B-AWQ` | vLLM on Kaggle | thinking on |
 
-Pending and excluded: M8 `z-ai/glm-5.3`, M9 `deepseek-ai/deepseek-v4.1-flash`, M10 `google/gemma-4-31b-it` (parked) and M11 `moonshotai/kimi-k3`. `config.yaml` holds the settings for all of them.
+M8, M9, M10 and M11 are also configured in `config.yaml` but are not part of the results.
 
-## Status
+Large or sensitive files (API keys, the run caches in `runs/`, raw downloads in `Datasets/raw/`, and the human labelling sheet for H5) are excluded from the repository.
 
-As of 14 October 2026, on the ten completed models:
+## 1. Prepare the Environment
 
-| | Verdict | Key numbers |
-|---|---|---|
-| H1 | Not supported | Pooled ρ − ρ_Bayes = −0.24 [−0.27, −0.21] at q = 70%. Only M3 weights shown votes above Bayes (ρ 0.81 [0.70, 0.97] against 0.58). Eight of ten under-weight. Not refuted by its count rule: 1 of 6 base models cover ρ_Bayes |
-| H2 | Refuted | Median γ_seq across the ten models is 0.15. M1 alone is −6.5, so the pooled mean is not used |
-| H3 | Borderline | Visible votes cost 4.7 pp pooled [3.0, 6.5] against a 5 pp threshold. Claim-weighted: 5.2 pp [3.5, 7.0] |
-| H4 | Model-specific | M1 corrects after downvotes; M2, M3 and M6 do not. The pooled test cannot show the effect |
-| H5 | Supported | Pooled silent share 93.3% [91.9, 94.7]. The judge agrees with 200 blind human labels (κ = 0.97) |
-| H6 | Supported | Private-first recovers the loss: +5.4 pp [2.4, 8.5] pooled, Holm p = 0.0025 |
-
-These values come from the `paper_results` commands run on 14 October. Re-run them after any change.
-
-Known limitations:
-- The pooled tests cover six crowd models with equal weight. A claim-weighted check is reported beside them.
-- The per-topic Muchnik panel has 300 comments per model per topic, which is too few for topic-level claims.
-- Ultra recognises 56% of its claims. Contamination has not been checked.
-- Pooled figures from earlier drafts (H3 at 6.0 pp, H6 at +6.4 pp) did not reproduce. The values above are the reproduced ones.
-
-## Setup
+Clone the repository and create a virtual environment with Python 3.10:
 
 ```bash
+export ANONYMOUS_REPOSITORY_URL=https://github.com/OWNER/REPOSITORY.git
+git clone "$ANONYMOUS_REPOSITORY_URL" ai-voters
+cd ai-voters
 python -m venv .venv
-.venv/Scripts/python -m pip install -r requirements.txt    # Windows; on Linux use .venv/bin/python
+.venv/bin/python -m pip install -r requirements.txt   # Windows: .venv\Scripts\python -m pip install -r requirements.txt
 ```
 
-- **NIM keys.** Put the keys in `nvidia_keys.txt` at the repo root, in any layout. The file is git-ignored, and `src/core/nim_client.py` finds keys by their `nvapi-` pattern. Check them with `python -m src.core.nim_client --check-keys`.
-- **Run-time settings.** `NIM_KEY_SLICE` chooses which keys a process uses (for example `0:8,9:16`). `NIM_RPM` sets requests per minute per key, and `NIM_CONCURRENCY` sets requests in flight per process.
-- **Kaggle.** Put credentials in `~/.kaggle/kaggle.json`. The local models (L1, L2, L2T) run on a Kaggle T4 × 2 machine through `kaggle/kaggle_job.py`.
+Run all commands from the repository root. `requirements.txt` includes `pyarrow`, which the parquet outputs need. The Kaggle launcher also imports the `kaggle` package, which is not in `requirements.txt` (`pip install kaggle`).
 
-## Running the pipeline
+- **NIM keys.** Put the keys in `nvidia_keys.txt` at the repository root, in any layout. The file is git-ignored, and keys are found by their `nvapi-` pattern. The `NIM_KEYS` environment variable can hold them instead. Check them with `python -m Experiments.core.nim_client --check-keys`, which makes one small call per key and prints a masked report.
+- **Run-time settings.** `NIM_KEY_SLICE` chooses which keys a process uses (for example `0:8,9:16`). `NIM_RPM` sets requests per minute per key, and `NIM_CONCURRENCY` sets requests in flight per process; both default to the values in `config.yaml`. `AIV_RUNS` sets a different cache folder (default `runs/`).
+- **Kaggle.** Put the API credentials in `~/.kaggle/kaggle.json`.
+
+## 2. Prepare the Data
 
 ```bash
-python -m src.core.prepare_data all                                                   # S0: claims, comments, personas
-python -m src.core.bayes_oracle                                                       # S0: oracle checks (hand-worked and exhaustive)
-python -m src.core.nim_client --smoke                                                 # G1: every NIM model answers and parses
-python -m src.stages.stage1_private_signals --models M1 M2 M3 M4 M6 M6H --refill 2078 # S1: private signals -> data/pools/
-python -m src.stages.stage2_urn --models M1 M2 M3 M4 M6 M6H                           # S2: urn anchor
-python -m src.stages.stage3_histories --models M1 M2 M3 M4 M6 M6H --part main         # S3: scripted histories
-python -m src.stages.stage3_histories --models M1 M2 M3 M4 M6 M6H --part fixes        # S3: fix cells
-python -m src.stages.stage4_crowds --crowds M1 M2 M3 M4 M6 mixed                      # S4: clean and seeded crowds
-python -m src.stages.stage4_crowds --crowds M1 M2 M3 M4 M6 mixed --f1                 # S4: private-first crowd
-python -m src.stages.stage5_reddit --models M1 M2 M3 M6                               # S5: Reddit first voter
-python -m src.analysis.paper_results judge            # H5: first run only; draws the blind labelling sheet, never overwrites one
-python -m src.analysis.paper_results judge_fill       # H5: judge calls for the flip sample (uncached reasons only)
-python -m src.analysis.paper_results judge_rates      # H5: silent-herding rates from the cache
-python -m src.analysis.paper_results kappa            # H5 gate, once the sheet is labelled
-python -m src.analysis.paper_results all              # S6: tables and figures
-python -m src.analysis.paper_results holm             # pooled Holm tests and the claim-weighted check
-python -m src.analysis.paper_results muchnik_topic    # S5 Muchnik panel within each topic group
-python -m src.analysis.paper_results summary          # H2 median across models
+python -m Datasets.prepare_data all          # claims, comments, personas
+python -m Experiments.core.bayes_oracle      # Bayes oracle checks
 ```
 
-`all`, `holm`, `judge_rates`, `muchnik_topic` and `summary` make no API calls. They read the cache only. Those are the commands that produce the paper's numbers.
+The processed files are already in `Datasets/processed/`, so these steps only need to run to rebuild them.
 
-Local models run the same stage commands on Kaggle, then come home as cache files:
+- **Claims.** LIAR2, a Hugging Face dataset of PolitiFact statements (`chengxuphd/liar2`). The script checks the label counts against the published ones and keeps the ratings true, false and pants-fire, mapped to TRUE and FALSE. It keeps claims of 6 to 60 words and writes three disjoint sets: `eval` (1,500 claims), `lora` (1,500, written but not used by any stage) and `reserve` (2,078, the source of the `--refill` claims).
+- **Comments.** The ConvoKit Reddit small corpus (`reddit-corpus-small`). The script keeps comments of 15 to 120 words, maps subreddits to seven topic groups (the `data.comments.groups` map in `config.yaml`; other subreddits are dropped), and samples 300 comments per group.
+- **Personas.** 60 synthetic personas (age band, occupation and region), built from the lists in `config.yaml` with seed 13.
+
+Raw downloads go to `Datasets/raw/`, which is git-ignored. Check the source terms of LIAR2 and the ConvoKit corpus before redistributing raw claim or comment text.
+
+Expected contents of `Datasets/processed/`, as checked out (record counts, and SHA-256 of each file's bytes):
+
+| File | Records | SHA-256 |
+|---|---|---|
+| `build_report.json` | 2 top-level keys (`claims`, `comments`) | `d6192f06730d07f756e8717e3520f4947f19d65a93dc1c606fe62b6e9d334b87` |
+| `claims_eval.jsonl` | 1,500 claims (750 TRUE, 750 FALSE) | `23304c6b84af6c93d781076ef2a955cb258641ddb0c336c27e7d2d11b4b83c91` |
+| `claims_lora.jsonl` | 1,500 claims (750 TRUE, 750 FALSE) | `c9f8083624b3822fc3909d1ee752c195d907b1b5b2fe2a28aa61f7052b9b6dd0` |
+| `claims_reserve.jsonl` | 2,078 claims (1,039 TRUE, 1,039 FALSE) | `02133dec1d4febff1c3fa47a7b0dafcff866459f95670bbf5369da705f10278c` |
+| `comments.jsonl` | 2,100 comments (300 in each of 7 groups) | `3e8e259c2681abb85a3d918b2da0db8808348dba3dfa0a111c077257fa0436a3` |
+| `personas.json` | 60 personas | `83331769d602bf91a6e21ddff33961828edef42e807bb52d8298c7483152adb8` |
+| `subreddits.csv` | 100 subreddits (rows after the header) | `115b56c8dcf61a884eab2101b1a578527bfde9c7a07928d2901d7d98c78cd13f` |
+
+Compare the checksums after a rebuild to confirm that it reproduces these files.
+
+## 3. Generate Model Answers (S1–S5)
+
+The commands below call the NIM models over HTTP. The local models (L1, L2, L2T) run on Kaggle instead, as shown after them. Before a run, check that every NIM model answers and parses with `python -m Experiments.core.nim_client --smoke` (five claims per model).
 
 ```bash
-python kaggle/kaggle_job.py push --name s1-l1 --cmd "src.stages.stage1_private_signals --models L1 --refill 2078"
-python kaggle/kaggle_job.py pull --name s1-l1
-python -m src.stages.stage1_private_signals --models L1 --refill 2078      # all cache hits: rebuilds the pool locally
+python -m Experiments.stage1_private_signals --models M1 M2 M3 M4 M6 M6H --refill 2078   # S1: private signals -> Datasets/pools/
+python -m Experiments.stage2_urn --models M1 M2 M3 M4 M6 M6H                             # S2: urn cascade (200 rounds)
+python -m Experiments.stage3_histories --models M1 M2 M3 M4 M6 M6H --part main           # S3: scripted histories
+python -m Experiments.stage3_histories --models M1 M2 M3 M4 M6 M6H --part fixes          # S3: fix cells (after main)
+python -m Experiments.stage4_crowds --crowds M1 M2 M3 M4 M6 mixed                        # S4: clean and seeded crowds
+python -m Experiments.stage4_crowds --crowds M1 M2 M3 M4 M6 mixed --f1                   # S4: private-first crowd
+python -m Experiments.stage4_crowds --crowds M2 M3 --br                                  # S4: Bayes-rule prompt crowd
+python -m Experiments.stage5_reddit --models M1 M2 M3 M6                                 # S5: Reddit first voter
 ```
 
-**The cache.** Every API call is stored in `runs/<stage>/<model>.jsonl`, keyed by a hash of the request. Re-running is free, and an interrupted run resumes where it stopped. The cache is git-ignored and large, and it is needed to regenerate any number.
+M7 (Ultra) uses the same modules with its own code (for example `--models M7`).
 
-## Repository layout
+The local models run the same stage commands on a Kaggle GPU (T4 × 2) and bring their caches home:
 
-```
-config.yaml                  every setting for every stage and model
-prompts/templates_v1.yaml    prompt templates, frozen at G2
-src/core/                    services used by every stage
-  nim_client.py              NIM calls, key pool, cache
-  bayes_oracle.py            Bayes benchmark and urn agents
-  prepare_data.py            claims, comments, personas
-src/stages/                  the five experiment stages, one module each
-  stage1_private_signals.py  S1
-  stage2_urn.py              S2
-  stage3_histories.py        S3
-  stage4_crowds.py           S4
-  stage5_reddit.py           S5
-src/analysis/
-  paper_results.py           every number, table and figure in the paper (S6)
-kaggle/kaggle_job.py         runs a stage on a Kaggle GPU machine
-data/pools/                  claim pools per model (from S1)
-data/processed/              prepared claims, comments, personas, subreddit map
+```bash
+python Experiments/kaggle/kaggle_job.py push --name s1-l1 --cmd "Experiments.stage1_private_signals --models L1 --refill 2078"
+python Experiments/kaggle/kaggle_job.py status --name s1-l1
+python Experiments/kaggle/kaggle_job.py pull --name s1-l1
+python -m Experiments.stage1_private_signals --models L1 --refill 2078      # all cache hits: rebuilds the pool locally
 ```
 
-## Data
+`push` bundles the code, `config.yaml`, prompts, processed data, pools and any caches named with `--caches` (for example `--caches S1/L1`) into a private Kaggle dataset, then starts a GPU kernel. `--vllm` pins the vLLM version (default `vllm==0.31.0`). `pull` merges the kernel's caches into `runs/`, skipping requests already present. L2 and L2T follow the same pattern.
 
-- **Claims.** LIAR2, a Hugging Face dataset of PolitiFact statements. `prepare_data.py` cleans them and splits them into pools and evaluation sets.
-- **Comments.** Reddit comments from the ConvoKit corpus, mapped to seven topic groups in `config.yaml`.
-- **Personas.** Sixty synthetic personas (age band, occupation, region).
+**The cache.** Every API call is stored in `runs/<stage>/<model>.jsonl`, with a `.manifest.json` beside it. Each record is keyed by a SHA-1 hash of the full request (model, messages, decoding settings and the model's extra options) plus a seed tag for repeated samples. A rerun reads the cache first, so it costs nothing, and an interrupted run resumes where it stopped. The cache is git-ignored and is needed to regenerate any number.
 
-Check the source terms before sharing raw claim or comment text outside the team.
+## 4. Metric Settings
 
-## Working rules
+The pooled tests use the six crowd models M1, M2, M3, M4, M6 and M7. H4 uses the S5 models M1, M2, M3 and M6.
 
-- **No keys in git.** `.gitignore` is an allowlist, so only listed paths can enter git. Before each commit, run `git grep -n -E "nvapi-[A-Za-z0-9_-]{20,}"`. It should print nothing.
-- **Prompts are frozen.** `templates_v1.yaml` froze at G2. Any change goes into `templates_v2.yaml` and needs a re-run.
-- **The labelling sheet is never overwritten.** `judge` creates `results/judge_labels.csv` only if it is missing. `judge_fill` and `judge_rates` never touch it.
-- **Numbers come from the commands.** The paper's numbers come only from the `paper_results` commands listed above.
-- **Log decisions and runs.** Record every run, stop, restart and decision in the project log, which is kept outside this repository.
+- **ρ (herding ratio).** The weight of one shown vote in units of the model's own signal. For each model, on the independent-framing cells, fit `logit(vote_true) ~ s + lead_shown`, where `vote_true` is 1 for TRUE, `s` is the own signal (±1) and `lead_shown` is the sum of the shown votes. ρ = coefficient of `lead_shown` / coefficient of `s`. Denominator: the coefficient of `s`. Reported with q unstated and with q = 70% stated.
+- **ρ_Bayes = logit(q) / logit(p̂).** q is the reliability of the shown votes: 0.70 when the prompt states it (`Q` in `Analysis/paper_results.py`). With q unstated, the benchmark is 1, used only as a robustness check. p̂ is the model's accuracy with its private signal on its claim pool (`p_hat` in `Datasets/pools/<model>.json`). Denominator: logit(p̂).
+- **`q*`.** expit(β), where β is the OLS slope of `delta` on `lead_shown`, over the q-stated independent cells. `delta` is the change in the model's logit P(TRUE) from its solo answer to its answer after the votes, with probabilities clipped to 1–99%.
+- **γ (correlation neglect).** On the sequential-framing cells, OLS of `delta` on `lead_inf` (the lead before a cascade, the informative part) and `extra` (the shown lead minus `lead_inf`, the redundant post-cascade votes). γ = β_extra / β_inf, and γ_seq is this value on the sequential cells. Bayes gives γ = 0 for sequential votes and γ = 1 for independent votes. Denominator: β_inf, which is unstable when it is near zero, so both coefficients are reported.
+- **Crowd accuracy gap (pp).** Per claim, the accuracy of the independent crowd's majority minus the accuracy of the sequential crowd's final majority, for the clean crowd (k = 0) of 12 agents. A tie counts as half. Denominator: the claims with a complete chain. Pooled over the six crowd models with equal weight and reported in percentage points; the claim-weighted version is a robustness check. The seeding effect is the k = 0 accuracy minus the accuracy at k = 1 to 3 seeded wrong votes, on the same claims.
+- **Silent-herding share.** Flips are S3 main cells in which the shown majority opposes the model's own verdict and the model follows that majority. For each flip, the judge answers YES or NO to whether the model's stated reason mentions or relies on the other reviewers' ratings. The judge is M6 (`openai/gpt-oss-20b`, reasoning low) at temperature 0 (greedy, top_p 1.0, 1,024-token cap). The sample is up to 2,000 flips (`--n 2000`), split equally across models. Denominator: the judged flips. The share is the NO answers over the judged flips.
+- **κ (Cohen's kappa).** Agreement between the judge and the blind human YES/NO labels on the sheet of 200 reasons, over the rows labelled by both. The gate is κ ≥ 0.7. Below that, H5 is reported from the human labels alone.
+- **Holm correction.** Each model or crowd is resampled over its own claims, and the draws are averaged with equal weight. A test's p-value is the share of draws on the null side. Holm's step-down correction is applied across H1 to H6. The pooled H5 test uses the cached judge answers of the six crowd models.
+- **Bootstrap CIs.** Percentile 95% intervals from a cluster bootstrap over claims (resampling by `item_id`), with B = 2,000 resamples (`--boot 2000`, the default) and seed 13 from `config.yaml`.
+- **Other fixed settings.** Greedy decoding (temperature 0, top_p 1.0) for the S1 persona verdicts, the S3 cells and the judge. Sampling (temperature 0.7, top_p 0.95) for the S1 screening samples, S2, S4 and S5. The urn signal accuracy is 2/3 (`URN_P` in `Experiments/core/bayes_oracle.py`).
 
-## Known issues
+## 5. Reproduce the Results
 
-- NIM retired the original runbook models (HTTP 410) on 6 October 2026. `config.yaml` holds the current roster.
-- The NIM gateway cuts requests at about 300 seconds (HTTP 504), so very long reasoning outputs fail. Reasoning effort is set per model to avoid this.
-- Some endpoints (GLM-5.3, DeepSeek-v4.1-flash) returned few or no answers for long stretches, and Kimi-K3 is slow. Completed calls are kept in the cache.
-- `src/s1_signals.py` to `src/s4_crowds.py` are temporary forwarding files for runs started under the old module names. Delete them once no run uses those names.
+Run these from the repository root. `all`, `holm`, `judge_rates`, `muchnik_topic` and `summary` make no API calls: they read the cache in `runs/` and the tables in `results/`. The H5 `judge` and `judge_fill` commands call M6 only for judge answers that are not yet cached. `all` also writes the S2 urn table, `results/S6_urn.csv`.
+
+### H1 and H2
+
+```bash
+python -m Analysis.paper_results all --boot 2000
+python -m Analysis.paper_results summary
+```
+
+Writes `results/S3_cells.parquet`, `results/S6_h1_h2.csv` (ρ, ρ_Bayes, `q*` and γ per model, with intervals), `results/S6_follow_curves.csv`, `results/S6_h2_by_model.csv` (from `summary`), and `paper/figures/fig1_follow_curves`, `fig2_rho` and `fig3_gamma` (PDF and PNG).
+
+### H3 and H6
+
+```bash
+python -m Analysis.paper_results all --boot 2000
+python -m Analysis.paper_results holm --boot 2000
+```
+
+Writes `results/S6_crowds.csv`, `results/S6_private_first.csv`, `results/S6_bayes_rule_crowds.csv` (when the Bayes-rule crowd is cached), `results/S6_fixes.csv` (the S3 fix cells) and `paper/figures/fig4_crowds`. `holm` writes `results/S6_holm.csv` (the pooled tests with Holm p-values) and `results/S6_holm_robustness.csv` (the claim-weighted and unstated-benchmark checks).
+
+### H4
+
+```bash
+python -m Analysis.paper_results all --boot 2000
+python -m Analysis.paper_results muchnik_topic --boot 2000
+```
+
+Writes `results/S6_muchnik.csv`, `paper/figures/fig5_muchnik` and `results/S6_muchnik_by_topic.csv` (the Muchnik panel within each of the seven topic groups).
+
+### H5
+
+```bash
+python -m Analysis.paper_results judge --n 2000          # first run only: draws the blind labelling sheet
+python -m Analysis.paper_results judge_fill --n 2000     # M6 judge calls for uncached flips only
+python -m Analysis.paper_results judge_rates --n 2000    # silent-herding rates from the cache
+python -m Analysis.paper_results kappa                   # judge vs human labels, once the sheet is labelled
+```
+
+`judge_fill` and `judge` write the judge cache `runs/S6/judge.jsonl`, and `judge_rates` writes `results/S6_judge_rates.csv`. `judge` creates `results/judge_labels.csv` (the blind sheet of 200 reasons) and `results/judge_key.csv` (the judge's answers, kept apart so they cannot anchor the human labels) only when the sheet is missing, and never overwrites it. The κ check needs the human labels in `results/judge_labels.csv`, which is private and not in the repository. Use the same `--n` in all four H5 commands, since it sets the flip sample.
+
+## Rules
+
+- **No keys in git.** `.gitignore` is an allowlist, so only the listed paths can enter git. Before each commit, run `git grep -n -E "nvapi-[A-Za-z0-9_-]{20,}"`; it should print nothing.
+- **Prompts are frozen.** `prompts/templates_v1.yaml` is frozen. Changes go into a new file, `prompts/templates_v2.yaml`, selected by `prompt_version` in `config.yaml`, and need a rerun.
+- **Numbers come only from the analysis commands.** Every number, table and figure in the paper comes from the `Analysis.paper_results` commands in Section 5.
+
+## Known Issues
+
+- The NIM gateway cuts requests at about 300 seconds (HTTP 504), so very long reasoning outputs fail. Reasoning effort and token caps are therefore set per model in `config.yaml`.
+- Some endpoints returned few or no answers for long stretches (M8 GLM-5.3 and M9 DeepSeek-v4.1-flash), and M11 Kimi-K3 is slow. Their `timeout_s` and `tries` settings in `config.yaml` allow long waits, and completed calls are kept in the cache.
 
 ## Licence
 
-Not yet chosen. Decide before any public release.
+To be added.
