@@ -1,8 +1,8 @@
 """S4: sequential crowds of 12 agents, with bot seeding (H3; H1 in the wild; F1 at crowd level).
 
-    python -m src.stages.stage4_crowds --crowds M1 M2 M3 M6 mixed [--limit 20]        clean (k = 0) and seeded (k = 1-3)
-    python -m src.stages.stage4_crowds --crowds M1 M2 M3 M6 mixed --f1                 private-first crowd (k = 0)
-    python -m src.stages.stage4_crowds --crowds M2 M3 --br                             Bayes-rule prompt (k = 0 and k = 2)
+    python -m Experiments.stage4_crowds --crowds M1 M2 M3 M6 mixed [--limit 20]        clean (k = 0) and seeded (k = 1-3)
+    python -m Experiments.stage4_crowds --crowds M1 M2 M3 M6 mixed --f1                 private-first crowd (k = 0)
+    python -m Experiments.stage4_crowds --crowds M2 M3 --br                             Bayes-rule prompt (k = 0 and k = 2)
 
 Agent t makes a solo call (its private signal), then a social call showing every earlier vote.
 The first voter in a clean crowd has nothing to see, so its vote is its solo verdict. Solo calls do
@@ -19,9 +19,9 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
-from src.core.prepare_data import load_claims, load_personas, private_first_messages, social_messages, solo_messages
-from src.core.nim_client import CONCURRENCY, ROOT, Monitor, acall, close_pool, get_pool, rng, spec, write_manifest
-from src.core.bayes_oracle import informative_lead, oracle
+from Datasets.prepare_data import load_claims, load_personas, private_first_messages, social_messages, solo_messages
+from Experiments.core.nim_client import CONCURRENCY, ROOT, Monitor, acall, close_pool, get_pool, rng, spec, write_manifest
+from Experiments.core.bayes_oracle import informative_lead, oracle
 
 AGENTS, MIXED = 12, ["M1", "M2", "M3", "M6"]
 SIZES = {"clean": 300, "seeded": 150, "f1": 100}
@@ -32,7 +32,7 @@ def crowd_claims(crowd: str) -> list[dict]:
     """Balanced claims: a model's own pool order (interleaved TRUE/FALSE), or for the mixed crowd the
     claims that sit in at least 3 member pools."""
     members = MIXED if crowd == "mixed" else [crowd]
-    pools = {m: json.loads((ROOT / "data" / "pools" / f"{m}.json").read_text(encoding="utf-8"))["claims"]
+    pools = {m: json.loads((ROOT / "Datasets" / "pools" / f"{m}.json").read_text(encoding="utf-8"))["claims"]
              for m in members}
     if crowd == "mixed":
         n_in = Counter(r["claim_id"] for rows in pools.values() for r in rows)
@@ -153,7 +153,7 @@ def bayes_majority(solo: list[int], models: list[str], truth: int, k: int, p_hat
 
 def summary(df: pd.DataFrame) -> pd.DataFrame:
     d = df[df.complete].copy()
-    p_hat = {p.stem: json.loads(p.read_text(encoding="utf-8"))["p_hat"] for p in (ROOT / "data" / "pools").glob("*.json")}
+    p_hat = {p.stem: json.loads(p.read_text(encoding="utf-8"))["p_hat"] for p in (ROOT / "Datasets" / "pools").glob("*.json")}
     d["bayes_majority"] = [bayes_majority(list(r.solo), r.models.split(","), r.truth, r.k, p_hat)
                            for r in d.itertuples()]
     acc = lambda maj, truth: (maj == truth).astype(float).where(maj != 0, 0.5)   # 6-6 tie counts as half

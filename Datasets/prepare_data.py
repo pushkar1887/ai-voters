@@ -1,6 +1,6 @@
 """S0 data (LIAR2 claims, Reddit comments, personas), loaders, and the claim prompts.
 
-    python -m src.core.prepare_data claims | comments | personas | all
+    python -m Datasets.prepare_data claims | comments | personas | all
 """
 from __future__ import annotations
 
@@ -14,9 +14,9 @@ from collections import Counter
 import httpx
 import pandas as pd
 
-from src.core.nim_client import CFG, PROMPTS, ROOT, read_jsonl, render, rng, write_jsonl
+from Experiments.core.nim_client import CFG, PROMPTS, ROOT, read_jsonl, render, rng, write_jsonl
 
-RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "processed"
+RAW, OUT = ROOT / "Datasets" / "raw", ROOT / "Datasets" / "processed"
 
 
 def clean(s: str) -> str:
@@ -149,7 +149,7 @@ def build_comments() -> None:
         print(f"unmapped subreddits (dropped): {unmapped}")
     if not groups:
         subs.rename_axis("subreddit").reset_index(name="comments").to_csv(OUT / "subreddits.csv", index=False)
-        sys.exit(f"{len(subs)} subreddits written to data/processed/subreddits.csv; "
+        sys.exit(f"{len(subs)} subreddits written to Datasets/processed/subreddits.csv; "
                  "map them to Muchnik's groups under data.comments.groups in config.yaml, then re-run.")
     df["group"] = df["subreddit"].map(groups)
     df = df[df["group"].notna() & (df["group"] != "other")]
@@ -197,7 +197,7 @@ def build_personas() -> None:
 
 
 def _note(key: str, report: dict) -> None:
-    """Keep counts and seeds next to the data (data/processed/build_report.json)."""
+    """Keep counts and seeds next to the data (Datasets/processed/build_report.json)."""
     path = OUT / "build_report.json"
     rep = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     rep[key] = {**report, "seed": CFG["seed"]}
