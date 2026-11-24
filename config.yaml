@@ -16,8 +16,8 @@ decoding:
   max_tokens: 160
 
 # Model codes used everywhere (cache files, tables). Roster frozen at G1 (2026-10-06) from what NIM
-# actually serves: all six runbook strings return 410 Gone. M5 is retired.
-# M7 added 2026-10-08 (lead's decision): Nemotron-3-Ultra-550B, thinking off, 512-token cap as probed.
+# actually serves: all six original model strings return 410 Gone. M5 is retired.
+# M7 added after G1 (2026-10-08): Nemotron-3-Ultra-550B, thinking off, 512-token cap as probed.
 # `extra` is sent with every request and is part of the cache key.
 models:
   M1:  {id: meta/llama-3.2-11b-vision-instruct, backend: nim}
@@ -30,7 +30,7 @@ models:
   L2:  {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: false}}}
   L2T: {id: Qwen/Qwen3-8B-AWQ, backend: vllm, extra: {chat_template_kwargs: {enable_thinking: true}}, max_tokens: 2048}
   M7:  {id: nvidia/nemotron-3-ultra-550b-a55b, backend: nim, extra: {chat_template_kwargs: {enable_thinking: false}}, max_tokens: 512, tries: 1000}
-  # Oct 8, lead's decisions: no tight limits, waiting is fine. timeout_s is per request (seconds); tries is the
+  # No tight limits: waiting is fine. timeout_s is per request (seconds); tries is the
   # attempt budget per request (503/504/429/timeouts). Both are adjustable per model.
   M8:  {id: z-ai/glm-5.3, backend: nim, max_tokens: 8192, timeout_s: 7200, tries: 1000}
   M9:  {id: deepseek-ai/deepseek-v4.1-flash, backend: nim, max_tokens: 32768, extra: {reasoning_effort: low}, timeout_s: 7200, tries: 1000,
@@ -59,7 +59,7 @@ data:
     min_words: 15
     max_words: 120
     title_words: 30
-    # Subreddit -> Muchnik et al. (2013) topic group. Draft by Claude (2026-10-06); reviewed by the lead.
+    # Subreddit -> Muchnik et al. (2013) topic group.
     # Group "other" is dropped.
     groups:
       politics: [politics, POLITIC, Libertarian, conspiracy]
