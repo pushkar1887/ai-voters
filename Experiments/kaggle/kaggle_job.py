@@ -1,9 +1,9 @@
 """Run pipeline commands on a Kaggle GPU (T4 x2, vLLM backend) and bring the caches home.
 
 From the laptop (credentials from ~/.kaggle/kaggle.json):
-    python kaggle/kaggle_job.py push   --name boot --cmd "src.core.nim_client --smoke 40 --codes L1" [--cmd ...]
-    python kaggle/kaggle_job.py status --name boot
-    python kaggle/kaggle_job.py pull   --name boot          # merges the job's runs/ into ./runs by hash
+    python Experiments/kaggle/kaggle_job.py push   --name boot --cmd "Experiments.core.nim_client --smoke 40 --codes L1" [--cmd ...]
+    python Experiments/kaggle/kaggle_job.py status --name boot
+    python Experiments/kaggle/kaggle_job.py pull   --name boot          # merges the job's runs/ into ./runs by hash
 
 `push` bundles code, config, prompts, processed data, pools and any existing caches the commands
 will extend into the private dataset <user>/ai-voters-code, then pushes this file as a GPU kernel.
@@ -23,14 +23,14 @@ from pathlib import Path
 
 JOB = None          # filled in the pushed copy: {"cmds": [...], "vllm": "...", "commit": "..."}
 DATASET = "ai-voters-code"
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 
 
 # ------------------------------------------------------------------ on Kaggle
 
 def kaggle_main(job: dict) -> None:
     work = Path("/kaggle/working")
-    hit = next(Path("/kaggle/input").rglob("src/core/nim_client.py"), None)
+    hit = next(Path("/kaggle/input").rglob("Experiments/core/nim_client.py"), None)
     if hit is None:
         sys.exit("bundle not found under /kaggle/input")
     code = work / "aiv"
@@ -77,7 +77,8 @@ def api():
 
 def commit() -> str:
     out = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True)
-    dirty = subprocess.run(["git", "status", "--porcelain", "--", "src", "config.yaml", "prompts"],
+    dirty = subprocess.run(["git", "status", "--porcelain", "--", "Datasets", "Experiments", ":(exclude)Experiments/kaggle",
+                            "Analysis", "config.yaml", "prompts"],
                            cwd=ROOT, capture_output=True, text=True).stdout.strip()
     return out.stdout.strip() + ("-dirty" if dirty else "")
 
@@ -85,12 +86,13 @@ def commit() -> str:
 def bundle(user: str, version: str, caches: list[str]) -> tuple[Path, dict[str, int]]:
     """Code + data + caches. Every local-model cache (runs/*/L*.jsonl) is always shipped, so each
     dataset version is a superset and a kernel that mounts a newer version still finds its caches."""
-    out = ROOT / "kaggle" / "build" / "bundle"
+    out = ROOT / "Experiments" / "kaggle" / "build" / "bundle"
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
-    for d in ("src", "prompts", "data/processed", "data/pools"):
+    skip = shutil.ignore_patterns("__pycache__", "raw", "kaggle")   # Datasets/raw (downloads) and this launcher stay out
+    for d in ("Datasets", "Experiments", "Analysis", "prompts"):
         if (ROOT / d).exists():
-            shutil.copytree(ROOT / d, out / d, ignore=shutil.ignore_patterns("__pycache__"))
+            shutil.copytree(ROOT / d, out / d, ignore=skip)
     for f in ("config.yaml", "requirements.txt"):
         shutil.copy(ROOT / f, out / f)
     ship = set(caches) | {f"{p.parent.name}/{p.stem}" for p in (ROOT / "runs").glob("*/L*.jsonl")}
@@ -142,7 +144,7 @@ def status(name: str) -> None:
 def pull(name: str) -> None:
     """Download the kernel output and merge its caches into ./runs (dedupe by request hash)."""
     a = api()
-    dst = ROOT / "kaggle" / "build" / f"out-{name}"
+    dst = ROOT / "Experiments" / "kaggle" / "build" / f"out-{name}"
     shutil.rmtree(dst, ignore_errors=True)
     a.kernels_output(f"{a.get_config_value('username')}/aiv-{name}", str(dst), force=True, quiet=True)
     for f in sorted(dst.rglob("*.jsonl")):

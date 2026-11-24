@@ -5,10 +5,10 @@ batch backend for the Kaggle GPU models, an append-only hash cache and the reply
 parser. Every record lands in runs/<stage>/<name>.jsonl, so re-running anything
 costs nothing and a crash resumes where it stopped.
 
-    python -m src.core.nim_client --check-keys [MODEL]     one tiny call per key, masked report
-    python -m src.core.nim_client --models ID [ID ...]     which NIM model strings answer
-    python -m src.core.nim_client --smoke                  5 claims x every NIM model (gate G1)
-    python -m src.core.nim_client --probe [--minutes 5]    rate probe: 3 keys at 40 RPM
+    python -m Experiments.core.nim_client --check-keys [MODEL]     one tiny call per key, masked report
+    python -m Experiments.core.nim_client --models ID [ID ...]     which NIM model strings answer
+    python -m Experiments.core.nim_client --smoke                  5 claims x every NIM model (gate G1)
+    python -m Experiments.core.nim_client --probe [--minutes 5]    rate probe: 3 keys at 40 RPM
 """
 from __future__ import annotations
 
@@ -626,7 +626,7 @@ async def _probe_models(ids: list[str], limit_s: float = 120) -> None:
 
 def _smoke(n: int = 5, codes: list[str] | None = None) -> None:
     """G1: n claims through each model (default: every NIM model); NIM models also get a logprobs check."""
-    from src.core.prepare_data import load_claims, solo_messages          # lazy: data imports this module
+    from Datasets.prepare_data import load_claims, solo_messages          # lazy: data imports this module
     claims = load_claims("eval")[:n]
     codes = codes or [c for c, m in CFG["models"].items() if m["backend"] == "nim"]
     nim = [c for c in codes if CFG["models"][c]["backend"] == "nim"]

@@ -1,4 +1,4 @@
-# Prompt templates, version v1. Freezes at G2 (Oct 8); later edits go to v2.yaml.
+# Prompt templates, version v1. Freezes at G2 (Oct 8); later edits go to templates_v2.yaml.
 # Slots use $name (string.Template), so literal JSON braces need no escaping.
 # Paraphrases a/b/c reword instructions only; JSON keys and vote-block texts never change.
 
@@ -47,7 +47,7 @@ display:
   list: "$noun, in order:\n$lines"
   tally: "$noun: $n_true TRUE, $n_false FALSE."
 
-# BR baseline for H6, appended to the system prompt. DRAFT: lead to review before G2.
+# Bayes-rule baseline for H6, appended to the system prompt.
 bayes_rule: >-
   Combine the evidence with Bayes' rule. Your own reading is one piece of evidence, as reliable as you
   believe it is. Each earlier rating made independently is another piece of evidence, as reliable as the
